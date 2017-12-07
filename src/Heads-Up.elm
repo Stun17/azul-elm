@@ -56,29 +56,32 @@ view xs =
       xf3 = List.head (List.drop 6 xs)
       xt  = List.head (List.drop 7 xs)
       xr  = List.head (List.drop 8 xs)
-  in div [style [("font-size", "32pt")]]
+  in body [style [("font-size", "32pt"),("font-family","mono"),("background","green")]]
          [ button [ onClick Shuffle ] [ text "Shuffle" ]
-         , table [style [("width","90%"), ("border","1")]]
-                 [    tr [] [ td [style [("colspan","2")]] []
-                            , td [style [("width","5%")]] [hfun2 x11]
-                            , td [style [("width","5%")]] [hfun2 x12]
-                            , td [style [("colspan","2")]] []   
-                            ]
+         , p [] []
+         , table [style [("width","90%"),("cellpadding","10%"),("text-align","center")]]
+                 [    tr [style [("height","100px")]]
+                          [ td [style []] []
+                          , td [style [("background","white")]] [hfun2 x11]
+                           , td [style [("background","white")]] [hfun2 x12]
+                          ]
                     , tr [style [("rowspan","5"), ("height","100px")]] []      
-                    , tr [] [ td [style [("width","5%")]] [hfun2 xf1]
-                            , td [style [("width","5%")]] [hfun2 xf2]
-                            , td [style [("width","5%")]] [hfun2 xf3]
-                            , td [style [("width","5%")]] [hfun2 xt ]
-                            , td [style [("width","5%")]] [hfun2 xr ]
-                            ]
+                    , tr [style [("height","100px")]]
+                          [ td [style [("background","white")]] [hfun2 xf1]
+                           , td [style [("background","white")]] [hfun2 xf2]
+                           , td [style [("background","white")]] [hfun2 xf3]
+                           , td [style [("background","white")]] [hfun2 xt ]
+                          , td [style [("background","white")]] [hfun2 xr ]
+                          ]
                     , tr [style [("rowspan","5"), ("height","100px")]] []          
-                    , tr [] [ td [style [("colspan","2")]] []
-                            , td [style [("width","5%")]] [hfun2 x21]
-                            , td [style [("width","5%")]] [hfun2 x22]
-                            , td [style [("colspan","2")]] []    
+                    , tr [style [("height","100px")]]
+                          [ td [style []] []
+                            , td [style [("background","white")]] [hfun2 x21]
+                            , td [style [("background","white")]] [hfun2 x22]
                             ]
                     ]
          , button [onClick Fold ] [ text "Fold" ]
+         , p [] [text "demo"]                     
          ]
 
 
@@ -97,8 +100,8 @@ hfun2 k0 =
          Just suit   ->   case (Dict.get k3 myhashRank) of
            Just rank ->     case k2 of
                               1 -> ty "black" rank suit
-                              2 -> ty "blue"  rank suit
-                              3 -> ty "brown" rank suit
+                              2 -> ty "black" rank suit
+                              3 -> ty "red"   rank suit
                               4 -> ty "red"   rank suit
                               _ -> ty "white" "" ""
            Nothing   ->            ty "white" "" ""
