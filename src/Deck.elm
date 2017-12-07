@@ -13,14 +13,16 @@ main = Html.program
     }
 
 type Msg = Shuffle | Face (List Int)
-type alias Deck = List (Int , String)
-    
+type alias Deck = List (Int , (Int,Int))
+
+myhashSuit = Dict.formList [(1,"♠"),(2,"♣"),(3,"♦"),(4,"♥")]
+myhashRank = Dict.fromList [(7,"7"),(8,"8"),(9,"9"),(10,"T"),(11,"J"),(12,"Q"),(13,"K"),(14,"A")]
 myhash32 =
     Dict.fromList
-    [ (9 ,"♥A"),(2 ,"♥7"),(3 ,"♥8"),(4 ,"♥9"),(5 ,"♥T"),(6 ,"♥J"),(7 ,"♥Q"),(8 ,"♥K")
-    , (17,"♦A"),(10,"♦7"),(11,"♦8"),(12,"♦9"),(13,"♦T"),(14,"♦J"),(15,"♦Q"),(16,"♦K")
-    , (25,"♣A"),(18,"♣7"),(19,"♣8"),(20,"♣9"),(21,"♣T"),(22,"♣J"),(23,"♣Q"),(24,"♣K")
-    , (33,"♠A"),(26,"♠7"),(27,"♠8"),(28,"♠9"),(29,"♠T"),(30,"♠J"),(31,"♠Q"),(32,"♠K")
+    [ (9 ,(4,14)),(2 ,(4,7),(3 ,(4,8),(4 ,(4,9),(5 ,(4,10)),(6 ,(4,11)),(7 ,(4,12)),(8 ,(4,13))
+    , (17,(3,14)),(10,(3,7),(11,(3,8),(12,(3,9),(13,(3,10)),(14,(3,11)),(15,(3,12)),(16,(3,13))
+    , (25,(2,14)),(18,(2,7),(19,(2,8),(20,(2,9),(21,(2,10)),(22,(2,11)),(23,(2,12)),(24,(2,13))
+    , (33,(1,14)),(26,(1,7),(27,(1,8),(28,(1,9),(29,(1,10)),(30,(1,11)),(31,(1,12)),(32,(1,13))
     ]
                             
 subscriptions : List Int -> Sub Msg
@@ -63,8 +65,20 @@ hfun1 : List Int -> List Int
 hfun1 xs = List.Extra.unique xs
         
 hfun2 : List Int -> List (Html a)
-hfun2 xs = List.map (\x -> let s2 = case Dict.get x myhash32 of
-                                      Just s1 -> s1
-                                      Nothing -> " " 
-                           in text ("  " ++ s2)) xs
+hfun2 xs = List.map ( \x ->
+  case Dict.get x myhash32 of
+     Just (s2,r2) -> let s3 = case Dict.get s1 myhashSuit of
+                                Just s3 -> s3
+                                Nothing -> ""
+                         r3 = case Dict.get r1 myhashRank of
+                                Just r3 -> r3
+                                Nothing -> ""
+     Nothing -> (0,0) 
+  in case s2 > 2 of
+       True  -> let tyl = [style [("color", "red")]
+                    tel = text (s3 ++ r3)
+                in span tyl tel                                
+       False -> let tyl = [style [("color","blue")]
+                    tel = text (s3 ++ r3)
+                in span tyl tel 
 
