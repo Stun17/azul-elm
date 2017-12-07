@@ -66,25 +66,25 @@ view x1s =
       xf  = List.take 5 (List.drop 2 xas)
   in div [style [("font-size", "24pt")]]
          [ button [ onClick Shuffle ] [ text "Shuffle" ]
-         , div [style [("margin-top","5%"),("margin-left","35%"),("position","absolute")]]
+         , div [style [("margin-top","2%"),("margin-left","45%"),("position","absolute")]]
              (hfun2 x1) 
-         , div [style [("margin-top","5%"),("margin-left","55%"),("position","absolute")]]
+         , div [style [("margin-top","8%"),("margin-left","27%"),("position","absolute")]]
              (hfun2 x2) 
-         , div [style [("margin-top","15%"),("margin-left","15%"),("position","absolute")]]
+         , div [style [("margin-top","8%"),("margin-left","63%"),("position","absolute")]]
              (hfun2 x3)   
-         , div [style [("margin-top","15%"),("margin-left","75%"),("position","absolute")]]
+         , div [style [("margin-top","18%"),("margin-left","17%"),("position","absolute")]]
              (hfun2 x4)
-         , div [style [("margin-top","25%"),("margin-left","5%"),("position","absolute")]]
+         , div [style [("margin-top","18%"),("margin-left","73%"),("position","absolute")]]
              (hfun2 x5) 
-         , div [style [("margin-top","25%"),("margin-left","85%"),("position","absolute")]]
+         , div [style [("margin-top","32%"),("margin-left","17%"),("position","absolute")]]
              (hfun2 x6) 
-         , div [style [("margin-top","35%"),("margin-left","15%"),("position","absolute")]]
+         , div [style [("margin-top","32%"),("margin-left","73%"),("position","absolute")]]
              (hfun2 x7)   
-         , div [style [("margin-top","35%"),("margin-left","75%"),("position","absolute")]]
+         , div [style [("margin-top","42%"),("margin-left","27%"),("position","absolute")]]
              (hfun2 x8)                   
-         , div [style [("margin-top","45%"),("margin-left","55%"),("position","absolute")]]
+         , div [style [("margin-top","42%"),("margin-left","63%"),("position","absolute")]]
              (hfun2 x9) 
-         , div [style [("margin-top","45%"),("margin-left","35%"),("position","absolute")]]
+         , div [style [("margin-top","48%"),("margin-left","45%"),("position","absolute")]]
              (hfun2 xa) 
          , div [style [("margin-top","25%"),("margin-left","39%"),("position","absolute")]]
              (hfun2 xf)   
