@@ -63,7 +63,7 @@ view x1s =
       x9  = hfun9 x9s
       xas = List.drop 2 x9s
       xa  = hfun9 xas            
-      xf  = List.take 3 (List.drop 2 xas)
+      xf  = List.take 5 (List.drop 2 xas)
   in div [style [("font-size", "24pt")]]
          [ button [ onClick Shuffle ] [ text "Shuffle" ]
          , div [style [("margin-top","5%"),("margin-left","35%"),("position","absolute")]]
@@ -86,7 +86,7 @@ view x1s =
              (hfun2 x9) 
          , div [style [("margin-top","45%"),("margin-left","35%"),("position","absolute")]]
              (hfun2 xa) 
-         , div [style [("margin-top","25%"),("margin-left","40%"),("position","absolute")]]
+         , div [style [("margin-top","25%"),("margin-left","39%"),("position","absolute")]]
              (hfun2 xf)   
          ]
 
