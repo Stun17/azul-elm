@@ -3,32 +3,34 @@ import Html.Events exposing (..)
 import Random
 
 main = Html.program
-    { init            = ( (1,1) , Cmd.none)
+    { init            = ( [(0 , 0)] , Cmd.none)
     , view            = view
     , update          = update
     , subscriptions   = subscriptions
     }
 
-type Msg = Shuffle | Face (Int , Int)
+type Msg = Shuffle | Face (List (Int , Int))
 
 
-subscriptions : (Int , Int) -> Sub Msg
+subscriptions : List (Int , Int) -> Sub Msg
 subscriptions m = Sub.none
 
     
-update : Msg -> (Int , Int) -> ((Int , Int) ,  Cmd Msg)
+update : Msg -> List (Int , Int) -> (List (Int , Int) ,  Cmd Msg)
 update b m = case b of
     Shuffle ->
-        (m , Random.generate Face (Random.pair (Random.int 1 4) (Random.int 1 13)))
+        (m , Random.generate Face myfunc)
     Face n  ->
         (n , Cmd.none)
 
-view : (Int , Int) -> Html Msg
-view (s,r)  =
+view : List (Int , Int) -> Html Msg
+view xs  =
   div []
-    [ p [] [ text (toString s) ]
+    [ p [] (List.map ( \x -> text (toString x))  xs)
     , button [ onClick Shuffle ] [ text "Shuffle" ]
     ]
 
+myfunc : Random.Generator (List (Int , Int))
+myfunc = Random.list 52 (Random.pair (Random.int 1 4) (Random.int 1 13))
 
          
