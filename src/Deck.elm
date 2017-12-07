@@ -26,7 +26,31 @@ update b m = case b of
 view : List (Int , Int) -> Html Msg
 view xs  =
   div []
-    [ p [] (List.map ( \x -> text (toString x))  xs)
+    [ p [] (List.map ( \(s , r)  ->
+        let r1 = case r of
+                     1 -> "A"
+                     2 -> "2"
+                     3 -> "3"
+                     4 -> "4"
+                     5 -> "5"
+                     6 -> "6"
+                     7 -> "7"
+                     8 -> "8"
+                     9 -> "9"
+                     10 -> "T"
+                     11 -> "J"
+                     12 -> "Q"
+                     13 -> "K"
+                     _ -> " "      
+            s1 = case s of
+                     1 -> "♥"
+                     2 -> "♦"
+                     3 -> "♣"
+                     4 -> "♠"
+                     _ -> "Joker"
+        in text (s1 ++ r1 ++ " ")
+                                     
+                     )  xs)
     , button [ onClick Shuffle ] [ text "Shuffle" ]
     ]
 
