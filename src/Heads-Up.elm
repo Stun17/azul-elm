@@ -59,7 +59,7 @@ view xs =
   in body [style [("font-size", "32pt"),("font-family","mono"),("background","green")]]
          [ button [ onClick Shuffle ] [ text "Shuffle" ]
          , p [] []
-         , table [style [("width","90%"),("cellpadding","10%"),("text-align","center")]]
+         , table [style [("width","90%"),("cellpadding","10%"),("text-align","left")]]
                  [    tr [style [("height","100px")]]
                           [ td [style []] []
                           , td [style [("background","white")]] [hfun2 x11]
