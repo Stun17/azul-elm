@@ -43,7 +43,7 @@ update b m = case b of
     Face n  ->
         (hfun1 n , Cmd.none)
     Fold ->
-        ([], Cmd.none)
+        (m, Cmd.none)
 
 view : List Int -> Html Msg
 view xs =
@@ -56,32 +56,27 @@ view xs =
       xf3 = List.head (List.drop 6 xs)
       xt  = List.head (List.drop 7 xs)
       xr  = List.head (List.drop 8 xs)
-  in body [style [("font-size", "32pt"),("font-family","mono"),("background","green")]]
+  in body [style [("font-family","mono"),("background","green")]]
          [ button [ onClick Shuffle ] [ text "Shuffle" ]
          , p [] []
-         , table [style [("width","90%"),("cellpadding","10%"),("text-align","left")]]
+         , div [style [("margin-left", "300px"), ("font-size", "28pt")]] [    
+               table [style [("width","25%"),("cellspacing","10"),("text-align","center")]]
                  [    tr [style [("height","100px")]]
-                          [ td [style []] []
-                          , td [style [("background","white")]] [hfun2 x11]
-                           , td [style [("background","white")]] [hfun2 x12]
-                          ]
+                         [ td [style []] [] , hfun2 x11 , hfun2 x12 ]
                     , tr [style [("rowspan","5"), ("height","100px")]] []      
                     , tr [style [("height","100px")]]
-                          [ td [style [("background","white")]] [hfun2 xf1]
-                           , td [style [("background","white")]] [hfun2 xf2]
-                           , td [style [("background","white")]] [hfun2 xf3]
-                           , td [style [("background","white")]] [hfun2 xt ]
-                          , td [style [("background","white")]] [hfun2 xr ]
-                          ]
+                         [  hfun2 xf1 , hfun2 xf2 , hfun2 xf3 , hfun2 xt , hfun2 xr ]
                     , tr [style [("rowspan","5"), ("height","100px")]] []          
                     , tr [style [("height","100px")]]
-                          [ td [style []] []
-                            , td [style [("background","white")]] [hfun2 x21]
-                            , td [style [("background","white")]] [hfun2 x22]
-                            ]
-                    ]
-         , button [onClick Fold ] [ text "Fold" ]
-         , p [] [text "demo"]                     
+                         [ td [style []] [] , hfun2 x21 , hfun2 x22 ]
+                 ]]
+         , p [] []    
+         , button [ onClick Fold ] [ text " Fold  " ]
+         , button [ onClick Fold ] [ text " Check " ]  
+         , button [ onClick Fold ] [ text " Bet   " ]
+         , input  [] []     
+         , button [ onClick Fold ] [ text "All-In " ]
+         , p [] [text "demo ver 0.0"]    
          ]
 
 
@@ -94,18 +89,18 @@ hfun1 xs = List.Extra.unique xs
 hfun2 : Maybe Int -> Html a
 hfun2 k0 =
   case k0 of
-    Nothing -> ty "white" "" ""
-    Just k1 -> case (Dict.get k1 myhash52) of
-       Just (k2,k3)  -> case (Dict.get k2 myhashSuit) of
-         Just suit   ->   case (Dict.get k3 myhashRank) of
-           Just rank ->     case k2 of
-                              1 -> ty "black" rank suit
-                              2 -> ty "black" rank suit
-                              3 -> ty "red"   rank suit
-                              4 -> ty "red"   rank suit
-                              _ -> ty "white" "" ""
-           Nothing   ->            ty "white" "" ""
-         Nothing     ->            ty "white" "" ""
-       Nothing       ->            ty "white" "" ""
+    Nothing          -> ty "white" "" ""
+    Just k1          -> case (Dict.get k1 myhash52) of
+       Just (k2,k3)  ->   case (Dict.get k2 myhashSuit) of
+         Just suit   ->     case (Dict.get k3 myhashRank) of
+           Just rank ->       case k2 of
+                                1 -> ty "black" rank suit
+                                2 -> ty "black" rank suit
+                                3 -> ty "red"   rank suit
+                                4 -> ty "red"   rank suit
+                                _ -> ty "white" "" ""
+           Nothing   ->              ty "white" "" ""
+         Nothing     ->              ty "white" "" ""
+       Nothing       ->              ty "white" "" ""
 
-ty c r s = span [style [("color", c)]] [text (r ++ s)]
+ty c r s = td [style [("background","white")]] [span [style [("color", c)]] [text (r ++ s)]]
