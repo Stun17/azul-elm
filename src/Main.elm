@@ -10,8 +10,8 @@ import Mydeck exposing (..)
 
 main = Html.program
     { init            = init 
-    , update          = update
     , subscriptions   = subscriptions
+    , update          = update
     , view            = view
     }
 
