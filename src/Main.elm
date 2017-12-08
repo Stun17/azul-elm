@@ -58,7 +58,8 @@ view m =
              [    
                table [style [("width","45%")]]
                  [    tr [ style [("height","120px")]]
-                         ( List.map hfun2 [ x11 , x12 ] )
+                         (List.append ( List.map hfun2 [ x11 , x12 ] )
+                              [td [] [text (toString m.roll_c )]]
                     , tr [ style [("rowspan","5"), ("height","100px")]] []
                     , tr [ style [("height","120px")]]
                          ( List.map hfun2 [ xf1 , xf2 , xf3 , xt , xr ] )
