@@ -20,7 +20,8 @@ init = ({ roll_c = 200
         , roll_p = 200
         , pot = 0
         , stake = 2
-        , bblind = True 
+        , bblind = True
+        , stat = Fo
         , deck = []} , Cmd.none)
        
 subscriptions : Struc -> Sub Msg
@@ -33,7 +34,10 @@ type alias Struc =
     , stake  : Int
     , bblind : Bool              
     , deck   : List Int
+    , stat   : Sta           
     }
+
+type Sta = Ca | Ch | Ra | Fo | Al | Be
     
 type Msg = Shuffle | Start (List Int) | Bet | AllIn | Call | Raise | Fold
                   
@@ -42,21 +46,20 @@ update b m = case b of
     AllIn ->
         if m.roll_p > m.roll_c
         then ({ m | pot    = m.pot + m.roll_c
-              ,     roll_p = m.roll_p - m.roll_c
+              ,     roll_p = m.roll_p - m.roll_c , stat = Al
               } , Cmd.none)
-        else ({ m | pot    = m.pot + m.roll_p
+        else ({ m | pot    = m.pot + m.roll_p , stat = Al
               ,     roll_p = 0
               } , Cmd.none)
     Raise ->
-      ({m | pot    = m.pot + (2 * m.stake)
+      ({m | pot    = m.pot + (2 * m.stake) , stat = Ra
          ,    roll_p = m.roll_p - (2 * m.stake)
          } , Cmd.none)  
     Bet ->
-        ({m | pot    = m.pot + (2 * m.stake)
-         ,    roll_p = m.roll_p - (2 * m.stake)
+        ({m | pot    = m.pot + (2 * m.stake) , stat = Be , roll_p = m.roll_p - (2 * m.stake)
          } , Cmd.none)
     Call ->
-        ({m | pot    = m.pot + m.stake
+        ({m | pot    = m.pot + m.stake , stat = Ca
          ,    roll_p = m.roll_p - m.stake
          } , Cmd.none)       
     Shuffle ->
@@ -67,6 +70,7 @@ update b m = case b of
          , bblind = False
          , roll_p = 200
          , pot    = 0
+         , stat   = Fo           
          , deck   = List.Extra.unique xs
          } , Cmd.none)
     Fold ->
@@ -86,7 +90,7 @@ view m =
       xt  = List.head (List.drop 7 xs)
       xr  = List.head (List.drop 8 xs)
       bstyle = [("width","70px") , ("margin-left","100px")]
-      mstyle = [("font-size","26pt") , ("color","yellow"), ("align","left")
+      mstyle = [("font-size","20pt") , ("color","yellow"), ("align","left")
                , ("width","20%")
                ]
    in body
@@ -94,24 +98,34 @@ view m =
          [ p [] [] , br [] []
          , div [style [("margin-left", "400px")]]
              [    
-               table [style [("width","55%")]]
+               table [style [("width","45%")]]
                  [    tr [ style [("height","110px")]]
                          (List.append
                               [td [style mstyle] [text (toString m.roll_c )]]
                               ( List.map hfun2 [ x11 , x12 ] ))
-                    , tr [ style [("rowspan","4"), ("height","100px")]]
+                    , tr [ style [("height","100px")]]
                            [ if (not m.bblind)
-                            then img [src "img/tycoonn.png", height 120] []
-                            else img [src "img/green.png", height 120] []
+                             then td [] [img [src "img/tycoonn.png", height 120] [] ] 
+                             else td [] [img [src "img/green.png",   height 120] [] ] 
+                           ,    case m.stat of
+                                  Fo -> td [style mstyle] [text "Fold"]
+                                  Ca  -> td [style mstyle] [text "Call"]
+                                  Ra  -> td [style mstyle] [text "Check"]
+                                  _   -> td [style mstyle] [text "Ukn"]       
                           ] 
                     , tr [ style [("height","110px")]]
                          (List.append
                               [ td [style mstyle] [text (toString m.pot )] ]
                               ( List.map hfun2 [ xf1 , xf2 , xf3 , xt , xr ] ) )
-                    , tr [ style [("rowspan","4"), ("height","100px")]]
+                    , tr [ style [("height","100px")]]
                           [ if m.bblind
-                            then img [src "img/tycoonn.png", height 120] []
-                            else img [src "img/green.png", height 120] []
+                            then td [] [img [src "img/tycoonn.png", height 120] [] ]
+                            else td [] [img [src "img/green.png",   height 120] [] ]
+                            ,    case m.stat of
+                                  Fo -> td [style mstyle] [text "Fold"]
+                                  Ca  -> td [style mstyle] [text "Call"]
+                                  Ra  -> td [style mstyle] [text "Check"]
+                                  _   -> td [style mstyle] [text "Ukn"]  
                           ]
                     , tr [ style [("height","110px")]]
                          ( List.append
