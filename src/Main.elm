@@ -15,29 +15,29 @@ main = Html.program
     , view            = view
     }
 
-init : ((Int , List Int), Cmd msg)    
-init = ((0 , []) , Cmd.none)
+init : (Struc, Cmd msg)    
+init = ({ roll_c = 200 , roll_p = 200 , deck = []} , Cmd.none)
        
-subscriptions : (Int , List Int) -> Sub Msg
+subscriptions : Struc -> Sub Msg
 subscriptions m = Sub.none
 
-type Msg = Shuffle | Face (Int , List Int) | Fold
+type alias Struc = { roll_c : Int , roll_p : Int , deck : List Int }
+    
+type Msg = Shuffle | Show (List Int)
                   
-update : Msg -> (Int , List Int) -> ((Int , List Int) ,  Cmd Msg)
+update : Msg -> Struc -> (Struc , Cmd Msg)
 update b m =
-  let hfun0    = Random.pair (Random.int 100 200) (Random.list 2048 (Random.int 2 53))
-      hfun1 xs = List.Extra.unique xs
+  let hfun0 = Random.list 2048 (Random.int 2 53)
   in case b of
     Shuffle ->
-        (m , Random.generate Face hfun0)
-    Face (k , xs)  ->
-        ((k , hfun1 xs) , Cmd.none)
-    Fold ->
-        ((100 , []) , Cmd.none)
+        (m , Random.generate Show hfun0)
+    Show m ->
+        ({ roll_c = 200 , roll_p = 200 ,  deck = List.Extra.unique m } , Cmd.none)
 
-view : (Int , List Int) -> Html Msg
-view (k , xs) =
-  let x11 = List.head xs
+view : Struc -> Html Msg
+view m =
+  let xs = m.deck
+      x11 = List.head xs
       x12 = List.head (List.drop 1 xs)
       x21 = List.head (List.drop 2 xs)
       x22 = List.head (List.drop 3 xs)
@@ -69,12 +69,12 @@ view (k , xs) =
              ]
 
          , p [] []  , hr [] []  , br [] []
-         , button [ onClick Fold , style bstyle]  [ text " Fold  " ] 
-         , button [ onClick Fold , style bstyle]  [ text " Check " ] 
-         , button [ onClick Fold , style bstyle]  [ text " Bet   " ] 
-         , button [ onClick Fold , style bstyle]  [ text " Raise " ] 
-         , input  [ style [("width","100px")]  ]  [ text "100"]      
-         , button [ onClick Fold  , style bstyle] [ text " All-In " ]
+         , button [  style bstyle]  [ text " Fold  " ] 
+         , button [  style bstyle]  [ text " Check " ] 
+         , button [  style bstyle]  [ text " Bet   " ] 
+         , button [  style bstyle]  [ text " Raise " ] 
+         , input  [  style [("width","100px")]  ]  [ text "100"]      
+         , button [  style bstyle] [ text " All-In " ]
 
          , br [] [] , hr [] []    
          , p [] [text "demo ver 0.0"]
