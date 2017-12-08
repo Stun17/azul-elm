@@ -9,19 +9,20 @@ import Dict
 import Mydeck exposing (..)
 
 main = Html.program
-    { init            = ([] , Cmd.none)
+    { init            = init 
     , update          = update
     , subscriptions   = subscriptions
     , view            = view
     }
 
-type Msg = Shuffle | Face (List Int) | Fold
-
-type alias Deck = List (Int , (Int,Int))
-
+init : (List Int, Cmd msg)    
+init = ([] , Cmd.none)
+       
 subscriptions : List Int -> Sub Msg
 subscriptions m = Sub.none
 
+type Msg = Shuffle | Face (List Int) | Fold
+                  
 update : Msg -> List Int -> (List Int ,  Cmd Msg)
 update b m =
   let hfun0    = Random.list 2048 (Random.int 2 53)
