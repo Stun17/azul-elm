@@ -2,7 +2,7 @@ import Mydeck exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Random
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (style, src, height, align)
 import List.Extra exposing (unique)
 import Dict
 
@@ -43,29 +43,38 @@ view xs =
       xr  = List.head (List.drop 8 xs)
   in
       body
-         [style [("font-family","mono"),("background","green")]]
-         [ button [ onClick Shuffle ] [ text "Shuffle" ]
-         , p [] []
-         , div [style [("margin-left", "300px"), ("font-size", "28pt")]] [    
-               table [style [("width","25%"),("cellspacing","10"),("text-align","center")]]
-                 [    tr [style [("height","100px")]]
-                         [ td [style []] [] , hfun2 x11 , hfun2 x12 ]
-                    , tr [style [("rowspan","5"), ("height","100px")]] []      
-                    , tr [style [("height","100px")]]
-                         (List.map hfun2 [xf1 , xf2 , xf3 , xt , xr])
-                    , tr [style [("rowspan","5"), ("height","100px")]] []          
-                    , tr [style [("height","100px")]]
-                         [ td [style []] [] , hfun2 x21 , hfun2 x22 ]
-                 ]]
+         [ style [("font-family","mono") , ("background","green")] ]
+         [ br [] []
+         , button [ onClick Shuffle  , style bstyle] [ text " Deal " ]
+         , p [] [] , hr [] [] , br [] []
+         , div [style [("margin-left", "400px")]]
+             [    
+               table [style [("width","45%")]]
+                 [    tr [ style [("height","120px")]]
+                         ( List.map hfun2 [ x11 , x12 ] )
+        -- , tr [] [td [] [img [src "img/tycoonr.png", height 90, align "right"][]]]
+                    , tr [ style [("rowspan","5"), ("height","100px")]] []
+                    , tr [ style [("height","120px")]]
+                         ( List.map hfun2 [ xf1 , xf2 , xf3 , xt , xr ] )
+                    , tr [ style [("rowspan","5"), ("height","100px")]] []          
+                    , tr [ style [("height","120px")]]
+                         ( List.map hfun2 [ x21 , x22 ] )
+                 ]
+             ]
+         -- , 
+         , p [] []  , hr [] []  , br [] []
+         , button [ onClick Fold , style bstyle]  [ text " Fold  " ] 
+         , button [ onClick Fold , style bstyle]  [ text " Check " ] 
+         , button [ onClick Fold , style bstyle]  [ text " Bet   " ] 
+         , button [ onClick Fold , style bstyle]  [ text " Raise " ] 
+         , input  [ style [("width","100px")]  ]  [ text "100"]      
+         , button [ onClick Fold  , style bstyle] [ text " All-In " ]
+         , hr [] []    
+         , p [] [text "demo ver 0.0"]
          , p [] []    
-         , button [ onClick Fold ] [ text " Fold  " ]
-         , button [ onClick Fold ] [ text " Check " ]  
-         , button [ onClick Fold ] [ text " Bet   " ]
-         , input  [] []     
-         , button [ onClick Fold ] [ text "All-In " ]
-         , p [] [text "demo ver 0.0"]    
          ]
 
+bstyle = [("width","70px"), ("margin-left","100px")]          
 
 hfun0 : Random.Generator (List Int)
 hfun0 = Random.list 2048 (Random.int 2 53)
@@ -75,7 +84,15 @@ hfun1 xs = List.Extra.unique xs
 
 hfun2 : Maybe Int -> Html a
 hfun2 k0 =
-  let ty c r s = td [style [("background","white")]] [span [style [("color", c)]] [text (r ++ s)]]
+  let ty c r s = td
+                   [ style  [ ("background","white") ] ]
+                   [ span   [ style  [ ("font-family","mono")
+                                     , ("color", c)  
+                                     , ("font-size", "32pt")
+                                     ]
+                             ] 
+                             [ text (s ++ r) ] 
+                   ]
   in
       case k0 of
         Nothing          -> ty "white" "" ""
