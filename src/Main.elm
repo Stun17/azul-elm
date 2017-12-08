@@ -23,7 +23,7 @@ main = Html.program
 init : (Struc, Cmd msg)
 init = ({ ppocket = [], pstack = 200, pstatus = Id, pdeal = True
         , kpocket = [], kstack = 200, kstatus = Id
-        , pot = 0, board = [] }, Cmd.none)
+        , pot = 0, board = [], hand = 0}, Cmd.none)
 
 subscriptions : Struc -> Sub Msg
 subscriptions m = Sub.none
@@ -39,7 +39,8 @@ type alias Struc =
     , kstack   : Int
     , kstatus  : Status
     , pot      : Int
-    , board    : List (Int , Int) 
+    , board    : List (Int , Int)
+    , hand     : Int
     }
     
 type Msg = Shuffle | Start (List Int) |  AllIn  
@@ -55,11 +56,12 @@ update b s = case b of
             zs  = List.map (\k -> case (Dict.get k myhash52) of
                                     Just (s,r) -> (s,r)
                                     Nothing    -> (0,0) ) xs
-        in ({ s | ppocket = List.take 2 zs
-                , kpocket = List.take 2 (List.drop 2 zs)
-                , board   = List.take 5 (List.drop 4 zs)
-                , pdeal   = not s.pdeal
-                , pot     = 0
+        in ( { s | ppocket = List.take 2 zs
+             , kpocket = List.take 2 (List.drop 2 zs)
+             , board   = List.take 5 (List.drop 4 zs)
+             , pdeal   = not s.pdeal
+             , pot     = 0
+             , hand = s.hand + 1
              } , Cmd.none)
   AllIn ->
         if s.pstack > s.kstack
@@ -126,17 +128,18 @@ tabls m =
                                  (List.map hfun2 m.kpocket))
            , tr [] 
                 [ td [] [img [src (if m.pdeal then "img/green.png" else "img/tycoonn.png"),
-                                 height 100] [] ]
+                                 height 110] [] ]
                 , td [] [] , td [] [] , td [] [] , td [] [] , td [] []
                 , td [style ddd] [ case m.kstatus of
                                          Fo ->  text "Fold"
                                          Ca ->  text "Call"
                                          Ra ->  text "Check"
                                          _  ->  text "Idle" ]]
-           , tr [style bbb] (List.append [td [style ddd] [text (toString m.pot )] ]
-                                 (List.map hfun2 m.board) )
+           , tr [style bbb] (List.append
+                 (List.append [td [style ddd] [text (toString m.pot )]] (List.map hfun2 m.board))
+                 [td [] [] , td [style ddd] [text ("hand " ++ (toString m.hand))]]  ) 
            , tr [] [ td [] [img [src (if m.pdeal then "img/tycoonn.png" else "img/green.png"),
-                                height 100] []]
+                                height 110] []]
                 , td [] [] , td [] [] , td [] [] , td [] [] , td [] []
                 , td [style ddd] [ case m.pstatus of
                                          Fo ->  text "Fold"
