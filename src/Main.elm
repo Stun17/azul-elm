@@ -15,28 +15,28 @@ main = Html.program
     , view            = view
     }
 
-init : (List Int, Cmd msg)    
-init = ([] , Cmd.none)
+init : ((Int , List Int), Cmd msg)    
+init = ((0 , []) , Cmd.none)
        
-subscriptions : List Int -> Sub Msg
+subscriptions : (Int , List Int) -> Sub Msg
 subscriptions m = Sub.none
 
-type Msg = Shuffle | Face (List Int) | Fold
+type Msg = Shuffle | Face (Int , List Int) | Fold
                   
-update : Msg -> List Int -> (List Int ,  Cmd Msg)
+update : Msg -> (Int , List Int) -> ((Int , List Int) ,  Cmd Msg)
 update b m =
-  let hfun0    = Random.list 2048 (Random.int 2 53)
+  let hfun0    = Random.pair (Random.int 100 200) (Random.list 2048 (Random.int 2 53))
       hfun1 xs = List.Extra.unique xs
   in case b of
     Shuffle ->
         (m , Random.generate Face hfun0)
-    Face n  ->
-        (hfun1 n , Cmd.none)
+    Face (k , xs)  ->
+        ((k , hfun1 xs) , Cmd.none)
     Fold ->
-        (m, Cmd.none)
+        ((100 , []) , Cmd.none)
 
-view : List Int -> Html Msg
-view xs =
+view : (Int , List Int) -> Html Msg
+view (k , xs) =
   let x11 = List.head xs
       x12 = List.head (List.drop 1 xs)
       x21 = List.head (List.drop 2 xs)
