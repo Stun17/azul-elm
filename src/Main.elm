@@ -92,7 +92,8 @@ view m =
 hfun2 : (Int,Int) -> Html a
 hfun2 (s,r) =
   let ty z x y = td [style [("background","white"),("width","20%")]]
-        [span [style [("font-family","mono"),("color",z),("font-size","28pt")]] [text (y ++ x)]]
+        [span [style [("font-family","mono"),("color",z),("font-size","28pt")]]
+             [text (y ++ "\n" ++ x)]]
   in let r2 = case r of
        2  -> "2."
        3  -> "3."
@@ -118,26 +119,32 @@ hfun2 (s,r) =
 
 tabls m =
   let bbb = [("height", "100px")]
-      ccc = [("width" ,  "80px")]      
-  in  table [style [("width", "78pt")]]
-           [ tr [style bbb] (List.append [td [style ccc] [text (toString m.kstack)]] (List.map hfun2 m.kpocket))
+      ccc = [("width" ,  "80px")]
+      ddd = [("font-size","32pt"),("color","yellow")]      
+  in  table [style [("width", "50%")]]
+           [ tr [] (List.append [td [style ddd] [text (toString m.kstack)]]
+                                 (List.map hfun2 m.kpocket))
            , tr [] 
                 [ td [] [img [src (if m.pdeal then "img/green.png" else "img/tycoonn.png"),
                                  height 100] [] ]
-                , td [] [ case m.kstatus of
+                , td [] [] , td [] [] , td [] [] , td [] [] , td [] []
+                , td [style ddd] [ case m.kstatus of
                                          Fo ->  text "Fold"
                                          Ca ->  text "Call"
                                          Ra ->  text "Check"
-                                         _  ->  text "Ukn" ]]
-           , tr [style bbb] (List.append [td [] [text (toString m.pot )] ] (List.map hfun2 m.board) )
+                                         _  ->  text "Idle" ]]
+           , tr [style bbb] (List.append [td [style ddd] [text (toString m.pot )] ]
+                                 (List.map hfun2 m.board) )
            , tr [] [ td [] [img [src (if m.pdeal then "img/tycoonn.png" else "img/green.png"),
                                 height 100] []]
-                , td [] [ case m.pstatus of
+                , td [] [] , td [] [] , td [] [] , td [] [] , td [] []
+                , td [style ddd] [ case m.pstatus of
                                          Fo ->  text "Fold"
                                          Ca ->  text "Call"
                                          Ra ->  text "Check"
-                                         _  ->  text "Ukn" ]]
-           , tr [style bbb] (List.append [td [] [text (toString m.pstack)]] (List.map hfun2 m.ppocket) ) ]
+                                         _  ->  text "Idle" ]]
+           , tr [style bbb] (List.append [td [style ddd] [text (toString m.pstack)]]
+                                 (List.map hfun2 m.ppocket) ) ]
 
 
 buttns =
