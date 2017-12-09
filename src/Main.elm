@@ -136,9 +136,11 @@ mfun0 ys = List.map (\k -> case (Dict.get k myhash52) of
 view : Struc -> Html Msg
 view m =
    body [ style [("font-family","monospace") , ("background","green")] ]
-        [  div [style [("background","yellow")]] [ p [] [text "demo v.0.00 , MMXVII"] ]
+        [  div [style [("background","yellow")]]
+               [ p [style [("color","blue"),("font-size","12pt")]] [text "demo v0.00, MMXVII"] ]
         ,  p  [] [] , br [] []
         , div [style [("margin-left","200px")]] [tabls m, p [] [] ]
+        , p [style [("margin-top","20px")]] [text " "]    
         , buttns m
         ]
 
@@ -218,9 +220,7 @@ buttns m =
        cstyle = [("width","50px")]
        dstyle = [("width","70px"),("margin-left","150px")]                
    in  div [style [("background","yellow")]]
-         [ button [ onClick Fold   , style bstyle ]  [ text " Fold  " ]
-         , button [ onClick Check  , style bstyle ]  [ text " Check " ]
-         , button [ onClick Call   , style bstyle ]  [ text " Call " ]
+         [ button [ onClick AllIn   , style bstyle ] [ text " All In " ]
          , button [ onClick Bet    , style bstyle ]  [ text " Bet " ]
          , input  [ style cstyle , maxlength 3 , value (toString (2 * m.bet))] [ ]
          , select [ style cstyle  ]  -- , Input Raise ]
@@ -231,7 +231,9 @@ buttns m =
              , option [value (toString (7 * m.bet))] [text (toString (7 * m.bet))]
              , option [value (toString (8 * m.bet))] [text (toString (8 * m.bet))]                 
              ]
-         , button [ onClick AllIn   , style bstyle ] [ text " All In " ]
+         , button [ onClick Call   , style bstyle ]  [ text " Call " ]
+         , button [ onClick Check  , style bstyle ]  [ text " Check " ]
+         , button [ onClick Fold   , style bstyle ]  [ text " Fold  " ]
          , button [ onClick Shuffle , style dstyle ] [ text " Deal " ]
          , button [ onClick Start   , style bstyle , disabled (m.hand >= 0) ] [ text " Start " ]
          , br [] []
