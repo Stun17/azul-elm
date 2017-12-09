@@ -4,12 +4,13 @@ import Random
 import List.Extra exposing (unique)
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (style, src, height, align, disabled, value)
+import Html.Attributes exposing (style, src, height, width, align, disabled, value)
 import Dict
 import Mydeck exposing (..)
 
 --------------------------
 
+main : Program Never Struc Msg
 main = Html.program
     { init            = init
     , subscriptions   = subscriptions
@@ -45,7 +46,7 @@ type alias Struc =
     , board    : List (Int , Int)
     }
     
-type Msg = Start | Shuffle | Initial (List Int) | Hand (List Int) |  AllIn  
+type Msg = Start | Shuffle | Initial (List Int) | Hand (List Int) |  AllIn  | Raise String
 
 ----- Update
 
@@ -106,7 +107,10 @@ update b s = case b of
                , pstatus = Al
                , kstatus = Al
                } , Cmd.none)
- 
+  Raise v ->
+      (s, Cmd.none)
+
+             
 mfun0 : List Int -> List (Int , Int)
 mfun0 ys = List.map (\k -> case (Dict.get k myhash52) of
                                     Just (s,r) -> (s,r)
@@ -119,16 +123,13 @@ mfun0 ys = List.map (\k -> case (Dict.get k myhash52) of
 view : Struc -> Html Msg
 view m =
    body [ style [("font-family","mono") , ("background","green")] ]
-        [ p  [] []
-        , br [] []
-        , div [style [("margin-left","200px")]]
-              [tabls m, p [] [] ]
+        [ p  [] [] , br [] []
+        , div [style [("margin-left","200px")]] [tabls m, p [] [] ]
         , buttns m
         ]
 
-
-hfun2 : (Int,Int) -> Html a
-hfun2 (s,r) =
+vfun0 : (Int,Int) -> Html a
+vfun0 (s,r) =
   let ty z x y = td [style [("background","white"),("height","100px"), ("width","80px")]]
         [span [style [("font-family","mono"),("color",z),("font-size","28pt")]]
              [text (y ++ "\n" ++ x)]]
@@ -154,14 +155,14 @@ hfun2 (s,r) =
        4 -> ty "red"   r2 "♥" 
        _ -> ty "green" "" ""
 
-
+tabls : Struc -> Html a            
 tabls m =
   let bbb = [("height", "100px"),("width" ,  "80px")]
       ccc = [("width" ,  "80px")]
       ddd = [("font-size","32pt"),("color","yellow")]      
   in  table [style [("width", "680px")]]
            [ tr [] (List.append [td [style ddd] [text (toString m.kstack)]]
-                                 (List.map hfun2 m.kpocket))
+                                 (List.map vfun0 m.kpocket))
            , tr [] 
                 [ td [] [img [src (if m.pdeal then "img/green.png" else "img/tycoonn.png"),
                                  height 110] [] ]
@@ -172,7 +173,8 @@ tabls m =
                                          Ra ->  text "Check"
                                          _  ->  text "Idle" ]]
            , tr [style bbb] (List.append
-                 (List.append [td [style ddd] [text (toString m.pot )]] (List.map hfun2 m.board))
+                 (List.append [td [style ddd] [text ("pot " ++ (toString m.pot))]]
+                              (List.map vfun0 m.board))
                  [td [] [] , td [style ddd] [text ("hand " ++ (toString m.hand))]]  ) 
            , tr [] [ td [] [img [src (if m.pdeal then "img/tycoonn.png" else "img/green.png"),
                                 height 110] []]
@@ -183,24 +185,21 @@ tabls m =
                                          Ra ->  text "Check"
                                          _  ->  text "Idle" ]]
            , tr [style bbb] (List.append [td [style ddd] [text (toString m.pstack)]]
-                                 (List.map hfun2 m.ppocket) ) ]
+                                 (List.map vfun0 m.ppocket) ) ]
 
-
+buttns : Struc -> Html Msg
 buttns m =
    let bstyle = [("width","70px"),("margin-left","70px")]
    in  div [style [("background","yellow")]]
-         [ button [ style bstyle]  [ text " Fold  " ]
-         , button [ style bstyle]  [ text " Check " ]
-         , button [ style bstyle]  [ text " Call " ]
-         , button [ style bstyle]  [ text " Bet   " ]
-         , button [ style bstyle]  [ text " Raise " ]
-         , input  [ style [("width","100px")], value "4"]
-                  [ ]
-         , button [ onClick AllIn , style bstyle]
-                  [ text " All-In " ]
-         , button [ onClick Shuffle , style bstyle] [ text " Deal " ]
-         , button [ onClick Start , style bstyle, disabled (m.hand > 0)]
-                  [ text " Start " ]             
+         [ button [ style bstyle ]  [ text " Fold  " ]
+         , button [ style bstyle ]  [ text " Check " ]
+         , button [ style bstyle ]  [ text " Call " ]
+         , button [ style bstyle ]  [ text " Bet   " ]
+         , button [ style bstyle , onInput Raise ]  [ text " Raise " ]
+         , input  [ style [("width","100px")], value "4"] [ ]
+         , button [ onClick AllIn , style bstyle ] [ text " All-In " ]
+         , button [ onClick Shuffle , style bstyle ] [ text " Deal " ]
+         , button [ onClick Start , style bstyle, disabled (m.hand > 0) ] [ text " Start " ]
          , br [] []
          ]
 
