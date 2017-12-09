@@ -43,39 +43,73 @@ type alias Struc =
     , hand     : Int
     }
     
-type Msg = Shuffle | Start (List Int) |  AllIn  
+type Msg = Start | Shuffle | Initial (List Int) | Hand (List Int) |  AllIn  
 
 ----- Update
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
+  Start ->
+        (s , Random.generate Initial (Random.list 2048 (Random.int 2 53)))
+  Initial ys ->
+        let zs = mfun0 ys
+        in case (List.take 1 zs) of
+                [(s1,r1)] -> 
+                     case (List.take 1 (List.drop 1 zs)) of
+                         [(s2,r2)] ->
+                            if r1 > r2
+                            then ( { s |
+                                     pdeal = False
+                                   , ppocket = [(s1,r1)]
+                                   , kpocket = [(s2,r2)]            
+                                   } , Cmd.none )
+                            else if r1 < r2
+                                 then ( { s |
+                                          pdeal = True
+                                        , ppocket = [(s1,r1)]
+                                        , kpocket = [(s2,r2)]                                    
+                                        } , Cmd.none)
+                                 else ( { s |
+                                          pdeal = False
+                                        , ppocket = [(s1,r1)]
+                                        , kpocket = [(s2,r2)]                              
+                                        } , Cmd.none)
+                         _ -> (s, Cmd.none)            
+                _ -> (s , Cmd.none)
   Shuffle ->
-        (s , Random.generate Start (Random.list 2048 (Random.int 2 53)))
-  Start ys ->
-        let xs  = List.Extra.unique ys
-            zs  = List.map (\k -> case (Dict.get k myhash52) of
-                                    Just (s,r) -> (s,r)
-                                    Nothing    -> (0,0) ) xs
-        in ( { s | ppocket = List.take 2 zs
+        (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))
+  Hand ys ->
+        let zs = mfun0 ys
+        in ( { s |
+               ppocket = List.take 2 zs
              , kpocket = List.take 2 (List.drop 2 zs)
              , board   = List.take 5 (List.drop 4 zs)
              , pdeal   = not s.pdeal
-             , pot     = 0
-             , hand = s.hand + 1
+             , pot     = 3
+             , hand    = s.hand + 1
+             , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2
+             , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1
              } , Cmd.none)
   AllIn ->
         if s.pstack > s.kstack
-        then ( { s | pot    = s.pot + s.pstack
-               ,     pstack = s.pstack - s.kstack
-               ,     pstatus = Al
-               ,     kstatus = Al
+        then ( { s |
+                 pot    = s.pot + s.pstack
+               , pstack = s.pstack - s.kstack
+               , pstatus = Al
+               , kstatus = Al
                } , Cmd.none)
-         else ({ s | pot    = s.pot + s.pstack
-               ,     pstack = 0
-               ,     pstatus = Al
-               ,     kstatus = Al
+         else ({ s |
+                 pot    = s.pot + s.pstack
+               , pstack = 0
+               , pstatus = Al
+               , kstatus = Al
                } , Cmd.none)
  
+mfun0 : List Int -> List (Int , Int)
+mfun0 ys = List.map (\k -> case (Dict.get k myhash52) of
+                                    Just (s,r) -> (s,r)
+                                    Nothing    -> (0,0) )
+                    (List.Extra.unique ys)
 
 ----- View
 
@@ -161,6 +195,7 @@ buttns =
          , input  [  style [("width","100px")]  ]  [ text "100"]
          , button [ onClick AllIn , style bstyle] [ text " All-In " ]
          , button [ onClick Shuffle , style bstyle] [ text " Deal " ]
+         , button [ onClick Start , style bstyle] [ text " Start " ]             
          , br [] []
          ]
 
