@@ -59,18 +59,18 @@ update b s = case b of
                          [(s2,r2)] ->
                             if r1 > r2
                             then ( { s |
-                                     pdeal = False
+                                     pdeal = True
                                    , ppocket = [(s1,r1)]
                                    , kpocket = [(s2,r2)]            
                                    } , Cmd.none )
                             else if r1 < r2
                                  then ( { s |
-                                          pdeal = True
+                                          pdeal = False
                                         , ppocket = [(s1,r1)]
                                         , kpocket = [(s2,r2)]                                    
                                         } , Cmd.none)
                                  else ( { s |
-                                          pdeal = False
+                                          pdeal = True
                                         , ppocket = [(s1,r1)]
                                         , kpocket = [(s2,r2)]                              
                                         } , Cmd.none)
@@ -84,7 +84,7 @@ update b s = case b of
                ppocket = List.take 2 zs
              , kpocket = List.take 2 (List.drop 2 zs)
              , board   = List.take 5 (List.drop 4 zs)
-             , pdeal   = not s.pdeal
+             , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
              , pot     = 3
              , hand    = s.hand + 1
              , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2
@@ -127,7 +127,7 @@ view m =
 
 hfun2 : (Int,Int) -> Html a
 hfun2 (s,r) =
-  let ty z x y = td [style [("background","white"),("width","20%")]]
+  let ty z x y = td [style [("background","white"),("height","100px"), ("width","80px")]]
         [span [style [("font-family","mono"),("color",z),("font-size","28pt")]]
              [text (y ++ "\n" ++ x)]]
   in let r2 = case r of
@@ -154,10 +154,10 @@ hfun2 (s,r) =
 
 
 tabls m =
-  let bbb = [("height", "100px")]
+  let bbb = [("height", "100px"),("width" ,  "80px")]
       ccc = [("width" ,  "80px")]
       ddd = [("font-size","32pt"),("color","yellow")]      
-  in  table [style [("width", "50%")]]
+  in  table [style [("width", "680px")]]
            [ tr [] (List.append [td [style ddd] [text (toString m.kstack)]]
                                  (List.map hfun2 m.kpocket))
            , tr [] 
