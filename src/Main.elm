@@ -4,7 +4,7 @@ import Random
 import List.Extra exposing (unique)
 import Html exposing (..)
 import Html.Events exposing (..)
-import Html.Attributes exposing (style, src, height, width, align, disabled, value)
+import Html.Attributes exposing (..)
 import Dict
 import Mydeck exposing (..)
 
@@ -46,7 +46,7 @@ type alias Struc =
     , board    : List (Int , Int)
     }
     
-type Msg = Start | Shuffle | Initial (List Int) | Hand (List Int) |  AllIn  | Raise String
+type Msg = Start | Shuffle | Initial (List Int) | Hand (List Int) |  AllIn  | Bet 
 
 ----- Update
 
@@ -107,7 +107,7 @@ update b s = case b of
                , pstatus = Al
                , kstatus = Al
                } , Cmd.none)
-  Raise v ->
+  Bet ->
       (s, Cmd.none)
 
              
@@ -202,17 +202,26 @@ tabls m =
 
 buttns : Struc -> Html Msg
 buttns m =
-   let bstyle = [("width","70px"),("margin-left","70px")]
+   let bstyle = [("width","70px"),("margin-left","30px")]
+       cstyle = [("width","50px")]
+       dstyle = [("width","70px"),("margin-left","150px")]                
    in  div [style [("background","yellow")]]
          [ button [ style bstyle ]  [ text " Fold  " ]
          , button [ style bstyle ]  [ text " Check " ]
          , button [ style bstyle ]  [ text " Call " ]
-         , button [ style bstyle ]  [ text " Bet   " ]
-         , button [ style bstyle , onInput Raise ]  [ text " Raise " ]
-         , input  [ style [("width","100px")], value "4"] [ ]
-         , button [ onClick AllIn , style bstyle ] [ text " All-In " ]
-         , button [ onClick Shuffle , style bstyle ] [ text " Deal " ]
-         , button [ onClick Start , style bstyle, disabled (m.hand > 0) ] [ text " Start " ]
+         , button [ onClick Bet , style bstyle ]  [ text " Bet " ]
+         , input  [ style cstyle , maxlength 3 , value "4"] [ ]
+         , select [ style cstyle  ]  -- , Input Raise ]
+             [ option [value "6"] [text "6"]
+             , option [value "8"] [text "8"]
+             , option [value "10"] [text "10"]
+             , option [value "20"] [text "20"]
+             , option [value "50"] [text "50"]
+             , option [value "100"] [text "100"]                 
+             ]
+         , button [ onClick AllIn   , style bstyle ] [ text " All-In " ]
+         , button [ onClick Shuffle , style dstyle ] [ text " Deal " ]
+         , button [ onClick Start   , style bstyle, disabled (m.hand > 0) ] [ text " Start " ]
          , br [] []
          ]
 
