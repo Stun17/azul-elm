@@ -145,8 +145,8 @@ view m =
 vfun0 : (Int,Int) -> Html a
 vfun0 (s,r) =
   let ty b z x y =
-          td [style [("valign","top") , ("background",b) , ("height","100px") , ("width","80px")]]
-             [span [style [("font-family","monospace") , ("color",z) , ("font-size","28pt")]]
+          td [style [("valign","top") , ("background",b) , ("height","90px") , ("width","70px")]]
+             [span [style [("font-family","monospace") , ("color",z) , ("font-size","24pt")]]
                           [text (y ++ x)]]
       r2 = case r of
              2  -> "2"
@@ -180,18 +180,19 @@ tabls m =
   in  table [style [("width", "920px")]]
            [ tr [style fff]
                  (List.append
-                      [td [style ddd, colspan 2] [text ("$" ++ (toString m.kstack))]]
+                      [td [style ddd, colspan 2] [text ("stack $" ++ (toString m.kstack))]]
                       (List.map vfun0 m.kpocket))
            , tr [] 
                 [ td [] [img [ src (if m.pdeal then "img/green.png" else "img/tycoonn.png")
                              , height 110
                              , width 110 ] [] ]
-                , td [style ddd, colspan 2] [ case m.kstatus of
-                                         Fo ->  text "Fold"
-                                         Ch ->  text "Check"
-                                         Ca ->  text "Call"
-                                         Be ->  text "Bet"
-                                         _  ->  text "Idle" ]]
+                , td [style ddd] [ text (case m.kstatus of
+                                         Fo ->  "Fold"
+                                         Ch ->  "Check"
+                                         Ca ->  "Call"
+                                         Be ->  "Bet"
+                                         Al ->  "All in"               
+                                         _  ->  "Idle") ]]               
            , tr [style fff] (List.append
                                ( List.append    
                                       [td [style ddd, colspan 2] [text ("pot $" ++ (toString m.pot))]] 
@@ -205,7 +206,7 @@ tabls m =
                               )
            , tr [] [ td [] [img [ src (if m.pdeal then "img/tycoonn.png" else "img/green.png")
                                 , height 110 , width 110 ] [] ]
-                   , td [style ddd, colspan 2] [ text (case m.pstatus of
+                   , td [style ddd] [ text (case m.pstatus of
                                          Fo -> "Fold"
                                          Ch -> "Check"                                       
                                          Ca -> "Call"
@@ -213,7 +214,7 @@ tabls m =
                                          Al -> "All in"        
                                          _  -> "Idle" ) ]]
            , tr [style fff] (List.append [td [style ddd, colspan 2]
-                                             [text ("$" ++ (toString m.pstack))]]
+                                             [text ("stack $" ++ (toString m.pstack))]]
                                  (List.map vfun0 m.ppocket) ) ]
 
 buttns : Struc -> Html Msg
