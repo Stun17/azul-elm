@@ -181,22 +181,37 @@ tigrok m c =
          )
        )
              
-tdeal m a b =
-   tr [] [ td [] [img [ src (if a && (m.status /= St || m.status /= Dc)
-                             then "img/tycoonn.png"
-                             else "img/green.png"), height 110 , width 80 ] [] ]
+tdeal m c =   -- a b : m.kdeal m.kstage
+   tr [] [ td []
+              [img [ src (if (c == 1 && m.pdeal) && (m.status /= St || m.status /= Dc)
+                          then "img/tycoonn.png"
+                          else if  (c == 2 && m.kdeal) && (m.status /= St || m.status /= Dc)
+                               then "img/tycoonn.png"
+                               else "img/green.png"),
+                         height 110 , width 80 ] [] ]
          , td [style [("font-size","22pt")
                      ,("color","yellow")
                      ,("width" ,  "110px")
                      ]
               ]
-              [ text (case b of
-                        Fo ->  "Fold"
-                        Ch ->  "Check"
-                        Ca ->  "Call"
-                        Be ->  "Bet"
-                        Al ->  "All in"
-                        _  ->  " ")
+              [ text (if c == 1
+                      then 
+                           case m.kstage of
+                             Fo ->  "Fold"
+                             Ch ->  "Check"
+                             Ca ->  "Call"
+                             Be ->  "Bet"
+                             Al ->  "All in"
+                             _  ->  " "
+                       else
+                           case m.pstage of
+                               Fo ->  "Fold"
+                               Ch ->  "Check"
+                               Ca ->  "Call"
+                               Be ->  "Bet"
+                               Al ->  "All in"
+                               _  ->  " "
+                   )
               ]
          ]
 
@@ -242,9 +257,9 @@ tboard m =
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
            [ tigrok   m 2
-           , tdeal    m m.kdeal m.kstage
+           , tdeal    m 2 -- m.kdeal m.kstage
            , tboard   m
-           , tdeal    m m.pdeal m.pstage
+           , tdeal    m 1 -- m.pdeal m.pstage
            , tigrok   m 1
            ]
 
