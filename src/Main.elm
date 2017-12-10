@@ -22,8 +22,8 @@ main = Html.program
 -----  Model
 
 init : (Struc, Cmd msg)
-init = ({ ppocket = [(0,0)], pstack = 200, pstatus = St, pdeal = True
-        , kpocket = [(0,0)], kstack = 200, kstatus = St
+init = ({ ppocket = [(0,0)], pstack = 200, pstatus = St, pdeal = False
+        , kpocket = [(0,0)], kstack = 200, kstatus = St, kdeal = False
         , pot = 0, board = [(0,0)], hand = -1, order = True, bet = 3
         } , Cmd.none)
 
@@ -39,6 +39,7 @@ type alias Struc =
     , kstack   : Int
     , pot      : Int
     , pdeal    : Bool      -- who is Small Blind and dealer now ?
+    , kdeal    : Bool      -- who is Small Blind and dealer now ?
     , order    : Bool      -- who is thinking now ?       
     , pstatus  : Status
     , kstatus  : Status
@@ -69,26 +70,29 @@ update b s = case b of
              [(s1,r1)] -> case (List.take 1 (List.drop 1 zs)) of
                 [(s2,r2)] -> if r1 > r2
                              then ( { s |
-                                      pdeal   = True
+                                      pdeal   = True , kdeal = False
                                     , hand    = s.hand + 1          
                                     , ppocket = [(s1,r1)]
                                     , kpocket = [(s2,r2)]
-                                    , kstatus = Id            
+                                    , kstatus = Id
+                                    , pstatus = Id            
                                     } , Cmd.none )
                               else if r1 < r2
                                    then  ( { s |
-                                             pdeal   = False
+                                             pdeal   = False , kdeal = True
                                            , hand    = s.hand + 1            
                                            , ppocket = [(s1,r1)]
                                            , kpocket = [(s2,r2)]
                                            , kstatus = Id
+                                           , pstatus = Id            
                                            } , Cmd.none)
                                     else ( { s |
-                                             pdeal   = True
+                                             pdeal   = True, kdeal = False
                                            , hand    = s.hand + 1            
                                            , ppocket = [(s1,r1)]
                                            , kpocket = [(s2,r2)]
-                                           , kstatus = Id            
+                                           , kstatus = Id
+                                           , pstatus = Id            
                                            } , Cmd.none)
                 _ -> (s, Cmd.none)            
              _ -> (s , Cmd.none)
@@ -97,19 +101,21 @@ update b s = case b of
   Hand ys ->  -- начало розыгрыша очередной раздачи
         let zs = mfun0 ys  -- формируем колоду
         in ( { s |
-               ppocket = List.take 2 zs                         -- формируем руки
+               ppocket = List.take 2 zs                                   -- формируем руки
              , kpocket = List.take 2 (List.drop 2 zs)
-             , board   = List.take 5 (List.drop 4 zs)           -- формируем боард
+             , board   = List.take 5 (List.drop 4 zs)                     -- формируем боард
              , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
-             , pot     = 3                                      -- анте
+             , kdeal   = if s.hand > 0 then not s.kdeal else s.kdeal                         
+             , pot     = 3                                                -- анте
              , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2
              , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1
-             , hand    = s.hand + 1                             -- счетчик раздач
+             , hand    = s.hand + 1                                       -- счетчик раздач
+             , pstatus = Ch , kstatus = Ch
              } , Cmd.none)
-  Fold -> (s, Cmd.none)
+  Fold ->  (s, Cmd.none)
   Check -> (s, Cmd.none)          
-  Call -> (s, Cmd.none)
-  Bet  -> (s, Cmd.none)
+  Call ->  (s, Cmd.none)
+  Bet  ->  (s, Cmd.none)
   AllIn ->
         if s.pstack > s.kstack
         then ( { s |
@@ -145,11 +151,65 @@ view m =
         , buttns m
         ]
 
+tabls : Struc -> Html a            
+tabls m =
+  let bbb = [("height", "100px"),("width" ,  "80px")]
+      ccc = [("width" ,  "80px")]
+      ddd = [("font-size","22pt"),("color","yellow"),("width" ,  "120px")]
+      fff = [("text-align","center")]      
+  in  table [style [("width", "920px")]]
+           [ tr [style fff]
+                [ td [style ddd, colspan 2] [text ("stack $" ++ (toString m.kstack))]
+                , td [] [img [ src (case m.kstatus of
+                                        St -> "img/green.png"
+                                        _  -> "img/ntycoon.png") , height 110 , width 80 ] [] ]
+                , td [] [img [ src (if m.kstatus == St
+                                    then "img/green.png"
+                                    else "img/ntycoon.png") , height 110 , width 80 ] [] ]    
+                ]
+           , tr [] 
+                [ td [] [img [ src (if (m.kdeal) && (m.kstatus /= St || m.kstatus /= Id)
+                                    then "img/tycoonn.png"
+                                    else "img/green.png")
+                             , height 110 , width 80 ] [] ]
+                , td [style ddd] [ text (case m.kstatus of
+                                         Fo ->  "Fold"
+                                         Ch ->  "Check"
+                                         Ca ->  "Call"
+                                         Be ->  "Bet"
+                                         Al ->  "All in"               
+                                         _  ->  "Idle") ]]               
+           , tr [style fff] (List.append
+                               ( List.append    
+                                      [td [style ddd, colspan 2] [text ("pot $" ++ (toString m.pot))]] 
+                                      (List.map vfun0 m.board)
+                                )
+                                ( List.append
+                                      [td [] []]
+                                      [td [style ddd, colspan 2]
+                                          [text ("hand " ++ (toString m.hand))]]
+                                )
+                              )
+           , tr [] [ td [] [img [ src (if (m.pdeal) && ((m.pstatus /= St) || (m.pstatus /= Id))
+                                       then "img/tycoonn.png"
+                                       else "img/green.png")
+                                , height 110 , width 80 ] [] ]
+                   , td [style ddd] [ text (case m.pstatus of
+                                         Fo -> "Fold"
+                                         Ch -> "Check"                                       
+                                         Ca -> "Call"
+                                         Be -> "Bet"
+                                         Al -> "All in"        
+                                         _  -> "Idle" ) ]]
+           , tr [style fff] (List.append [td [style ddd, colspan 2]
+                                             [text ("stack $" ++ (toString m.pstack))]]
+                                 (List.map vfun0 m.ppocket) ) ]
+
 vfun0 : (Int,Int) -> Html a
 vfun0 (s,r) =
   let ty b z x y =
-          td [style [("valign","top") , ("background",b) , ("height","90px") , ("width","70px")]]
-             [span [style [("font-family","monospace") , ("color",z) , ("font-size","24pt")]]
+          td [style [("valign","top"), ("background",b), ("height","110px"), ("width","80px")]]
+             [span [style [("font-family","monospace"), ("color",z), ("font-size","24pt")]]
                           [text (y ++ x)]]
       r2 = case r of
              2  -> "2"
@@ -173,52 +233,6 @@ vfun0 (s,r) =
           4 -> ty "white" "red"   r2 "♥" 
           0 -> ty "green" "green" "" ""
           _ -> ty "green" "green" "" ""     
-
-tabls : Struc -> Html a            
-tabls m =
-  let bbb = [("height", "100px"),("width" ,  "80px")]
-      ccc = [("width" ,  "80px")]
-      ddd = [("font-size","22pt"),("color","yellow"),("width" ,  "120px")]
-      fff = [("text-align","center")]      
-  in  table [style [("width", "920px")]]
-           [ tr [style fff]
-                 (List.append
-                      [td [style ddd, colspan 2] [text ("stack $" ++ (toString m.kstack))]]
-                      (List.map vfun0 m.kpocket))
-           , tr [] 
-                [ td [] [img [ src (if m.pdeal then "img/green.png" else "img/tycoonn.png")
-                             , height 110
-                             , width 110 ] [] ]
-                , td [style ddd] [ text (case m.kstatus of
-                                         Fo ->  "Fold"
-                                         Ch ->  "Check"
-                                         Ca ->  "Call"
-                                         Be ->  "Bet"
-                                         Al ->  "All in"               
-                                         _  ->  "Idle") ]]               
-           , tr [style fff] (List.append
-                               ( List.append    
-                                      [td [style ddd, colspan 2] [text ("pot $" ++ (toString m.pot))]] 
-                                      (List.map vfun0 m.board)
-                                )
-                                ( List.append
-                                      [td [] []]
-                                      [td [style ddd, colspan 2]
-                                          [text ("hand " ++ (toString m.hand))]]
-                                )
-                              )
-           , tr [] [ td [] [img [ src (if m.pdeal then "img/tycoonn.png" else "img/green.png")
-                                , height 110 , width 110 ] [] ]
-                   , td [style ddd] [ text (case m.pstatus of
-                                         Fo -> "Fold"
-                                         Ch -> "Check"                                       
-                                         Ca -> "Call"
-                                         Be -> "Bet"
-                                         Al -> "All in"        
-                                         _  -> "Idle" ) ]]
-           , tr [style fff] (List.append [td [style ddd, colspan 2]
-                                             [text ("stack $" ++ (toString m.pstack))]]
-                                 (List.map vfun0 m.ppocket) ) ]
 
 buttns : Struc -> Html Msg
 buttns m =
