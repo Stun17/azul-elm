@@ -127,13 +127,14 @@ update b s = case b of
                , pstage = Al
                } , Cmd.none)
 
--- функция формирования колоды из ряда случайных чисел и хеша,
--- где ключ - число , а значение - пара чисел масть/ранг
+-- функция формирования колоды из ряда случайных целых чисел и хеша,
+-- где ключ - целое число , а значение - кортеж целых чисел масть/ранг
 mfun0 : List Int -> List (Int , Int)
-mfun0 ys = List.map (\k -> case (Dict.get k myhash52) of
-                                    Just (s,r) -> (s,r)
-                                    Nothing    -> (0,0) )
-                    (List.Extra.unique ys)
+mfun0 ys =
+    List.map (\k -> case (Dict.get k myhash52) of
+      Just (s, r) -> (s, r)
+      Nothing     -> (0, 0) )
+     (List.Extra.unique ys)
 
 
 ----- View
@@ -154,7 +155,7 @@ view m =
         , buttns m
         ]
 
-tigrok m a b c =
+tigrok m c =
     tr [style [("text-align","center")] ]
        (List.append
          [td [style [("font-size","22pt")
@@ -162,15 +163,23 @@ tigrok m a b c =
                     ,("width" ,  "110px")
                     ], colspan 2
              ]
-             [text ("stack $" ++ (toString a))]
+             [text ("stack $" ++ (toString (if c == 1 then m.pstack else m.kstack)))]
          ]
          (if c == 1
-         then (List.map vfun0 b)
-         else if ( m.status == Pr )
-              then [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                   , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                   ]
-              else (List.map vfun0 b)))
+          then List.map vfun0 m.ppocket
+          else case m.status of
+                 Pr ->
+                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     ]
+                 St ->
+                     [ td [] [img [ src "img/green.png",   height 110, width 80 ] [] ] 
+                     , td [] [img [ src "img/green.png",   height 110, width 80 ] [] ]
+                     ]
+                 _  ->
+                     List.map vfun0 m.kpocket
+         )
+       )
              
 tdeal m a b =
    tr [] [ td [] [img [ src (if a && (m.status /= St || m.status /= Dc)
@@ -232,11 +241,11 @@ tboard m =
 
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
-           [ tigrok   m m.kstack m.kpocket 2
+           [ tigrok   m 2
            , tdeal    m m.kdeal m.kstage
            , tboard   m
            , tdeal    m m.pdeal m.pstage
-           , tigrok   m m.pstack m.ppocket 1
+           , tigrok   m 1
            ]
 
 vfun0 : (Int,Int) -> Html a
