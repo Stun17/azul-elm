@@ -22,15 +22,15 @@ main = Html.program
 -----  Model
 
 init : (Struc, Cmd msg)
-init = ({ ppocket = [(0,0)], pstack = 200, pstatus = Id, pdeal = True
-        , kpocket = [(0,0)], kstack = 200, kstatus = Id
+init = ({ ppocket = [(0,0)], pstack = 200, pstatus = St, pdeal = True
+        , kpocket = [(0,0)], kstack = 200, kstatus = St
         , pot = 0, board = [(0,0)], hand = -1, order = True, bet = 3
         } , Cmd.none)
 
 subscriptions : Struc -> Sub Msg
 subscriptions m = Sub.none
 
-type Status = Ca | Ch | Fo | Al | Be | Id | Wi
+type Status = St | Ca | Ch | Fo | Al | Be | Id | Wi
     
 type alias Struc =
     { ppocket  : List (Int , Int) 
@@ -72,20 +72,23 @@ update b s = case b of
                                       pdeal   = True
                                     , hand    = s.hand + 1          
                                     , ppocket = [(s1,r1)]
-                                    , kpocket = [(s2,r2)]            
+                                    , kpocket = [(s2,r2)]
+                                    , kstatus = Id            
                                     } , Cmd.none )
                               else if r1 < r2
                                    then  ( { s |
                                              pdeal   = False
                                            , hand    = s.hand + 1            
                                            , ppocket = [(s1,r1)]
-                                           , kpocket = [(s2,r2)]                                    
+                                           , kpocket = [(s2,r2)]
+                                           , kstatus = Id
                                            } , Cmd.none)
                                     else ( { s |
                                              pdeal   = True
                                            , hand    = s.hand + 1            
                                            , ppocket = [(s1,r1)]
-                                           , kpocket = [(s2,r2)]                              
+                                           , kpocket = [(s2,r2)]
+                                           , kstatus = Id            
                                            } , Cmd.none)
                 _ -> (s, Cmd.none)            
              _ -> (s , Cmd.none)
@@ -223,9 +226,10 @@ buttns m =
        cstyle = [("width","50px")]
        dstyle = [("width","70px"),("margin-left","150px")]                
    in  div [style [("background","yellow")]]
-         [ button [ onClick AllIn   , style bstyle ] [ text " All In " ]
-         , button [ onClick Bet    , style bstyle ]  [ text " Bet " ]
-         , input  [ style cstyle , maxlength 3 , value (toString (2 * m.bet))] [ ]
+         [ button [ onClick AllIn, style bstyle, disabled (m.kstatus == St) ] [ text " All In " ]
+
+         , button [ onClick Bet, style bstyle, disabled (m.kstatus == St) ]  [ text " Bet " ]
+         , input  [ style cstyle, maxlength 3 , value (toString (2 * m.bet))] [ ]
          , select [ style cstyle  ]  -- , Input Raise ]
              [ option [value (toString (3 * m.bet))] [text (toString (3 * m.bet))]
              , option [value (toString (4 * m.bet))] [text (toString (4 * m.bet))]
@@ -234,10 +238,12 @@ buttns m =
              , option [value (toString (7 * m.bet))] [text (toString (7 * m.bet))]
              , option [value (toString (8 * m.bet))] [text (toString (8 * m.bet))]                 
              ]
-         , button [ onClick Call   , style bstyle ]  [ text " Call " ]
-         , button [ onClick Check  , style bstyle ]  [ text " Check " ]
-         , button [ onClick Fold   , style bstyle ]  [ text " Fold  " ]
-         , button [ onClick Shuffle , style dstyle ] [ text " Deal " ]
+
+         , button [ onClick Call, disabled  (m.kstatus == St), style bstyle ]  [ text " Call " ]
+         , button [ onClick Check, disabled (m.kstatus == St), style bstyle ]  [ text " Check " ]
+         , button [ onClick Fold, disabled  (m.kstatus == St), style bstyle ]  [ text " Fold  " ]
+
+         , button [ onClick Shuffle, disabled (m.kstatus == St), style dstyle ] [ text " Deal " ]
          , button [ onClick Start   , style bstyle , disabled (m.hand >= 0) ] [ text " Start " ]
          , br [] []
          ]
