@@ -199,7 +199,7 @@ tabls m =
                                 [td [] []]
                                 ( List.append
                                   ( List.append    
-                                      [td [style ddd, colspan 2] [text ("pot $" ++ (toString m.pot))]] 
+                                      [td [style ddd] [text ("pot $" ++ (toString m.pot))]] 
                                       (List.map vfun0 m.board)
                                    )
                                   ( List.append
