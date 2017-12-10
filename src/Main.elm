@@ -18,22 +18,23 @@ main = Html.program
     , view            = view
     }
 
-
------  Model
-
-init : (Struc, Cmd msg)
-init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstage = Id, pdeal = False
-        , kpocket = [(0,0), (0,0)], kstack = 200, kstage = Id, kdeal = False
-        , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
-        , hand = 0, order = True, bet = 3, status = St
-        } , Cmd.none)
-
 subscriptions : Struc -> Sub Msg
 subscriptions m = Sub.none
 
-type Pstage =  Ca | Ch | Fo | Al | Be | Id | Wi 
-    
-type GStatus =  St | Dc | Pr | Fl | Tn | Rv
+init : (Struc, Cmd msg)
+init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id, pdeal = False
+        , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id, kdeal = False
+        , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
+        , hand = 0, order = True, bet = 3, gstage = St
+        } , Cmd.none)
+
+
+-----  Model
+
+type PStatus  =  Ca | Ch | Fo | Al | Be | Id | Wi 
+
+--               start, choose dealer, preflop , flop, turn, river, showdown    
+type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd 
 
 type alias Struc =
     { ppocket  : List (Int , Int)
@@ -42,16 +43,19 @@ type alias Struc =
     , pstack   : Int
     , kstack   : Int
     , pot      : Int
-    , pdeal    : Bool      -- who is Small Blind and dealer now ?
-    , kdeal    : Bool      -- who is Small Blind and dealer now ?
+    , pdeal    : Bool      -- who is SB (and dealer) now ?
+    , kdeal    : Bool      -- who is SB (and dealer) now ?
     , order    : Bool      -- who is thinking now ?
-    , pstage   : Pstage
-    , kstage   : Pstage
-    , status   : GStatus
+    , pstatus  : PStatus
+    , kstatus  : PStatus
+    , gstage   : GStage    
     , hand     : Int
     , bet      : Int
     }
 
+
+----- Update
+    
 type Msg = Start
          | Shuffle
          | Initial (List Int)
@@ -62,13 +66,11 @@ type Msg = Start
          | Check
          | Fold
 
------ Update
-
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
   Start ->                                                  -- готовим ряд для формирования колоды
         (s, Random.generate Initial (Random.list 2048 (Random.int 2 53)))
-  Initial ys ->                    -- решаем, кто первый диллер ?
+  Initial ys ->                                             -- решаем, кто первый диллер ?
         let zs = mfun0 ys
         in case (List.take 1 zs) of
              [(s1,r1)] -> case (List.take 1 (List.drop 1 zs)) of
@@ -76,27 +78,27 @@ update b s = case b of
                              then ( { s |
                                       pdeal   = True      , kdeal = False
                                     , ppocket = [(s1,r1)] , kpocket = [(s2,r2)]
-                                    , pstage  = Id        , kstage = Id
-                                    , status  = Dc
+                                    , pstatus  = Id        , kstatus = Id
+                                    , gstage  = Dc
                                     } , Cmd.none )
                               else if r1 < r2
                                    then  ( { s |
                                              pdeal   = False     , kdeal = True
                                            , ppocket = [(s1,r1)] , kpocket = [(s2,r2)]
-                                           , pstage = Id         , kstage = Id
-                                           , status  = Dc
+                                           , pstatus = Id         , kstatus = Id
+                                           , gstage  = Dc
                                            } , Cmd.none)
                                     else ( { s |
                                              pdeal   = True      , kdeal = False
                                            , ppocket = [(s1,r1)] , kpocket = [(s2,r2)]
-                                           , pstage = Id         , kstage = Id
-                                           , status  = Dc
+                                           , pstatus = Id         , kstatus = Id
+                                           , gstage  = Dc
                                            } , Cmd.none)
                 _ -> (s, Cmd.none)
              _ -> (s , Cmd.none)
   Shuffle ->
         (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))
-  Hand ys ->                                                -- начало розыгрыша каждой раздачи
+  Hand ys ->                                                              -- начало каждой раздачи
         let zs = mfun0 ys                                                 -- формируем колоду
         in ( { s |
                ppocket = List.take 2 zs                                   -- формируем руки
@@ -105,10 +107,10 @@ update b s = case b of
              , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
              , kdeal   = if s.hand > 0 then not s.kdeal else s.kdeal
              , pot     = 3                                                -- анте
-             , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2
-             , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1
+             , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2   -- анте
+             , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1   -- анте
              , hand    = s.hand + 1                                       -- счетчик раздач
-             , pstage = Ch , kstage = Ch, status = Pr
+             , pstatus = Ch , kstatus = Ch, gstage = Pr
              } , Cmd.none)
   Fold ->  (s, Cmd.none)
   Check -> (s, Cmd.none)
@@ -119,12 +121,12 @@ update b s = case b of
         then ( { s |
                  pot    = s.pot + s.pstack
                , pstack = s.pstack - s.kstack
-               , pstage = Al
+               , pstatus = Al
                } , Cmd.none)
          else ({ s |
                  pot    = s.pot + s.pstack
                , pstack = 0
-               , pstage = Al
+               , pstatus = Al
                } , Cmd.none)
 
 -- функция формирования колоды из ряда случайных целых чисел и хеша,
@@ -167,7 +169,7 @@ tigrok m c =
          ]
          (if c == 1
           then List.map vfun0 m.ppocket
-          else case m.status of
+          else case m.gstage of
                  Pr ->
                      [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
                      , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
@@ -181,11 +183,11 @@ tigrok m c =
          )
        )
              
-tdeal m c =   -- a b : m.kdeal m.kstage
+tdeal m c = 
    tr [] [ td []
-              [img [ src (if (c == 1 && m.pdeal) && (m.status /= St || m.status /= Dc)
+              [img [ src (if (c == 1 && m.pdeal) && (m.gstage /= St || m.gstage /= Dc)
                           then "img/tycoonn.png"
-                          else if  (c == 2 && m.kdeal) && (m.status /= St || m.status /= Dc)
+                          else if  (c == 2 && m.kdeal) && (m.gstage /= St || m.gstage /= Dc)
                                then "img/tycoonn.png"
                                else "img/green.png"),
                          height 110 , width 80 ] [] ]
@@ -195,16 +197,14 @@ tdeal m c =   -- a b : m.kdeal m.kstage
                      ]
               ]
               [ text (if c == 1
-                      then 
-                           case m.kstage of
-                             Fo ->  "Fold"
-                             Ch ->  "Check"
-                             Ca ->  "Call"
-                             Be ->  "Bet"
-                             Al ->  "All in"
-                             _  ->  " "
-                       else
-                           case m.pstage of
+                      then  case m.kstatus of
+                               Fo ->  "Fold"
+                               Ch ->  "Check"
+                               Ca ->  "Call"
+                               Be ->  "Bet"
+                               Al ->  "All in"
+                               _  ->  " "
+                       else case m.pstatus of
                                Fo ->  "Fold"
                                Ch ->  "Check"
                                Ca ->  "Call"
@@ -256,11 +256,11 @@ tboard m =
 
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
-           [ tigrok   m 2
-           , tdeal    m 2 -- m.kdeal m.kstage
-           , tboard   m
-           , tdeal    m 1 -- m.pdeal m.pstage
-           , tigrok   m 1
+           [ tigrok m 2
+           , tdeal  m 2 
+           , tboard m
+           , tdeal  m 1 
+           , tigrok m 1
            ]
 
 vfun0 : (Int,Int) -> Html a
@@ -307,20 +307,20 @@ buttns m =
    in  div [style [("background","yellow")]]
          [ button [ onClick AllIn
                   , style bstyle
-                  , disabled (m.kstage == Id)
+                  , disabled (m.kstatus == Id)
                   ] [ text " All In " ]
 
          , button [ onClick Bet
                   , style bstyle
-                  , disabled (m.kstage == Id)
+                  , disabled (m.kstatus == Id)
                   ]  [ text " Bet " ]
          , input  [ style cstyle
-                  , disabled  (m.kstage == Id)
+                  , disabled  (m.kstatus == Id)
                   , maxlength 3
                   , value (toString (2 * m.bet))
                   ] [ ]
          , select [ style cstyle
-                  , disabled  (m.kstage == Id)
+                  , disabled  (m.kstatus == Id)
                   ]  -- , Input Raise ]
              [ option [value (toString (3 * m.bet))] [text (toString (3 * m.bet))]
              , option [value (toString (4 * m.bet))] [text (toString (4 * m.bet))]
@@ -331,25 +331,25 @@ buttns m =
              ]
 
          , button [ onClick Call
-                  , disabled  (m.kstage == Id)
+                  , disabled  (m.kstatus == Id)
                   , style bstyle
                   ]  [ text " Call " ]
          , button [ onClick Check
-                  , disabled (m.kstage == Id)
+                  , disabled (m.kstatus == Id)
                   , style bstyle
                   ]  [ text " Check " ]
          , button [ onClick Fold
-                  , disabled  (m.kstage == Id)
+                  , disabled  (m.kstatus == Id)
                   , style bstyle
                   ]  [ text " Fold  " ]
 
          , button [ onClick Shuffle
-                  , disabled (m.status == St)
+                  , disabled (m.gstage == St)
                   , style dstyle
                   ] [ text " Deal " ]
          , button [ onClick Start
                   , style bstyle
-                  , disabled (m.status /= St)
+                  , disabled (m.gstage /= St)
                   ] [ text " Start " ]
          , br [] []
          ]
