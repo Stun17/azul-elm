@@ -182,43 +182,39 @@ tabls m =
   in  table [style [("width", "920px")]]
            [ tr [style fff]
                  (List.append
-                      [td [style ddd, colspan 3] [text ("$" ++ (toString m.kstack))]]
+                      [td [style ddd, colspan 2] [text ("$" ++ (toString m.kstack))]]
                       (List.map vfun0 m.kpocket))
            , tr [] 
                 [ td [] [img [ src (if m.pdeal then "img/green.png" else "img/tycoonn.png")
                              , height 110
                              , width 110 ] [] ]
-                , td [colspan 3] []  
-                , td [style ddd] [ case m.kstatus of
+                , td [style ddd, colspan 2] [ case m.kstatus of
                                          Fo ->  text "Fold"
                                          Ch ->  text "Check"
                                          Ca ->  text "Call"
                                          Be ->  text "Bet"
                                          _  ->  text "Idle" ]]
            , tr [style fff] (List.append
-                                [td [] []]
-                                ( List.append
-                                  ( List.append    
-                                      [td [style ddd] [text ("pot $" ++ (toString m.pot))]] 
+                               ( List.append    
+                                      [td [style ddd, colspan 2] [text ("pot $" ++ (toString m.pot))]] 
                                       (List.map vfun0 m.board)
-                                   )
-                                  ( List.append
-                                      [td [] []]
-                                      [td [style ddd] [text ("hand " ++ (toString m.hand))]]
-                                  )
                                 )
-                            )
+                                ( List.append
+                                      [td [] []]
+                                      [td [style ddd, colspan 2]
+                                          [text ("hand " ++ (toString m.hand))]]
+                                )
+                              )
            , tr [] [ td [] [img [ src (if m.pdeal then "img/tycoonn.png" else "img/green.png")
                                 , height 110
                                 , width 110 ] [] ]
-                , td [colspan 3] [] 
-                , td [style ddd] [ case m.pstatus of
+                , td [style ddd, colspan 2] [ case m.pstatus of
                                          Fo ->  text "Fold"
                                          Ch ->  text "Check"                                       
                                          Ca ->  text "Call"
                                          Be ->  text "Bet"
                                          _  ->  text "Idle" ]]
-           , tr [style fff] (List.append [td [style ddd, colspan 3]
+           , tr [style fff] (List.append [td [style ddd, colspan 2]
                                              [text ("$" ++ (toString m.pstack))]]
                                  (List.map vfun0 m.ppocket) ) ]
 
