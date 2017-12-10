@@ -113,13 +113,11 @@ update b s = case b of
                  pot    = s.pot + s.pstack
                , pstack = s.pstack - s.kstack
                , pstatus = Al
-               , kstatus = Al
                } , Cmd.none)
          else ({ s |
                  pot    = s.pot + s.pstack
                , pstack = 0
                , pstatus = Al
-               , kstatus = Al
                } , Cmd.none)
 
 -- функция формирования колоды из ряда случайных чисел и хеша,
@@ -206,14 +204,14 @@ tabls m =
                                 )
                               )
            , tr [] [ td [] [img [ src (if m.pdeal then "img/tycoonn.png" else "img/green.png")
-                                , height 110
-                                , width 110 ] [] ]
-                , td [style ddd, colspan 2] [ case m.pstatus of
-                                         Fo ->  text "Fold"
-                                         Ch ->  text "Check"                                       
-                                         Ca ->  text "Call"
-                                         Be ->  text "Bet"
-                                         _  ->  text "Idle" ]]
+                                , height 110 , width 110 ] [] ]
+                   , td [style ddd, colspan 2] [ text (case m.pstatus of
+                                         Fo -> "Fold"
+                                         Ch -> "Check"                                       
+                                         Ca -> "Call"
+                                         Be -> "Bet"
+                                         Al -> "All in"        
+                                         _  -> "Idle" ) ]]
            , tr [style fff] (List.append [td [style ddd, colspan 2]
                                              [text ("$" ++ (toString m.pstack))]]
                                  (List.map vfun0 m.ppocket) ) ]
