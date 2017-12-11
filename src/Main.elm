@@ -33,11 +33,23 @@ init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
 
 -----  Model
 
---               call, check, fold, all-in, bet, idle, win, think
-type PStatus  =  Ca | Ch | Fo | Al | Be | Id | Wi | Th
+type PStatus =  Ca -- call
+              | Ch -- check 
+              | Fo -- fold 
+              | Al -- all-in
+              | Be -- bet
+              | Id -- idle
+              | Wi -- win
+              | Th -- thinking
 
---               start, choose dealer, preflop, flop, turn, river, showdown , do deal
-type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd | Dd
+type GStage  =  St -- start
+              | Dc -- choose dealer
+              | Pr -- preflop
+              | Fl -- flop
+              | Tn -- turn
+              | Rv -- river
+              | Sd -- showdown
+              | Dd -- do deal
 
 type alias Struc =
     { ppocket  : List (Int , Int)
@@ -46,31 +58,31 @@ type alias Struc =
     , pstack   : Int
     , kstack   : Int
     , pot      : Int
-    , pdeal    : Bool      -- who is SB (and dealer) now ?
+    , pdeal    : Bool      -- who is SB now ?
     , order    : Bool      -- who is thinking now : True - player, False - krupie ?
     , pstatus  : PStatus   -- решение игрока на раздаче (на каждой улице ) и состояние
-    , kstatus  : PStatus
+    , kstatus  : PStatus   -- решение крупье на раздаче и его текущее состояние
     , gstage   : GStage    -- сосотояние розыгрыша: префлоп флоп торн ривер старт жребий вскрытие
-    , hand     : Int
-    , bet      : Int
+    , hand     : Int       -- количество отыгранных раздач
+    , bet      : Int       -- текущая ставка
     , timer    : Int
-    , block    : Bool             
+    , block    : Bool      -- to block drop-up "bet xN" after the first usage         
     }
 
 
 ----- Update
 
 type Msg = Start
-         | Shuffle
-         | Initial (List Int)
-         | Hand    (List Int)
+         | Deal
+         | Initial    (List Int)
+         | Hand       (List Int)
          | AllIn
-         | Bet      String
+         | Bet        String
          | Call
          | Check
          | Fold
-         | ChangeBet String
-         | Tick Time
+         | ChangeBet  String
+         | Tick       Time
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
@@ -88,7 +100,7 @@ update b s = case b of
                                }, Cmd.none)
                 _ -> (s, Cmd.none)
              _ -> (s, Cmd.none)
-  Shuffle ->
+  Deal ->
         (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))
   Hand ys ->                                                              -- начало каждой раздачи
         let zs = mfun0 ys                                                 -- формируем колоду
@@ -138,7 +150,7 @@ update b s = case b of
                 pot     = s.pot + z
               , pstack  = s.pstack - z
               , bet     = z
-              , pstatus = Id
+              , pstatus = Be
               , kstatus = Th
               , order   = False
               } , Cmd.none)
@@ -149,13 +161,16 @@ update b s = case b of
   AllIn ->
         if s.pstack > s.kstack
         then ( { s |
-                 pot     = s.pot + s.pstack
+                 bet     = s.kstack     
+               , pot     = s.pot + s.kstack
                , pstack  = s.pstack - s.kstack
                , pstatus = Al
                , kstatus = Th
+               , order   = False
                } , Cmd.none)
          else ({ s |
-                 pot     = s.pot + s.pstack
+                 bet     = s.pstack     
+               , pot     = s.pot + s.pstack
                , pstack  = 0
                , pstatus = Al
                , kstatus = Th
@@ -238,16 +253,16 @@ tdeal m f =  -- f флаг отличающий игрока от крупье
                    then "img/tycoonn.png"
                    else "img/green.png"
        script x = case x of
-         Fo ->  "Fold"
-         Ch ->  "Check"
-         Ca ->  "Call" ++ (toString m.bet)
-         Be ->  "Bet" ++ (toString m.bet)
-         Al ->  "All in" ++ (toString m.bet)
-         Wi ->  "Winner"
-         Th ->  "think..."
+         Fo ->  "fold"
+         Ch ->  "check"
+         Ca ->  "call $"   ++ (toString m.bet)
+         Be ->  "bet $"    ++ (toString m.bet)
+         Al ->  "all in $" ++ (toString m.bet)
+         Wi ->  "winner"
+         Th ->  "thinking..."
          _  ->  " "
    in tr [] [ td [] [img [ src pict, height 110, width 80 ] [] ]
-            , td [style [("font-size","18pt") ,("color","yellow") ,("width" ,  "110px") ] ]
+            , td [style [("font-size","16pt") ,("color","yellow") ,("width" ,  "110px") ] ]
                  [ text (if f then script m.pstatus else script m.kstatus) ] ]
 
 tboard m =
@@ -385,7 +400,7 @@ buttns m =
 
          , span [style dstyle] [text "|"]
              
-         , button [ onClick Shuffle
+         , button [ onClick Deal
                   , disabled (not <| List.member m.gstage [Dc,Dd])
                   , style dstyle
                   ] [ text " Deal " ]
