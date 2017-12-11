@@ -25,7 +25,7 @@ init : (Struc, Cmd msg)
 init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
         , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id
         , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
-        , hand = 0, order = False, bet = 3, gstage = St, pdeal = False
+        , hand = 0, order = False, bet = 1, gstage = St, pdeal = False
         } , Cmd.none)
 
 
@@ -61,10 +61,11 @@ type Msg = Start
          | Initial (List Int)
          | Hand    (List Int)
          | AllIn
-         | Bet
+         | Bet      String
          | Call
          | Check
          | Fold
+         | ChangeBet String
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
@@ -79,9 +80,9 @@ update b s = case b of
                                , ppocket  = [(s1,r1)] , kpocket = [(s2,r2)]
                                , pstatus  = Id        , kstatus = Id
                                , gstage   = Dc        , order = False
-                               } , Cmd.none)
+                               }, Cmd.none)
                 _ -> (s, Cmd.none)
-             _ -> (s , Cmd.none)
+             _ -> (s, Cmd.none)
   Shuffle ->
         (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))
   Hand ys ->                                                              -- начало каждой раздачи
@@ -96,7 +97,7 @@ update b s = case b of
 
              , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
                          
-             , pot     = 3                                                -- анте
+             , pot     = 3 , bet = 1                                      -- анте
              , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2   -- анте
              , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1   -- анте
              , hand    = s.hand + 1                                       -- счетчик раздач
@@ -118,8 +119,27 @@ update b s = case b of
              , kstatus = Th
              , order   = False
              }, Cmd.none)
-  Call ->  (s, Cmd.none)
-  Bet  ->  (s, Cmd.none)
+  Call -> ( { s |
+               pot     = s.pot + s.bet
+             , pstack  = s.pstack - s.bet
+             , pstatus = Id
+             , kstatus = Th
+             , order   = False            
+             } , Cmd.none)
+  Bet x ->
+         let z = Result.withDefault s.bet (String.toInt x)
+         in ( { s |
+                pot     = s.pot + z
+              , pstack  = s.pstack - z
+              , bet     = z            
+              , pstatus = Id
+              , kstatus = Th
+              , order   = False            
+              } , Cmd.none)
+  ChangeBet x ->
+         let y = Result.withDefault s.bet (String.toInt x)
+             z =  if y > s.pstack then s.pstack else if y < s.bet then s.bet else y   
+         in  ({ s | bet = z }, Cmd.none)
   AllIn ->
         if s.pstack > s.kstack
         then ( { s |
@@ -174,31 +194,19 @@ tigrok m f =  -- f флаг отличающий игрока от крупье
              ]
              [text ("stack $" ++ (toString (if f then m.pstack else m.kstack)))]
          ]
-         (if f
-          then List.map vfun0 m.ppocket
-          else case m.gstage of
-                 Rv ->
-                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     ]
-                 Tn ->
-                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     ]
-                 Fl ->
-                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     ]                   
-                 Pr ->
-                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                     ]
-                 St ->
-                     [ td [] [img [ src "img/green.png",   height 110, width 80 ] [] ] 
-                     , td [] [img [ src "img/green.png",   height 110, width 80 ] [] ]
-                     ]
-                 _  ->
-                     List.map vfun0 m.kpocket
+         ( if f
+           then List.map vfun0 m.ppocket
+           else case m.gstage of
+             St ->
+                 [ td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
+                 , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
+                 ]              
+             Dc ->
+                  List.map vfun0 m.kpocket
+             _ ->
+                 [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                 , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                 ]              
          )
        )
              
@@ -232,7 +240,7 @@ tdeal m f =  -- f флаг отличающий игрока от крупье
 tboard m =
   tr [style [("text-align","center")]]
      [ td [style [("font-size","22pt"),("color","yellow"),("width" ,  "120px")], colspan 2]
-          [text ("pot $" ++ (toString m.pot))]  
+          [text ("pot $" ++ (toString m.pot) ++ "\r bet $" ++ (toString m.bet))]  
 --     (case m.status of
 --             St ->
                    , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
@@ -324,24 +332,25 @@ buttns m =
                   , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   ] [ text " All In " ]
 
-         , button [ onClick Bet
+         , button [ onClick (Bet <| toString m.bet)
                   , style bstyle
                   , disabled (m.kstatus == Th || m.gstage == Dd  || m.gstage == St)
                   ]  [ text " Bet " ]
          , input  [ style cstyle
                   , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   , maxlength 3
-                  , value (toString (2 * m.bet))
+                  , placeholder "2"    
+                  , onInput ChangeBet     
                   ] [ ]
          , select [ style cstyle
                   , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
-                  ]  -- , Input Raise ]
-             [ option [value (toString (3 * m.bet))] [text (toString (3 * m.bet))]
+                  , onInput Bet ]
+             [ option [value (toString (2 * m.bet))] [text (toString (2 * m.bet))]
+             , option [value (toString (3 * m.bet))] [text (toString (3 * m.bet))]
              , option [value (toString (4 * m.bet))] [text (toString (4 * m.bet))]
              , option [value (toString (5 * m.bet))] [text (toString (5 * m.bet))]
              , option [value (toString (6 * m.bet))] [text (toString (6 * m.bet))]
              , option [value (toString (7 * m.bet))] [text (toString (7 * m.bet))]
-             , option [value (toString (8 * m.bet))] [text (toString (8 * m.bet))]
              ]
 
          , button [ onClick Call
