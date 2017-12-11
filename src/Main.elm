@@ -34,8 +34,8 @@ init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
 --               call, check, fold, all-in, bet, idle, win, think
 type PStatus  =  Ca | Ch | Fo | Al | Be | Id | Wi | Th
 
---               start, choose dealer, preflop , flop, turn, river, showdown , do deal   
-type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd | Dd
+--               start, choose dealer, preflop, flop, turn, river, showdown , do deal  
+type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd | Dd 
 
 type alias Struc =
     { ppocket  : List (Int , Int)
@@ -46,7 +46,7 @@ type alias Struc =
     , pot      : Int
     , pdeal    : Bool      -- who is SB (and dealer) now ?
     , order    : Bool      -- who is thinking now : True - player, False - krupie ?
-    , pstatus  : PStatus
+    , pstatus  : PStatus   -- решение игрока на раздаче (на каждой улице ) и состояние
     , kstatus  : PStatus
     , gstage   : GStage    -- сосотояние розыгрыша: префлоп флоп торн ривер старт жребий вскрытие
     , hand     : Int
@@ -91,8 +91,8 @@ update b s = case b of
              , kpocket = List.take 2 (List.drop 2 zs)
              , board   = List.take 5 (List.drop 4 zs)                     -- формируем боард
                          
-             , pstatus = if s.pdeal then Id else Th
-             , kstatus = if s.pdeal then Th else Id
+             , pstatus = if s.pdeal then Th else Id
+             , kstatus = if s.pdeal then Id else Th
 
              , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
                          
@@ -126,11 +126,14 @@ update b s = case b of
                  pot     = s.pot + s.pstack
                , pstack  = s.pstack - s.kstack
                , pstatus = Al
+               , kstatus = Th
                } , Cmd.none)
          else ({ s |
                  pot     = s.pot + s.pstack
                , pstack  = 0
                , pstatus = Al
+               , kstatus = Th
+               , order   = False            
                } , Cmd.none)
 
 -- функция формирования колоды из ряда случайных целых чисел и хеша,
@@ -161,7 +164,7 @@ view m =
         , buttns m
         ]
 
-tigrok m c =
+tigrok m f =  -- f флаг отличающий игрока от крупье
     tr [style [("text-align", "center")] ]
        (List.append
          [td [style [("font-size", "22pt")
@@ -169,11 +172,23 @@ tigrok m c =
                     ,("width" ,    "110px")
                     ], colspan 2
              ]
-             [text ("stack $" ++ (toString (if c == 1 then m.pstack else m.kstack)))]
+             [text ("stack $" ++ (toString (if f then m.pstack else m.kstack)))]
          ]
-         (if c == 1
+         (if f
           then List.map vfun0 m.ppocket
           else case m.gstage of
+                 Rv ->
+                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     ]
+                 Tn ->
+                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     ]
+                 Fl ->
+                     [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                     ]                   
                  Pr ->
                      [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
                      , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
@@ -187,9 +202,9 @@ tigrok m c =
          )
        )
              
-tdeal m f =
+tdeal m f =  -- f флаг отличающий игрока от крупье
    let pict =
-         if ((m.gstage == St) || (m.gstage == Dc))
+         if m.gstage == St || m.gstage == Dc
          then "img/green.png" 
          else
            case f of
@@ -201,19 +216,18 @@ tdeal m f =
                    if not m.pdeal
                    then "img/tycoonn.png"
                    else "img/green.png"
+       script x = case x of
+         Fo ->  "Fold"
+         Ch ->  "Check"
+         Ca ->  "Call"
+         Be ->  "Bet"
+         Al ->  "All in"
+         Wi ->  "Winner"       
+         Th ->  "..."                          
+         _  ->  " "
    in tr [] [ td [] [img [ src pict, height 110, width 80 ] [] ]
             , td [style [("font-size","22pt") ,("color","yellow") ,("width" ,  "110px") ] ]
-                 [ text (if f then vfun1 m.pstatus else vfun1 m.kstatus) ]
-         ]
-
-vfun1 x = case x of
-  Fo ->  "Fold"
-  Ch ->  "Check"
-  Ca ->  "Call"
-  Be ->  "Bet"
-  Al ->  "All in"
-  Th ->  "thinking..."                          
-  _  ->  " "
+                 [ text (if f then script m.pstatus else script m.kstatus) ] ]
        
 tboard m =
   tr [style [("text-align","center")]]
@@ -256,11 +270,11 @@ tboard m =
 
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
-           [ tigrok m 2
+           [ tigrok m False
            , tdeal  m False 
            , tboard m
            , tdeal  m True
-           , tigrok m 1
+           , tigrok m True
            ]
 
 vfun0 : (Int,Int) -> Html a
@@ -307,20 +321,20 @@ buttns m =
    in  div [style [("background","yellow")]]
          [ button [ onClick AllIn
                   , style bstyle
-                  , disabled (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   ] [ text " All In " ]
 
          , button [ onClick Bet
                   , style bstyle
-                  , disabled (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd  || m.gstage == St)
                   ]  [ text " Bet " ]
          , input  [ style cstyle
-                  , disabled  (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   , maxlength 3
                   , value (toString (2 * m.bet))
                   ] [ ]
          , select [ style cstyle
-                  , disabled  (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   ]  -- , Input Raise ]
              [ option [value (toString (3 * m.bet))] [text (toString (3 * m.bet))]
              , option [value (toString (4 * m.bet))] [text (toString (4 * m.bet))]
@@ -331,20 +345,20 @@ buttns m =
              ]
 
          , button [ onClick Call
-                  , disabled  (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   , style bstyle
                   ]  [ text " Call " ]
          , button [ onClick Check
-                  , disabled (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   , style bstyle
                   ]  [ text " Check " ]
          , button [ onClick Fold
-                  , disabled  (m.kstatus == Id)
+                  , disabled (m.kstatus == Th || m.gstage == Dd || m.gstage == St)
                   , style bstyle
                   ]  [ text " Fold  " ]
 
          , button [ onClick Shuffle
-                  , disabled (m.gstage /= Dc && m.gstage /= Dd)
+                  , disabled (m.gstage /= Dc && m.gstage /= Dd || m.gstage == St)
                   , style dstyle
                   ] [ text " Deal " ]
          , button [ onClick Start
