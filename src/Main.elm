@@ -27,7 +27,7 @@ init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
         , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id
         , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
         , hand = 0, order = False, bet = 1, gstage = St
-        , pdeal = False, timer = 0, block = False
+        , pdeal = False, timer = 0, block = False, deck = True
         } , Cmd.none)
 
 
@@ -66,7 +66,8 @@ type alias Struc =
     , hand     : Int       -- количество отыгранных раздач
     , bet      : Int       -- текущая ставка
     , timer    : Int
-    , block    : Bool      -- to block drop-up "bet xN" after the first usage         
+    , block    : Bool      -- to block drop-up "bet xN" after the first usage
+    , deck     : Bool             
     }
 
 
@@ -83,9 +84,15 @@ type Msg = Start
          | Fold
          | ChangeBet  String
          | Tick       Time
+         | SwitchToRed 
+         | SwitchToBlue 
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
+  SwitchToRed ->
+      ({ s | deck = False }, Cmd.none)
+  SwitchToBlue ->
+      ({ s | deck = True }, Cmd.none)
   Start ->                                                  -- готовим ряд для формирования колоды
         (s, Random.generate Initial (Random.list 2048 (Random.int 2 53)))
   Initial ys ->                                             -- решаем, кто первый диллер ?
@@ -139,8 +146,8 @@ update b s = case b of
   Call -> ( { s |
                pot     = s.pot + s.bet
              , pstack  = s.pstack - s.bet
-             , bet     = if s.pdeal then 2 else s.bet
-             , pstatus = Id
+             , bet     = if (s.pdeal && s.gstage == Pr) then 2 else s.bet
+             , pstatus = Ca
              , kstatus = Th
              , order   = False
              } , Cmd.none)
@@ -212,6 +219,12 @@ view m =
         , buttns m
         ]
 
+rdeck = "img/tycoonr.png"
+ndeck = "img/tycoonn.png"
+cardr = "img/rtycoon.png"
+cardn = "img/ntycoon.png"        
+       
+       
 tigrok m f =  -- f флаг отличающий игрока от крупье
     tr [style [("text-align", "center")] ]
        (List.append
@@ -232,8 +245,8 @@ tigrok m f =  -- f флаг отличающий игрока от крупье
              Dc ->
                   List.map vfun0 m.kpocket
              _ ->
-                 [ td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
-                 , td [] [img [ src "img/ntycoon.png", height 110, width 80 ] [] ]
+                 [ td [] [img [ src (if m.deck then cardn else cardr), height 110, width 80 ] [] ]
+                 , td [] [img [ src (if m.deck then cardn else cardr), height 110, width 80 ] [] ]
                  ]
          )
        )
@@ -246,11 +259,11 @@ tdeal m f =  -- f флаг отличающий игрока от крупье
            case f of
                True ->
                    if m.pdeal
-                   then "img/tycoonn.png"
+                   then (if m.deck then ndeck else rdeck)
                    else "img/green.png"
                False ->
                    if not m.pdeal
-                   then "img/tycoonn.png"
+                   then (if m.deck then ndeck else rdeck)
                    else "img/green.png"
        script x = case x of
          Fo ->  "fold"
@@ -411,6 +424,15 @@ buttns m =
 
          , span [style dstyle] [text "|"]
          , span [style dstyle] [text (toString m.timer)]
+         , span [style dstyle] []             
+         , input [ type_ "radio"
+                 , value "red"
+                 , name "color"
+                 , onClick SwitchToRed] [] , text "Red"
+         , input [ type_ "radio"
+                 , value "blue"
+                 , name "color"
+                 , onClick SwitchToBlue] [] , text "Blue" 
          , br [] []
          ]
 
