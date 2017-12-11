@@ -22,10 +22,10 @@ subscriptions : Struc -> Sub Msg
 subscriptions m = Sub.none
 
 init : (Struc, Cmd msg)
-init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id, pdeal = False
-        , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id, kdeal = False
+init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
+        , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id
         , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
-        , hand = 0, order = True, bet = 3, gstage = St
+        , hand = 0, order = False, bet = 3, gstage = St, pdeal = False
         } , Cmd.none)
 
 
@@ -34,8 +34,8 @@ init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id, pdeal = False
 --               call, check, fold, all-in, bet, idle, win, think
 type PStatus  =  Ca | Ch | Fo | Al | Be | Id | Wi | Th
 
---               start, choose dealer, preflop , flop, turn, river, showdown    
-type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd 
+--               start, choose dealer, preflop , flop, turn, river, showdown , do deal   
+type GStage   =  St | Dc | Pr | Fl | Tn | Rv | Sd | Dd
 
 type alias Struc =
     { ppocket  : List (Int , Int)
@@ -45,11 +45,10 @@ type alias Struc =
     , kstack   : Int
     , pot      : Int
     , pdeal    : Bool      -- who is SB (and dealer) now ?
-    , kdeal    : Bool      -- who is SB (and dealer) now ?
     , order    : Bool      -- who is thinking now : True - player, False - krupie ?
     , pstatus  : PStatus
     , kstatus  : PStatus
-    , gstage   : GStage    
+    , gstage   : GStage    -- сосотояние розыгрыша: префлоп флоп торн ривер старт жребий вскрытие
     , hand     : Int
     , bet      : Int
     }
@@ -75,20 +74,12 @@ update b s = case b of
         let zs = mfun0 ys
         in case (List.take 1 zs) of
              [(s1,r1)] -> case (List.take 1 (List.drop 1 zs)) of
-                [(s2,r2)] -> if r1 > r2
-                             then   ( { s |
-                                        pdeal    = True      , kdeal = False
-                                      , ppocket  = [(s1,r1)] , kpocket = [(s2,r2)]
-                                      , pstatus  = Id        , kstatus = Id
-                                      , gstage   = Dc        , order = False
-                                      } , Cmd.none )
-                              else  ( { s |
-                                         pdeal   = False     , kdeal = True
-                                       , ppocket = [(s1,r1)] , kpocket = [(s2,r2)]
-                                       , pstatus = Id        , kstatus = Id
-                                       , gstage  = Dc        , order = False
-                                       } , Cmd.none)
-
+                [(s2,r2)] -> ( { s |
+                                 pdeal    = r1 > r2 
+                               , ppocket  = [(s1,r1)] , kpocket = [(s2,r2)]
+                               , pstatus  = Id        , kstatus = Id
+                               , gstage   = Dc        , order = False
+                               } , Cmd.none)
                 _ -> (s, Cmd.none)
              _ -> (s , Cmd.none)
   Shuffle ->
@@ -101,10 +92,9 @@ update b s = case b of
              , board   = List.take 5 (List.drop 4 zs)                     -- формируем боард
                          
              , pstatus = if s.pdeal then Id else Th
-             , kstatus = if s.kdeal then Id else Th
+             , kstatus = if s.pdeal then Th else Id
 
              , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
-             , kdeal   = if s.hand > 0 then not s.kdeal else s.kdeal
                          
              , pot     = 3                                                -- анте
              , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2   -- анте
@@ -114,20 +104,32 @@ update b s = case b of
              , order   = s.pdeal            
              , gstage  = Pr
              } , Cmd.none)
-  Fold ->  (s, Cmd.none)
-  Check -> (s, Cmd.none)
+  Fold ->  ( { s |
+               kstack  = s.pot + s.kstack
+             , pot     = 0
+             , pstatus = Fo
+             , kstatus = Wi
+             , order   = False
+             , gstage  = Dd
+             , pdeal   = not s.pdeal 
+             }, Cmd.none)
+  Check -> ( { s |
+               pstatus = Ch
+             , kstatus = Th
+             , order   = False
+             }, Cmd.none)
   Call ->  (s, Cmd.none)
   Bet  ->  (s, Cmd.none)
   AllIn ->
         if s.pstack > s.kstack
         then ( { s |
-                 pot    = s.pot + s.pstack
-               , pstack = s.pstack - s.kstack
+                 pot     = s.pot + s.pstack
+               , pstack  = s.pstack - s.kstack
                , pstatus = Al
                } , Cmd.none)
          else ({ s |
-                 pot    = s.pot + s.pstack
-               , pstack = 0
+                 pot     = s.pot + s.pstack
+               , pstack  = 0
                , pstatus = Al
                } , Cmd.none)
 
@@ -185,20 +187,23 @@ tigrok m c =
          )
        )
              
-tdeal m c = 
-   tr [] [ td []
-              [img [ src (if (c == 1 && m.pdeal) && (m.gstage /= St || m.gstage /= Dc)
-                          then "img/tycoonn.png"
-                          else if  (c == 2 && m.kdeal) && (m.gstage /= St || m.gstage /= Dc)
-                               then "img/tycoonn.png"
-                               else "img/green.png"),
-                         height 110 , width 80 ] [] ]
-         , td [style [("font-size","22pt")
-                     ,("color","yellow")
-                     ,("width" ,  "110px")
-                     ]
-              ]
-              [ text (if c == 1 then vfun1 m.kstatus else vfun1 m.pstatus) ]
+tdeal m f =
+   let pict =
+         if ((m.gstage == St) || (m.gstage == Dc))
+         then "img/green.png" 
+         else
+           case f of
+               True ->
+                   if m.pdeal
+                   then "img/tycoonn.png"
+                   else "img/green.png"
+               False ->
+                   if not m.pdeal
+                   then "img/tycoonn.png"
+                   else "img/green.png"
+   in tr [] [ td [] [img [ src pict, height 110, width 80 ] [] ]
+            , td [style [("font-size","22pt") ,("color","yellow") ,("width" ,  "110px") ] ]
+                 [ text (if f then vfun1 m.pstatus else vfun1 m.kstatus) ]
          ]
 
 vfun1 x = case x of
@@ -252,9 +257,9 @@ tboard m =
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
            [ tigrok m 2
-           , tdeal  m 2 
+           , tdeal  m False 
            , tboard m
-           , tdeal  m 1 
+           , tdeal  m True
            , tigrok m 1
            ]
 
@@ -339,7 +344,7 @@ buttns m =
                   ]  [ text " Fold  " ]
 
          , button [ onClick Shuffle
-                  , disabled (m.gstage /= Dc)
+                  , disabled (m.gstage /= Dc && m.gstage /= Dd)
                   , style dstyle
                   ] [ text " Deal " ]
          , button [ onClick Start
