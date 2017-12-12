@@ -364,9 +364,9 @@ vfun0 (s,r) =
 
 buttns : Struc -> Html Msg
 buttns m =
-   let bstyle = [("width","110px"),("margin-left","30px")]
-       cstyle = [("width","50px")]
-       dstyle = [("width","70px"),("margin-left","50px")]
+   let bstyle = [("width","80px"),("margin-left","30px")]
+       cstyle = [("width","30px")]
+       dstyle = [("width","50px"),("margin-left","50px")]
    in  div [style [("background","yellow")]]
          [ button [ onClick AllIn
                   , style bstyle
@@ -381,6 +381,8 @@ buttns m =
                   , disabled (  List.member m.kstatus [Th]
                              || List.member m.gstage [Dd,Dc,St] )
                   , maxlength 3
+                  , Html.Attributes.min (toString m.bet)
+                  , Html.Attributes.max (toString m.pstack)
                   , placeholder " "
                   , onInput ChangeBet
                   ] [ ]
@@ -424,6 +426,8 @@ buttns m =
 
          , span [style dstyle] [text "|"]
          , span [style dstyle] [text (toString m.timer)]
+
+         , span [style dstyle] [text "|"]             
          , span [style dstyle] []             
          , input [ type_ "radio"
                  , value "red"
