@@ -34,8 +34,8 @@ init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
 -----  Model
 
 type PStatus =  Ca -- call
-              | Ch -- check 
-              | Fo -- fold 
+              | Ch -- check
+              | Fo -- fold
               | Al -- all-in
               | Be -- bet
               | Id -- idle
@@ -67,7 +67,7 @@ type alias Struc =
     , bet      : Int       -- текущая ставка
     , timer    : Int
     , block    : Bool      -- to block drop-up "bet xN" after the first usage
-    , deck     : Bool             
+    , deck     : Bool
     }
 
 
@@ -75,17 +75,17 @@ type alias Struc =
 
 type Msg = Start
          | Deal
-         | Initial    (List Int)
-         | Hand       (List Int)
+         | Initial      (List Int)
+         | Hand         (List Int)
          | AllIn
-         | Bet        String
+         | Bet           String
          | Call
          | Check
          | Fold
-         | ChangeBet  String
-         | Tick       Time
-         | SwitchToRed 
-         | SwitchToBlue 
+         | ChangeBet     String
+         | Tick          Time
+         | SwitchToRed
+         | SwitchToBlue
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
@@ -168,7 +168,7 @@ update b s = case b of
   AllIn ->
         if s.pstack > s.kstack
         then ( { s |
-                 bet     = s.kstack     
+                 bet     = s.kstack
                , pot     = s.pot + s.kstack
                , pstack  = s.pstack - s.kstack
                , pstatus = Al
@@ -176,7 +176,7 @@ update b s = case b of
                , order   = False
                } , Cmd.none)
          else ({ s |
-                 bet     = s.pstack     
+                 bet     = s.pstack
                , pot     = s.pot + s.pstack
                , pstack  = 0
                , pstatus = Al
@@ -187,7 +187,7 @@ update b s = case b of
       ( { s |
            kstatus = if s.kstatus == Wi || s.kstatus == Fo then Id else s.kstatus
         ,  pstatus = if s.pstatus == Wi || s.pstatus == Fo then Id else s.pstatus
-        ,  gstage  = if s.pstatus == Wi || s.kstatus == Wi then Dd else s.gstage
+        ,  gstage  = if s.pstatus == Wi || s.kstatus == Wi then Sd else s.gstage
         ,  timer = s.timer + 1 }, Cmd.none )
 
 
@@ -209,9 +209,10 @@ view m =
                 , ("background", "green")]
         ]
         [ div [style [("background", "yellow")]]
-              [ p [style [("color","blue"),("font-size","12pt")]] [text "demo v0.00, MMXVII"] ]
+              [ p [style [("color","blue"),("font-size","12pt")]]
+                    [text "demo v0.00 , MMXVII  =-= Texas-Holdem , NL200 , 1$/2$ , Heads-Up =-="] ]
         , p [] [] , br [] []
-        , div [style [("margin-left", "200px")]]
+        , div [style [("margin-left", "60px")]]
             [ tabls m
             , p [] []
             ]
@@ -222,16 +223,16 @@ view m =
 rdeck = "img/tycoonr.png"
 ndeck = "img/tycoonn.png"
 cardr = "img/rtycoon.png"
-cardn = "img/ntycoon.png"        
-       
-       
+cardn = "img/ntycoon.png"
+
 tigrok m f =  -- f флаг отличающий игрока от крупье
     tr [style [("text-align", "center")] ]
        (List.append
-         [td [style [("font-size", "18pt")
-                    ,("color",     "yellow")
-                    ,("width" ,    "110px")
-                    ], colspan 2
+         [td [style [ ("font-size", "18pt")
+                    , ("color",     "yellow")
+                    , ("width" ,    "80px")
+                    , ("height",    "110px")
+                    ] , colspan 2
              ]
              [text <| "stack $" ++ (toString <| if f then m.pstack else m.kstack)]
          ]
@@ -243,6 +244,8 @@ tigrok m f =  -- f флаг отличающий игрока от крупье
                  , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
                  ]
              Dc ->
+                  List.map vfun0 m.kpocket
+             Sd ->
                   List.map vfun0 m.kpocket
              _ ->
                  [ td [] [img [ src (if m.deck then cardn else cardr), height 110, width 80 ] [] ]
@@ -275,48 +278,29 @@ tdeal m f =  -- f флаг отличающий игрока от крупье
          Th ->  "thinking..."
          _  ->  " "
    in tr [] [ td [] [img [ src pict, height 110, width 80 ] [] ]
-            , td [style [("font-size","16pt") ,("color","yellow") ,("width" ,  "110px") ] ]
+            , td [style [("font-size","16pt")
+                        ,("color","yellow")
+                        ,("width","80px")
+                        ,("height","110px")
+                        ]]
                  [ text (if f then script m.pstatus else script m.kstatus) ] ]
 
 tboard m =
   tr [style [("text-align","center")]]
-     [ td [style [("font-size","18pt"),("color","yellow"),("width" ,  "120px")], colspan 2]
+      (List.append 
+        [ td [style [("font-size","18pt")
+                    ,("color","yellow")
+                    ,("width","80px")
+                    ,("height","110px")
+                    ], colspan 2]
           [text ("pot $" ++ (toString m.pot))]
---     (case m.status of
---             St ->
-                   , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-                   , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-                   , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-                   , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-                   , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]]
-         --     Dc ->
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --     Fl ->
-         --           , vfun0 (List.take 1 m.board)
-         --           , vfun0 (List.take 1 (List.drop 1 m.board))
-         --           , vfun0 (List.take 1 (List.drop 2 m.board))
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --     Tn ->
-         --           , vfun0 (List.take 1 m.board)
-         --           , vfun0 (List.take 1 (List.drop 1 m.board))
-         --           , vfun0 (List.take 1 (List.drop 2 m.board))
-         --           , vfun0 (List.take 1 (List.drop 3 m.board))
-         --           , td [] [img [ src "img/green.png", height 110, width 80 ] [] ]
-         --     Rv ->
-         --           , vfun0 (List.take 1 m.board)
-         --           , vfun0 (List.take 1 (List.drop 1 m.board))
-         --           , vfun0 (List.take 1 (List.drop 2 m.board))
-         --           , vfun0 (List.take 1 (List.drop 3 m.board))
-         --           , vfun0 (List.take 1 (List.drop 4 m.board))
-         --     _  ->
-         --           td [] []
-         -- )
-
+        ]
+          ( if m.gstage == St || m.gstage == Dc || m.gstage == Pr
+            then List.map vfun0 [(0,0),(0,0),(0,0),(0,0),(0,0)]   
+            else List.map vfun0 m.board
+          )
+      ) 
+             
 tabls : Struc -> Html a
 tabls m = table [style [("width", "920px")]]
            [ tigrok m False
@@ -329,16 +313,19 @@ tabls m = table [style [("width", "920px")]]
 vfun0 : (Int,Int) -> Html a
 vfun0 (s,r) =
   let ty b z x y =
-          td [style [("valign","top")
+          td [style [ ("valign","top")
                     , ("background",b)
                     , ("height","110px")
-                    , ("width","80px")]
+                    , ("width","80px")
+                    ]
              ]
-             [span [style [("font-family","monospace")
-                          , ("color",z)
-                          , ("font-size","24pt")]
+             [span [ style [ ("font-family","monospace")
+                           , ("color",z)
+                           , ("font-size","24pt")
+                           ]
                    ]
-                   [text (y ++ x)]]
+                   [ text (y ++ x) ]
+             ]
       r2 = case r of
              2  -> "2"
              3  -> "3"
@@ -414,9 +401,9 @@ buttns m =
                   ]  [ text " Fold  " ]
 
          , span [style dstyle] [text "|"]
-             
+
          , button [ onClick Deal
-                  , disabled (not <| List.member m.gstage [Dc,Dd])
+                  , disabled (not <| List.member m.gstage [Dc,Dd,Sd])
                   , style dstyle
                   ] [ text " Deal " ]
          , button [ onClick Start
@@ -427,8 +414,8 @@ buttns m =
          , span [style dstyle] [text "|"]
          , span [style dstyle] [text (toString m.timer)]
 
-         , span [style dstyle] [text "|"]             
-         , span [style dstyle] []             
+         , span [style dstyle] [text "|"]
+         , span [style dstyle] []
          , input [ type_ "radio"
                  , value "red"
                  , name "color"
@@ -436,7 +423,7 @@ buttns m =
          , input [ type_ "radio"
                  , value "blue"
                  , name "color"
-                 , onClick SwitchToBlue] [] , text "Blue" 
+                 , onClick SwitchToBlue] [] , text "Blue"
          , br [] []
          ]
 
