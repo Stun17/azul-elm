@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+</head>
+
+<body>
+<h1>How to Calculate Your Equity vs Every Other Hole Card Combination</h1>
+<p>As a simple example, imagine you have Ks Qs and the board is Ad As Th 3h. Pretend your opponent has Js 9s. You&#8217;re in good shape vs this opponent &#8211; any jack will give you a straight and anything other than one of the three remaining nines gives you the win.</p>
+<p>Your equity in this simple situation is <p>
+ 1 &#8211; (the number of cards that will give your opponent the win over the number of cards left in the deck)
+ <p>
+ or 1 &#8211; 3/(52 &#8211; 4 &#8211; 2 &#8211; 2) 
+ <p>
+ or 1 &#8211; 3/44 
+ <p>or 0.931818.</p>
+<p>What software does is it calculates your equity vs every possible hand your opponent can have. So it calculates your equity vs Js 9s, like in our example, plus Js Ts, Js 8s, Js 7s, and so on until it has calculated all of them.</p>
+<p><strong>Example: </strong></p>
+<p><code>&gt;&gt; eqall Ks Qs - Ad As Th 3h</code></p>
+<p><code>Ks Qs - Js Ts = 0.204545<br />
+Ks Qs - Js 9s = 0.931818<br />
+Ks Qs - Js 8s = 0.931818<br />
+Ks Qs - Js 7s = 0.931818<br />
+Ks Qs - Js 6s = 0.931818<br />
+Ks Qs - Js 5s = 0.931818<br />
+Ks Qs - Js 4s = 0.931818<br />
+Ks Qs - Js 3s = 0.272727<br />
+Ks Qs - Js 2s = 0.931818<br />
+Ks Qs - Js Ac = 0.000000<br />
+Ks Qs - Js Kc = 0.921053<br />
+Ks Qs - Js Qc = 0.931818<br />
+...</code></p>
+<p>The output is relatively simple: Ks Qs are your hole cards, the second column are the hole cards your opponent could have, and the last column is your equity, or your chance to win, against those hole cards.</p>
+</body>
+</html>
