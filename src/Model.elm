@@ -2,9 +2,6 @@ module Model exposing (..)
 
 import Time exposing (..)
 
------  Model
-
-
 type Msg = Start
          | Deal
          | Initial      (List Int)
@@ -18,7 +15,6 @@ type Msg = Start
          | Tick          Time
          | SwitchToRed
          | SwitchToBlue
-
 
 type PStatus =  Ca -- call
               | Ch -- check

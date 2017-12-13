@@ -48,9 +48,9 @@ update b s = case b of
       ({ s | deck = True }, Cmd.none)
   Start ->                                                  -- готовим ряд для формирования колоды
         (s, Random.generate Initial (Random.list 2048 (Random.int 2 53)))
-  Initial ys ->                                             -- решаем, кто первый диллер ?
+  Initial ys ->                     
         let zs = mfun0 ys
-        in case (List.take 1 zs) of
+        in case (List.take 1 zs) of                         -- решаем, кто первый диллер ?
              [(s1,r1)] -> case (List.take 1 (List.drop 1 zs)) of
                 [(s2,r2)] -> ( { s |
                                  pdeal    = r2 > r1
@@ -65,8 +65,8 @@ update b s = case b of
   Hand ys ->                                                              -- начало каждой раздачи
         let zs = mfun0 ys                                                 -- формируем колоду
         in ( { s |
-               ppocket = List.take 2 zs                                   -- формируем руки
-             , kpocket = List.take 2 (List.drop 2 zs)
+               ppocket = List.take 2 zs                                   -- формируем руку игрока
+             , kpocket = List.take 2 (List.drop 2 zs)                     -- формируем руку бота
              , board   = List.take 5 (List.drop 4 zs)                     -- формируем боард
 
              , pstatus = if s.pdeal then Th else Id
@@ -82,7 +82,8 @@ update b s = case b of
              , order   = s.pdeal
              , gstage  = Pr
              } , Cmd.none)
-  Fold ->  ( { s |
+  Fold ->
+      ( { s |
                kstack  = s.pot + s.kstack
              , pot     = 0
              , pstatus = Fo
@@ -90,20 +91,22 @@ update b s = case b of
              , order   = False
              -- , gstage  = Dd
              -- , pdeal   = not s.pdeal
-             }, Cmd.none)
-  Check -> ( { s |
+        }, Cmd.none)
+  Check ->
+      ( { s |
                pstatus = Ch
              , kstatus = Th
              , order   = False
-             }, Cmd.none)
-  Call -> ( { s |
+        }, Cmd.none)
+  Call ->
+      ( { s |
                pot     = s.pot + s.bet
              , pstack  = s.pstack - s.bet
              , bet     = if (s.pdeal && s.gstage == Pr) then 2 else s.bet
              , pstatus = Ca
              , kstatus = Th
              , order   = False
-             } , Cmd.none)
+        } , Cmd.none)
   Bet x ->
          let z = Result.withDefault s.bet (String.toInt x)
          in ( { s |
@@ -141,11 +144,12 @@ update b s = case b of
            kstatus = if s.kstatus == Wi || s.kstatus == Fo then Id else s.kstatus
         ,  pstatus = if s.pstatus == Wi || s.pstatus == Fo then Id else s.pstatus
         ,  gstage  = if s.pstatus == Wi || s.kstatus == Wi then Sd else s.gstage
-        ,  timer = s.timer + 1 }, Cmd.none )
+        ,  timer = s.timer + 1
+        }, Cmd.none )
 
 
--- функция формирования колоды из ряда случайных целых чисел и хеша,
--- где ключ - целое число , а значение - кортеж целых чисел масть/ранг
+-- функция формирования колоды из списка целых чисел с использованием хеша,
+--        где ключ - целое число , а значение - кортеж целых чисел масть/ранг
 mfun0 : List Int -> List (Int , Int)
 mfun0 ys =
     List.map (\k -> case (Dict.get k myhash52) of

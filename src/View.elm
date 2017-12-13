@@ -5,21 +5,14 @@ import Html.Events exposing (..)
 import Html.Attributes exposing (..)
 import Model exposing (..)
 
------ View
-
 view : Struc -> Html Msg
 view m =
-   body [ style [("font-family", "monospace")
-                , ("background", "green")]
-        ]
+   body [ style [("font-family", "monospace"), ("background", "green")] ]
         [ div [style [("background", "yellow")]]
               [ p [style [("color","blue"),("font-size","12pt")]]
-                    [text "demo v0.00 , MMXVII  =-= Texas-Holdem , NL200 , 1$/2$ , Heads-Up =-="] ]
+                  [text "demo v0.00 , MMXVII  =-= Texas-Holdem , NL200 , 1$/2$ , Heads-Up =-="] ]
         , p [] [] , br [] []
-        , div [style [("margin-left", "60px")]]
-            [ tabls m
-            , p [] []
-            ]
+        , div [style [("margin-left", "60px")]] [ tabls m , p [] [] ]
         , p [style [("margin-top", "30px")]] [text " "]
         , buttns m
         ]
@@ -29,7 +22,17 @@ ndeck = "img/tycoonn.png"
 cardr = "img/rtycoon.png"
 cardn = "img/ntycoon.png"
 
-tigrok m f =  -- f флаг отличающий игрока от крупье
+tabls : Struc -> Html a
+tabls m = table [style [("width", "920px")]]
+           [ tigrok m False
+           , tdeal  m False
+           , tboard m
+           , tdeal  m True
+           , tigrok m True
+           ]
+        
+tigrok : Struc -> Bool -> Html a        
+tigrok m f =  -- f флаг отличающий игрока от бота
     tr [style [("text-align", "center")] ]
        (List.append
          [td [style [ ("font-size", "18pt")
@@ -58,7 +61,8 @@ tigrok m f =  -- f флаг отличающий игрока от крупье
          )
        )
 
-tdeal m f =  -- f флаг отличающий игрока от крупье
+tdeal : Struc -> Bool -> Html a       
+tdeal m f =  -- f флаг отличающий игрока от бота
    let pict =
          if m.gstage == St || m.gstage == Dc
          then "img/green.png"
@@ -89,6 +93,7 @@ tdeal m f =  -- f флаг отличающий игрока от крупье
                         ]]
                  [ text (if f then script m.pstatus else script m.kstatus) ] ]
 
+tboard : Struc -> Html a      
 tboard m =
   tr [style [("text-align","center")]]
       (List.append 
@@ -104,15 +109,6 @@ tboard m =
             else List.map vfun0 m.board
           )
       ) 
-             
-tabls : Struc -> Html a
-tabls m = table [style [("width", "920px")]]
-           [ tigrok m False
-           , tdeal  m False
-           , tboard m
-           , tdeal  m True
-           , tigrok m True
-           ]
 
 vfun0 : (Int,Int) -> Html a
 vfun0 (s,r) =
