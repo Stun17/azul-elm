@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Poker Bot Preflop Strategy Explained &#8211; Matt Mazur</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://mattmazur.com/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/publish/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<script type="text/javascript">
+  WebFontConfig = {"typekit":{"id":"oqu3nvs"}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s1.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active .site-title{font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal;font-weight:400}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active th{font-weight:400;font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal}.wf-active .single .format-aside h1.entry-title, .wf-active .single .format-chat h1.entry-title, .wf-active .single .format-gallery h1.entry-title, .wf-active .single .format-image h1.entry-title, .wf-active .single .format-link h1.entry-title, .wf-active .single .format-quote h1.entry-title, .wf-active .single .format-status h1.entry-title{font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal;font-weight:400}.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active h6{font-weight:400;font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal}.wf-active h1{font-style:normal;font-weight:400}.wf-active h2{font-style:normal;font-weight:400}.wf-active h3{font-style:normal;font-weight:400}.wf-active h4, .wf-active h5, .wf-active h6{font-weight:400;font-style:normal}</style>
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=mattmazur.com&amp;id=53579024&amp;t=1513107931&amp;back=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//matthewmazur.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Feed" href="https://mattmazur.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Comments Feed" href="https://mattmazur.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Poker Bot Preflop Strategy&nbsp;Explained Comments Feed" href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s2.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1505864856h&ver=4.9.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56794,8205,9794,65039],[55358,56794,8203,9794,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyNUltuwyAQvFApSZPmr+pZAG9hk8UgFsvp7bvEjiL3gfoBzMDMPgA9Z+XSWGGsOk4q0+RxZE14AdZnqNm4i7qxZ8f8pH+XFyBTYVA5cf3GejaXCsh+zKY2RYQBDRBEkfVsMw4eJI9IVqwqXLuWmE/3RA0G6apb2ZxFrazNBZiVzBGnqGqQ2n76lm2dJ9sGIQfN9ZPgPz1wcmhIoUi2ZDGjHlNdDu+gF9VDUpScqZjGDVEfZLD0n9BS8gL97V4ftGcyrgW3pjxQT94+xFKJ5mBKy7WuPdd6K1JO2pK/HiIctadkDTXBe3zbv+72h93h5Xg6fwHcAxpf' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj90KwjAMhV/IrAw6xQvxWWoXS2r/bNoNfXo70At1KARCTr4cTsScgIJ2dUQWttW1Yr49W2d5I34B4MlkVbDzFF6wjqFgKAvr44kcQmXMyjStGZ3jCpciF4/MDVrZvkeiMBHOfzGLJSl9gYxM9y9XXyG5aiiwyOjaAyMsGT6mdnX0h17uh36Qcre1DyuucHk='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://matthewmazur.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Domain Pigeon: Deadpool' href='https://mattmazur.com/2010/11/07/domain-pigeon-deadpool/' />
+<link rel='next' title='2010, 2011 &amp; a $4K/month&nbsp;Challenge' href='https://mattmazur.com/2010/12/17/2010-2011-a-4kmonth-challenge/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/" />
+<link rel='shortlink' href='https://wp.me/p3COlO-ov' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Poker Bot Preflop Strategy Explained" />
+<meta property="og:url" content="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/" />
+<meta property="og:description" content="This is post #19 in an ongoing series of articles about my work as a poker bot developer. When I first attempted to build a poker bot, I tried long and hard to come up with a single algorithm that …" />
+<meta property="article:published_time" content="2010-12-11T02:59:36+00:00" />
+<meta property="article:modified_time" content="2013-07-26T17:10:55+00:00" />
+<meta property="og:site_name" content="Matt Mazur" />
+<meta property="og:image" content="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@mhmazur" />
+<meta name="twitter:text:title" content="Poker Bot Preflop Strategy&nbsp;Explained" />
+<meta name="twitter:image" content="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@mhmazur" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://matthewmazur.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://matthewmazur.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://mattmazur.com/osd.xml" title="Matt Mazur" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="Matt Mazur" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://mattmazur.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Poker Bot Preflop Strategy&nbsp;Explained | Matt Mazur on WordPress.com" />
+<meta name="description" content="This is post #19 in an ongoing series of articles about my work as a poker bot developer. When I first attempted to build a poker bot, I tried long and hard to come up with a single algorithm that given your two hole cards and the situation would spit out call, raise, or fold&hellip;" />
+<link rel="amphtml" href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=3COlO&#038;cscache=6&#038;csrev=102" />
+		</head>
+
+<body class="post-template-default single single-post postid-1519 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light custom-colors">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+					<a class="site-logo" href="https://mattmazur.com/" title="Matt Mazur" rel="home">
+				<img class="no-grav" src="https://secure.gravatar.com/avatar/36410bc698c05fe9cc30bca18d8e96ed/?s=100&#038;d=identicon" height="100" width="100" alt="Matt Mazur" />
+			</a>
+				<hgroup>
+			<h1 class="site-title"><a href="https://mattmazur.com/" title="Matt Mazur" rel="home">Matt Mazur</a></h1>
+			<h2 class="site-description"></h2>
+		</hgroup>
+
+		<nav role="navigation" class="site-navigation main-navigation">
+			<h1 class="assistive-text">Menu</h1>
+			<div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+
+			<div class="menu"><ul>
+<li ><a href="https://mattmazur.com/">Home</a></li><li class="page_item page-item-2"><a href="https://mattmazur.com/about/">About</a></li>
+<li class="page_item page-item-2873"><a href="https://mattmazur.com/archives/">Archives</a></li>
+<li class="page_item page-item-2793"><a href="https://mattmazur.com/contact/">Contact</a></li>
+<li class="page_item page-item-7118"><a href="https://mattmazur.com/now/">Now</a></li>
+<li class="page_item page-item-2779 page_item_has_children"><a href="https://mattmazur.com/projects/">Projects</a></li>
+</ul></div>
+		</nav><!-- .site-navigation .main-navigation -->
+
+			</header><!-- #masthead .site-header -->
+
+	<div id="main" class="site-main">
+
+		<div id="primary" class="content-area">
+			<div id="content" class="site-content" role="main">
+
+			
+				
+<article id="post-1519" class="post-1519 post type-post status-publish format-standard hentry category-poker-bot">
+	<header class="entry-header">
+		<h1 class="entry-title">Poker Bot Preflop Strategy&nbsp;Explained</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div style="border:1px solid #e6db55;margin:0 auto 20px;padding:10px;width:80%;background-color:#fffbcc;font-size:.9em;text-align:center;">This is post #19 in an ongoing <a href="http://www.mattmazur.com/category/poker-bot/">series of articles</a> about my work as a poker bot developer.</div>
+<p>When I first attempted to build a poker bot, I tried long and hard to come up with a single algorithm that given your two hole cards and the situation would spit out <em>call, raise, </em>or <em>fold </em>for every situation that the bot could face. Turns out its not a trivial task. There are <em>a lot</em> of factors that should affect your decision: your hole cards, your image, your opponent’s style, your position, the stack sizes relative to the blinds, the recent hand history, the stack to pot ratio once the flop hits and, and the history so far in the hand (in the case of three and four bets). To quantify all of this information – let alone weigh it in an intelligent way – is difficult, to say the least. After several weeks of <a href="http://www.mattmazur.com/2009/10/experimenting-with-a-neural-network-based-poker-bot/">fruitless attempts</a>, I abandoned it in favor of a simpler, albeit less elegant solution.</p>
+<p>At its core, my solution boils down to conditional statements using a simplified version of the current situation. Consider this:</p>
+<p><em>“If your effective stack sizes is 55 big blinds and you’re the small blind and you’re first to act and your opponent is loose aggressive and you have 8h 6h then you should raise three times the big blind.”</em></p>
+<p>It would be impossible to enumerate every possible combination this way, but if you take some shortcuts, you reduce it to a manageable number of factors.</p>
+<h2>Stack Size</h2>
+<p>In order to work with stack sizes, I grouped them together based on the effective stack size (effective stack size uses the smaller of your and your opponent&#8217;s stack size because the rest is not in play):</p>
+<p><em>0 &#8211; 10bb: Shortstacked</em></p>
+<p><em>10 &#8211; 15bb: Danger Zone</em></p>
+<p><em>15 &#8211; 22bb: Red</em></p>
+<p><em>22 &#8211; 35bb: Orange</em></p>
+<p><em>35 &#8211; 50bb: Yellow</em></p>
+<p><em>50 &#8211; 75bb: Green</em></p>
+<p>(The maximum effective stack size you can have on PokerStars&#8217; Heads Up SNGs is 1500/20 = 75 bb.)</p>
+<p>These groups were based on my observations watching the bot and on the postflop stack to pot ratios.</p>
+<h2>Previous Actions</h2>
+<p>Like stack sizes, it would be impossible to list out every possible combination of actions leading up to current situation, so I used a shorthand:</p>
+<p>1 = You&#8217;re small blind</p>
+<p>2 = You&#8217;re big blind</p>
+<p>All previous actions are reduced to C (call) or R (raise) and the size of the raises are ignored completely.</p>
+<p>Examples:</p>
+<p>&#8211; You&#8217;re small blind and just dealt: <em>1</em></p>
+<p>&#8211; You&#8217;re big blind and your opponent raises: <em>2R</em></p>
+<p>&#8211; You&#8217;re small blind, you limp and your opponent raises: <em>1CR</em></p>
+<p>&#8211; You&#8217;re big blind, your opponent raises, you three bet, and he four bets: <em>2RRR</em></p>
+<p>Every preflop decision can be represented this way.</p>
+<h2>Hole Cards</h2>
+<p>It&#8217;s generally not a good idea to group holecards beyond the standard 9s 9h = 99, 9s 8h = 98o, etc. There are times when 88, 99, and TT should be treated the same and other times when TT should be treated differently, so it won&#8217;t do you much good to create a &#8220;Mid Pocket Pair&#8221; group and treat everything in it the same way.</p>
+<p>That being said, specifying an action for all 169 simplified hole card combinations for every situation would would be a tedious task to do by hand. In an effort to manage it, I created a seperate program specifically for creating ranges and assigning actions to the holecards. I called it<strong> Range Maker</strong>:</p>
+<p><a href="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png"><img data-attachment-id="1532" data-permalink="https://mattmazur.com/preflop_rangemaker-2/" data-orig-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png" data-orig-size="1005,653" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="preflop_rangemaker" data-image-description="" data-medium-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=300" data-large-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=525" class="aligncenter size-medium wp-image-1532" title="preflop_rangemaker" alt="" src="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=300&#038;h=194" width="300" height="194" srcset="https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=300&amp;h=194 300w, https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=597&amp;h=388 597w, https://matthewmazur.files.wordpress.com/2010/12/preflop_rangemaker.png?w=150&amp;h=97 150w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>(If you&#8217;ve seen <a href="http://www.mattmazur.com/2009/06/all-in-expert-featured-on-22/">ALL IN Expert</a>, the poker calculator that I developed after the poker bot, Range Maker is where the idea came from.)</p>
+<p>There are two versions of Range Maker shown in the screenshot above. Below the grid on the left is the older version; on the left is newer version. The grid serves both.</p>
+<p>The older version lets me assign a <em>fold</em>, <em>call</em>, <em>raise</em>, or <em>push</em> action to every hole card combination in the selected range.</p>
+<p>In the example below, orange represents call, maroon a 3x raise, cyan push, and gray/pink fold:</p>
+<p><img alt="" /></p>
+<p><a href="http://mattshared.s3.amazonaws.com/preflop_old.png"><img class="aligncenter size-full wp-image-1527" title="preflop_advanced" alt="" src="https://i1.wp.com/mattshared.s3.amazonaws.com/preflop_old.png" /></a></p>
+<p>As time went on I expanded it to include additional options:</p>
+<p><a href="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg"><img data-attachment-id="1527" data-permalink="https://mattmazur.com/preflop_advanced/" data-orig-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=525" data-orig-size="360,304" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="preflop_advanced" data-image-description="" data-medium-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=525?w=300" data-large-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=525?w=360" class="aligncenter size-full wp-image-1527" title="preflop_advanced" alt="" src="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=525" srcset="https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg 360w, https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=150 150w, https://matthewmazur.files.wordpress.com/2010/12/preflop_advanced.jpg?w=300 300w" sizes="(max-width: 360px) 100vw, 360px"   /></a></p>
+<p>The numbers on the right represent the distribution of raise/call/fold for that color. The randomness was necessary to fool observant opponents and PokerStars security, in case that was something they looked at. The decision to push or raise 3x was later delegated to software, which figured out what the stack to pot ratio would be postflop if the opponent called and pushed if it was too high.</p>
+<p>Here&#8217;s an example of what the range looks like for the small blind opening range vs an aggressive opponent when the stack size was in the red zone (15 &#8211; 22 bb):</p>
+<p><a href="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png"><img data-attachment-id="1531" data-permalink="https://mattmazur.com/preflop_vsaggr-2/" data-orig-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=525" data-orig-size="390,419" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="preflop_vsaggr" data-image-description="" data-medium-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=525?w=279" data-large-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=525?w=390" class="aligncenter size-full wp-image-1531" title="preflop_vsaggr" alt="" src="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=525" srcset="https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png 390w, https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=140 140w, https://matthewmazur.files.wordpress.com/2010/12/preflop_vsaggr.png?w=279 279w" sizes="(max-width: 390px) 100vw, 390px"   /></a></p>
+<p>And here&#8217;s the same spot vs a call station:</p>
+<p><a href="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png"><img data-attachment-id="1530" data-permalink="https://mattmazur.com/preflop_vscallstation-2/" data-orig-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=525" data-orig-size="390,421" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="preflop_vscallstation" data-image-description="" data-medium-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=525?w=278" data-large-file="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=525?w=390" class="aligncenter size-full wp-image-1530" title="preflop_vscallstation" alt="" src="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=525" srcset="https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png 390w, https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=139 139w, https://matthewmazur.files.wordpress.com/2010/12/preflop_vscallstation.png?w=278 278w" sizes="(max-width: 390px) 100vw, 390px"   /></a></p>
+<p>It took a long time to get these ranges down. I would sit there and watch the bot play for hours, making pages of notes on what I wanted to adjust when the session was over.</p>
+<p>For those of you looking for a bit more, here are the range files I used with each version:</p>
+<ul>
+<li><a href="http://mazur-archives.s3.amazonaws.com/pokerbot/range_maker_old.ini">Old version</a> (35kb)</li>
+<li><a href="http://mazur-archives.s3.amazonaws.com/pokerbot/range_maker_new.ini">New version</a> (45kb)</li>
+</ul>
+<p>These include virtually every range I ever worked with, so if you want to use these you&#8217;ll have to spend some time analyzing them to pick out the gems.</p>
+<h2>Putting it All Together</h2>
+<p>Here&#8217;s roughly how it went in an actual game:</p>
+<p>1. Analyze the current situation: hole cards, stack size, previous action, and opponent style and group them.</p>
+<p>2. Look up the range based on these factors</p>
+<p>3. Act</p>
+<p>Example: PokerStars 25/50 blinds, you are small blind with 2100 chips, call station opponent is big blind with 900 and you&#8217;re dealt Ks 5h.</p>
+<p>Your effective size is 900/50 = 18 big blinds, putting you in the red zone and since you&#8217;re small blind and first to act, the previous action is simply &#8220;1&#8221;. Now with three layers of conditional statements (stack size, previous action, and opponent style) you can look up the range (see the screenshot above) and determine that K5o is 80% raise, 20% call, and 0% fold. Roll a die (in this case the random number generator) and pick an action based on that distribution.</p>
+<p>Here&#8217;s the corresponding code for step 2:</p>
+<pre class="brush: vb; title: ; notranslate" title="">
+
+'------------------------------------------------------------
+'  Name    : PreflopActionFromFile
+'  Purpose : Given a specific situation, this'll look up my range in
+'            the Hero Ranges.txt file and see what I want to do with this hand
+'------------------------------------------------------------
+'
+Public Function PreflopActionFromFile(sHoleCards As String, sRangeName As String) As String
+
+ Dim sRangeFile_Old As String                ' old range file
+ Dim sRangeFile_New As String                ' advanced ranging (mixed ranges)
+ Dim sNewINIData As String                   ' data from the advanced file
+ Dim iDataPos As Integer                     ' start of the distribution
+ Dim sDistribution As String                 ' data from that file
+ Dim sDistributionSplit() As String          ' split it up
+
+ Dim sSimpleHand As String                   ' AA, AQs...
+ Dim dRndNum As Double                       ' a random #
+ Dim dRaisePerc As Double
+ Dim dCallPerc As Double
+ Dim sINIVal As String
+
+ sSimpleHand = SimpleHand(sHoleCards)
+
+ sRangeFile_Old = App.Path &amp; &quot;ResourcesHero Ranges.ini&quot;
+ sRangeFile_New = App.Path &amp; &quot;ResourcesHero Advanced.txt&quot;
+ sNewINIData = GetFromINI(&quot;Range Data&quot;, sRangeName, sRangeFile_New)
+
+ If sNewINIData &lt;&gt; vbNullString Then
+ ' There is an entry in the advanced range file
+
+ iDataPos = InStr(sNewINIData, sSimpleHand)
+ sDistribution = Mid(sNewINIData, iDataPos + Len(sSimpleHand) + Len(&quot; (&quot;), InStr(iDataPos, sNewINIData, &quot;)&quot;) - iDataPos - Len(sSimpleHand) - Len(&quot; (&quot;))
+ sDistributionSplit = Split(sDistribution, &quot;/&quot;)
+
+ ' Make an update
+ Update &quot;Mixed Distribution: &quot; &amp; sSimpleHand &amp; &quot; (&quot; &amp; sDistribution &amp; &quot;)&quot;, 2, eDecision
+
+ dRndNum = Rnd
+ dRaisePerc = Val(sDistributionSplit(0)) / 100
+ dCallPerc = Val(sDistributionSplit(1)) / 100
+
+ ' Make a decision...
+ If dRndNum &lt;= dRaisePerc Then
+ PreflopActionFromFile = &quot;R&quot;
+ ElseIf dRndNum &lt;= (dRaisePerc + dCallPerc) Then
+ PreflopActionFromFile = &quot;C&quot;
+ Else
+ PreflopActionFromFile = &quot;F&quot;
+ End If
+
+ Update &quot;Action Chosen: &quot; &amp; PreflopActionFromFile, 3, eDecision
+
+ Else
+
+ Update &quot;Hero Range: &quot; &amp; sRangeName, 1
+
+ sINIVal = GetFromINI(&quot;Ranges&quot;, sRangeName &amp; &quot; (R)&quot;, sRangeFile_Old)
+ If InStr(sINIVal, SimpleHand(sHoleCards)) &gt; 0 Then
+ PreflopActionFromFile = &quot;R&quot;
+ Exit Function
+ End If
+
+ sINIVal = GetFromINI(&quot;Ranges&quot;, sRangeName &amp; &quot; (C)&quot;, sRangeFile_Old)
+ If InStr(sINIVal, SimpleHand(sHoleCards)) &gt; 0 Then
+ PreflopActionFromFile = &quot;C&quot;
+ Exit Function
+ End If
+
+ sINIVal = GetFromINI(&quot;Ranges&quot;, sRangeName &amp; &quot; (P)&quot;, sRangeFile_Old)
+ If InStr(sINIVal, SimpleHand(sHoleCards)) &gt; 0 Then
+ PreflopActionFromFile = &quot;P&quot;
+ Exit Function
+ End If
+
+ PreflopActionFromFile = &quot;F&quot;
+ End If
+
+End Function
+
+</pre>
+<h2>Final Thoughts</h2>
+<p>This approach covered about 90% of all the preflop situations the bot faced in the course of a game, but about 10% had to be handled with special cases. Consider, for example, an opponent who pushes every time with 75bb. You can&#8217;t just treat this as a 2R situation and call with the standard range. There are also a lot of situations where you should shove simply based on its expected value, which you have to figure out in spots that warrant it (which require you to estimate your opponent&#8217;s raising and calling range).</p>
+<p>If you&#8217;re an aspiring botter and have questions about any of this, feel free to shoot me an email. And good luck.</p>
+<p>Matt</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-1519" class="share-twitter sd-button share-icon" href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-1519" class="share-facebook sd-button share-icon" href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-53579024-1519-5a3031db1584d' data-src='//widgets.wp.com/likes/#blog_id=53579024&amp;post_id=1519&amp;origin=matthewmazur.wordpress.com&amp;obj_id=53579024-1519-5a3031db1584d' data-name='like-post-frame-53579024-1519-5a3031db1584d'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		Posted on <a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/" title="9:59 pm" rel="bookmark"><time class="entry-date" datetime="2010-12-10T21:59:36+00:00" pubdate>December 10, 2010</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://mattmazur.com/author/mhmazur/" title="View all posts by Mazur" rel="author">Mazur</a></span></span>.		This entry was posted in <a href="https://mattmazur.com/category/poker-bot/" rel="category tag">Poker Bot</a>. Bookmark the <a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/" title="Permalink to Poker Bot Preflop Strategy&nbsp;Explained" rel="bookmark">permalink</a>.
+			</footer><!-- .entry-meta -->
+</article><!-- #post-1519 -->
+
+					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://mattmazur.com/2010/11/07/domain-pigeon-deadpool/" rel="prev"><span class="meta-nav">&larr;</span> Domain Pigeon: Deadpool</a></div>		<div class="nav-next"><a href="https://mattmazur.com/2010/12/17/2010-2011-a-4kmonth-challenge/" rel="next">2010, 2011 &amp; a $4K/month&nbsp;Challenge <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+				
+	<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			5 thoughts on &ldquo;<span>Poker Bot Preflop Strategy&nbsp;Explained</span>&rdquo;		</h2>
+
+		
+		<ol class="commentlist">
+			
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-730">
+		<article id="comment-730" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/87855b06def1df56b43281ba5ac115a8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://mindfsck.net' rel='external nofollow' class='url'>Jase</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/#comment-730"><time pubdate datetime="2010-12-15T19:33:58+00:00">
+					December 15, 2010 at 7:33 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>&#8221;You’re big blind, your opponent raises, you three bet, and he four bets: 1RRR&#8221;</p>
+<p>I hope thats a typo and not a bug.</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?replytocom=730#respond' onclick='return addComment.moveForm( "comment-730", "730", "respond", "1519" )' aria-label='Reply to Jase'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+
+	<li class="comment byuser comment-author-mhmazur bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-731">
+		<article id="comment-731" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/36410bc698c05fe9cc30bca18d8e96ed?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">mattm</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/#comment-731"><time pubdate datetime="2010-12-17T01:40:28+00:00">
+					December 17, 2010 at 1:40 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Jase, good catch. I updated the post to reflect the change. </p>
+<p>Appreciate it &#8212;</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?replytocom=731#respond' onclick='return addComment.moveForm( "comment-731", "731", "respond", "1519" )' aria-label='Reply to mattm'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-1574">
+		<article id="comment-1574" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/ebb230106d9051ce63c390062b796877?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Paul M.</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/#comment-1574"><time pubdate datetime="2013-07-17T21:38:12+00:00">
+					July 17, 2013 at 9:38 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Interesting piece. I spend a lot of time writing PPL code for the Shanky bot. The code itself is simple but the situations you can define are limitless. I always found that the problem with writing a PPL profile, it&#8217;s never finished. If you don&#8217;t know what PPL is there are links to lots of free PPL text files on shankybotprofiles.webs.com</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?replytocom=1574#respond' onclick='return addComment.moveForm( "comment-1574", "1574", "respond", "1519" )' aria-label='Reply to Paul M.'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+
+	<li class="comment byuser comment-author-asavachit odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-6230">
+		<article id="comment-6230" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/364fd60265af34b94bfaa97c6ee7fc08?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">root</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/#comment-6230"><time pubdate datetime="2014-04-28T21:49:35+00:00">
+					April 28, 2014 at 9:49 pm					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hi<br />
+Is there anyway you can share the Range Maker?</p>
+<p>Tnx</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?replytocom=6230#respond' onclick='return addComment.moveForm( "comment-6230", "6230", "respond", "1519" )' aria-label='Reply to root'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	<ul class="children">
+
+	<li class="comment byuser comment-author-mhmazur bypostauthor even depth-2 highlander-comment" id="li-comment-6243">
+		<article id="comment-6243" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://0.gravatar.com/avatar/36410bc698c05fe9cc30bca18d8e96ed?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://www.mattmazur.com' rel='external nofollow' class='url'>Mazur</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/#comment-6243"><time pubdate datetime="2014-04-29T09:22:09+00:00">
+					April 29, 2014 at 9:22 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>Hey,</p>
+<p>You should check out ALL IN Expert:</p>
+<p><a href="https://mattmazur.com/2013/09/10/reviving-the-all-in-expert-archive/" rel="nofollow">https://mattmazur.com/2013/09/10/reviving-the-all-in-expert-archive/</a></p>
+<p>Which is basically what Range Maker became.</p>
+<p>Let me know if you have any questions.</p>
+<p>Matt</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/?replytocom=6243#respond' onclick='return addComment.moveForm( "comment-6243", "6243", "respond", "1519" )' aria-label='Reply to Mazur'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+</ul><!-- .children -->
+</li><!-- #comment-## -->
+		</ol><!-- .commentlist -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/12/10/poker-bot-preflop-strategy-explained/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://mattmazur.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="e87885d80d" /><input type="hidden" name="_wp_http_referer" value="/2010/12/10/poker-bot-preflop-strategy-explained/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='1519' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="a283adb560" /></p>
+<input type="hidden" name="genseq" value="1513107931" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="48"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+
+			
+			</div><!-- #content .site-content -->
+		</div><!-- #primary .content-area -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+						<aside id="blog_subscription-3" class="widget widget_blog_subscription"><h1 class="widget-title"><label for="subscribe-field">Follow via Email</label></h1>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 2,548 other followers</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"/></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="blog_id" value="53579024"/>
+						<input type="hidden" name="source" value="https://mattmazur.com/2010/12/10/poker-bot-preflop-strategy-explained/"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="6197be8645" />						<input type="submit" value="Follow" />
+					</p>
+				</form>
+			
+</aside><aside id="text-3" class="widget widget_text"><h1 class="widget-title">About</h1>			<div class="textwidget"><p>Hey there! I&#8217;m a data scientist at <a href="https://helpscout.net">Help Scout</a> where I wrangle data to gain insights into our product and business. I also built <a href="http://www.leandomainsearch.com">Lean Domain Search</a>, <a href="http://www.preceden.com">Preceden</a> and <a href="https://mattmazur.com/projects">many other software products</a> over the years.</p>
+</div>
+		</aside><aside id="text-2" class="widget widget_text">			<div class="textwidget"><p></p>
+<a href="mailto:matthew.h.mazur@gmail.com" title="GMail"><img src="https://matthewmazur.files.wordpress.com/2013/06/gmail.png"></a>
+
+<a href="http://twitter.com/mhmazur" title="Twitter"><img src="https://matthewmazur.files.wordpress.com/2013/06/twitter.png"></a>
+
+<a href="http://www.linkedin.com/in/mhmazur" title="LinkedIn"><img src="https://matthewmazur.files.wordpress.com/2013/06/linkedin.png"></a>
+
+<a href="https://mattmazur.com/feed/" title="RSS"><img src="https://matthewmazur.files.wordpress.com/2013/06/rss.png"></a>
+
+<a href="http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Fmattmazur.com%2Ffeed%2F" title="Feedly"><img src="https://matthewmazur.files.wordpress.com/2013/10/feedly1.png"></a></div>
+		</aside><aside id="search-3" class="widget widget_search">	<form method="get" id="searchform" action="https://mattmazur.com/" role="search">
+		<label for="s" class="assistive-text">Search</label>
+		<input type="text" class="field" name="s" value="" id="s" placeholder="Search &hellip;" />
+		<input type="submit" class="submit" name="submit" id="searchsubmit" value="Search" />
+	</form>
+</aside><aside id="twitter_timeline-2" class="widget widget_twitter_timeline"><h1 class="widget-title">Follow me on Twitter</h1><a class="twitter-timeline" data-width="225" data-height="400" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="6" data-lang="EN" data-partner="jetpack" data-widget-id="545611726235123712">My Tweets</a></aside>		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main .site-main -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a> 		</div><!-- .site-info -->
+	</footer><!-- #colophon .site-footer -->
+</div><!-- #page .hfeed .site -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201750y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-87855b06def1df56b43281ba5ac115a8">
+	</div>
+	<div class="grofile-hash-map-36410bc698c05fe9cc30bca18d8e96ed">
+	</div>
+	<div class="grofile-hash-map-ebb230106d9051ce63c390062b796877">
+	</div>
+	<div class="grofile-hash-map-364fd60265af34b94bfaa97c6ee7fc08">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/matthewmazur.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?action=logout&_wpnonce=99b1f08a2e","homeURL":"https:\/\/mattmazur.com\/","postID":"1519","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="53579024" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://mattmazur.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Matt Mazur" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="7a570d20c5" /><input type="hidden" name="_wp_http_referer" value="/2010/12/10/poker-bot-preflop-strategy-explained/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/mattmazur.com\/2010\/12\/10\/poker-bot-preflop-strategy-explained\/":1519};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+		<script type='text/javascript' src='https://s1.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKiotzghLAppmn2traGJkZGxiZGhskgUATHw/Lw=='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "https://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414h&amp;ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+
+// Infinite scroll support
+jQuery( function( $ ) {
+	$( document.body ).on( 'post-load', function() {
+		SyntaxHighlighter.highlight();
+	} );
+} );
+</script>
+<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1481571546h' type='text/css' media='all' />
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"53579024","siteName":"Matt Mazur","siteURL":"https:\/\/mattmazur.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/publish","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F","themeURL":"","xhrURL":"https:\/\/mattmazur.com\/wp-admin\/admin-ajax.php","nonce":"da2926f40d","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"6197be8645\" \/>","referer":"https:\/\/mattmazur.com\/2010\/12\/10\/poker-bot-preflop-strategy-explained\/","canFollow":"1","feedID":"22397902","statusMessage":"","customizeLink":"https:\/\/matthewmazur.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fmatthewmazur.wordpress.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F","postID":"1519","shortlink":"https:\/\/wp.me\/p3COlO-ov","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/mattmazur.com\/1519","statsLink":"https:\/\/wordpress.com\/stats\/post\/1519\/mattmazur.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Publish","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 2,548 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/mattmazur.com\/wp-admin\/admin-ajax.php","nonce":"e2cc200dcd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F12%2F10%2Fpoker-bot-preflop-strategy-explained%2F","blog_id":"53579024","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=53579024&v=wpcom&tz=-5&user_id=0&subd=matthewmazur","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVUO1OwzAMfCHSDI0O8QPxKChLvdVtvmY7G3v7uYKOCk2V+BHZsu/Ol7OXYnxOAknswLaDM3ooX83AT3axitWUUI+Y2AYcge2pQoXepS4A/QVLD1Ehpe6nF5D7SZqjC8FESHXGY/KhdorUrc9RV2IISrg2EdOKgwGkOD/aTxWwckERICMYIWCCFZ7rVNfsHdnoWDnamXwGIpxM3Gf/VBBSL7xG8oI5TaR79ygBLr+fXs4HjZquP6VZoh7c8o5yZQhzRmYerPkbkSOI2Tab70gPmeIKvmQWcwgOyXLvCNNxrkr6iO/P7eZt+/rS7trhBhxs4n4='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20170206#ver=20170206' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'53579024','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'53579024','v':'wpcom','tz':'-5','user_id':'0','post':'1519','subd':'matthewmazur'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlK0JfZ0Y2Zk1mRUQtVkxkeWZBTzRYWlo9S2RoaEJXaEJZT1lRVGRncj9IZXM9bzBxLUVsLTJiQ3VvQkYvcFJDX3MtNjROZjV1VXI0OENqT3NzVC5Xb05TYy90M3o3P3wwbDE2PWxBTiV8RmswMVtIei5BVFM4dTc3ZVZMaCZfYytwTXJhMitOXTJffkZRT3FoR3RmWHolP0NdeWFwX2xPXzBPRUxbLFZKb2RSS0pLMUxkNjYxN0lMWVY1bn5OdklTdyxYYUQ5cixXeXZ0aTdNMFRRMkhPfjQmeWdpeixSajB4LUhzNXRxLEMySGM2cGMubSY3XVhJUktZPSVtSC0='}]);
+_stq.push([ 'clickTrackerInit', '53579024', '1519' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>

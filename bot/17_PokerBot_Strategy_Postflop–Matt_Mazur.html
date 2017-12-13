@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Poker Bot Strategy for Postflop Play &#8211; Matt Mazur</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://mattmazur.com/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="https://s0.wp.com/wp-content/themes/pub/publish/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+<script type="text/javascript">
+  WebFontConfig = {"typekit":{"id":"oqu3nvs"}};
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://s1.wp.com/wp-content/plugins/custom-fonts/js/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+	})();
+</script><style id="jetpack-custom-fonts-css">.wf-active .site-title{font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal;font-weight:400}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active body{font-family:"proxima-nova-1","proxima-nova-2",sans-serif}.wf-active th{font-weight:400;font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal}.wf-active .single .format-aside h1.entry-title, .wf-active .single .format-chat h1.entry-title, .wf-active .single .format-gallery h1.entry-title, .wf-active .single .format-image h1.entry-title, .wf-active .single .format-link h1.entry-title, .wf-active .single .format-quote h1.entry-title, .wf-active .single .format-status h1.entry-title{font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal;font-weight:400}.wf-active h1, .wf-active h2, .wf-active h3, .wf-active h4, .wf-active h5, .wf-active h6{font-weight:400;font-family:"proxima-nova-1","proxima-nova-2",sans-serif;font-style:normal}.wf-active h1{font-style:normal;font-weight:400}.wf-active h2{font-style:normal;font-weight:400}.wf-active h3{font-style:normal;font-weight:400}.wf-active h4, .wf-active h5, .wf-active h6{font-weight:400;font-style:normal}</style>
+		<script src='https://r-login.wordpress.com/remote-login.php?action=js&amp;host=mattmazur.com&amp;id=53579024&amp;t=1513108154&amp;back=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F' type="text/javascript"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			if ( 'function' === typeof WPRemoteLogin ) {
+				document.cookie = "wordpress_test_cookie=test; path=/";
+				if ( document.cookie.match( /(;|^)\s*wordpress_test_cookie\=/ ) ) {
+					WPRemoteLogin();
+				}
+			}
+		/* ]]> */
+		</script>
+		<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel='dns-prefetch' href='//matthewmazur.wordpress.com' />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Feed" href="https://mattmazur.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Comments Feed" href="https://mattmazur.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Matt Mazur &raquo; Poker Bot Strategy for Postflop&nbsp;Play Comments Feed" href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s2.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1505864856h&ver=4.9.1"}};
+			!function(a,b,c){function d(a,b){var c=String.fromCharCode;l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,a),0,0);var d=k.toDataURL();l.clearRect(0,0,k.width,k.height),l.fillText(c.apply(this,b),0,0);var e=k.toDataURL();return d===e}function e(a){var b;if(!l||!l.fillText)return!1;switch(l.textBaseline="top",l.font="600 32px Arial",a){case"flag":return!(b=d([55356,56826,55356,56819],[55356,56826,8203,55356,56819]))&&(b=d([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]),!b);case"emoji":return b=d([55358,56794,8205,9794,65039],[55358,56794,8203,9794,65039]),!b}return!1}function f(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var g,h,i,j,k=b.createElement("canvas"),l=k.getContext&&k.getContext("2d");for(j=Array("flag","emoji"),c.supports={everything:!0,everythingExceptFlag:!0},i=0;i<j.length;i++)c.supports[j[i]]=e(j[i]),c.supports.everything=c.supports.everything&&c.supports[j[i]],"flag"!==j[i]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[j[i]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(h=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",h,!1),a.addEventListener("load",h,!1)):(a.attachEvent("onload",h),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),g=c.source||{},g.concatemoji?f(g.concatemoji):g.wpemoji&&g.twemoji&&(f(g.twemoji),f(g.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s1.wp.com/_static/??-eJyNUltuwyAQvFApSZPmr+pZAG9hk8UgFsvp7bvEjiL3gfoBzMDMPgA9Z+XSWGGsOk4q0+RxZE14AdZnqNm4i7qxZ8f8pH+XFyBTYVA5cf3GejaXCsh+zKY2RYQBDRBEkfVsMw4eJI9IVqwqXLuWmE/3RA0G6apb2ZxFrazNBZiVzBGnqGqQ2n76lm2dJ9sGIQfN9ZPgPz1wcmhIoUi2ZDGjHlNdDu+gF9VDUpScqZjGDVEfZLD0n9BS8gL97V4ftGcyrgW3pjxQT94+xFKJ5mBKy7WuPdd6K1JO2pK/HiIctadkDTXBe3zbv+72h93h5Xg6fwHcAxpf' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj90KwjAMhV/IrAw6xQvxWWoXS2r/bNoNfXo70At1KARCTr4cTsScgIJ2dUQWttW1Yr49W2d5I34B4MlkVbDzFF6wjqFgKAvr44kcQmXMyjStGZ3jCpciF4/MDVrZvkeiMBHOfzGLJSl9gYxM9y9XXyG5aiiwyOjaAyMsGT6mdnX0h17uh36Qcre1DyuucHk='></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://matthewmazur.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Poker Bot Preflop&nbsp;Strategy' href='https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/' />
+<link rel='next' title='Italian Poker Club Article on Poker Bot&nbsp;Development' href='https://mattmazur.com/2010/10/05/italian-poker-club-article-on-poker-bot-development/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/" />
+<link rel='shortlink' href='https://wp.me/p3COlO-nJ' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/?format=json&amp;url=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/?format=xml&amp;url=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Poker Bot Strategy for Postflop Play" />
+<meta property="og:url" content="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/" />
+<meta property="og:description" content="This is post #17 in an ongoing series of articles about my work as a poker bot developer. In the last post, I explained how in mid 2007 I partnered with a talented poker player to help develop a fu…" />
+<meta property="article:published_time" content="2010-10-05T00:01:54+00:00" />
+<meta property="article:modified_time" content="2013-06-09T20:15:16+00:00" />
+<meta property="og:site_name" content="Matt Mazur" />
+<meta property="og:image" content="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@mhmazur" />
+<meta name="twitter:text:title" content="Poker Bot Strategy for Postflop&nbsp;Play" />
+<meta name="twitter:image" content="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:creator" content="@mhmazur" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://matthewmazur.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://matthewmazur.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://mattmazur.com/osd.xml" title="Matt Mazur" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+<meta name="application-name" content="Matt Mazur" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://mattmazur.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Poker Bot Strategy for Postflop&nbsp;Play | Matt Mazur on WordPress.com" />
+<meta name="description" content="This is post #17 in an ongoing series of articles about my work as a poker bot developer. In the last post, I explained how in mid 2007 I partnered with a talented poker player to help develop a full stacked, full ring $1/$2 No Limit Hold&#039;em bot. After laying out our preflop strategy and&hellip;" />
+<link rel="amphtml" href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+		<link rel="stylesheet" id="custom-css-css" type="text/css" href="https://s2.wp.com/?custom-css=1&#038;csblog=3COlO&#038;cscache=6&#038;csrev=102" />
+		</head>
+
+<body class="post-template-default single single-post postid-1471 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light custom-colors">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+					<a class="site-logo" href="https://mattmazur.com/" title="Matt Mazur" rel="home">
+				<img class="no-grav" src="https://secure.gravatar.com/avatar/36410bc698c05fe9cc30bca18d8e96ed/?s=100&#038;d=identicon" height="100" width="100" alt="Matt Mazur" />
+			</a>
+				<hgroup>
+			<h1 class="site-title"><a href="https://mattmazur.com/" title="Matt Mazur" rel="home">Matt Mazur</a></h1>
+			<h2 class="site-description"></h2>
+		</hgroup>
+
+		<nav role="navigation" class="site-navigation main-navigation">
+			<h1 class="assistive-text">Menu</h1>
+			<div class="assistive-text skip-link"><a href="#content" title="Skip to content">Skip to content</a></div>
+
+			<div class="menu"><ul>
+<li ><a href="https://mattmazur.com/">Home</a></li><li class="page_item page-item-2"><a href="https://mattmazur.com/about/">About</a></li>
+<li class="page_item page-item-2873"><a href="https://mattmazur.com/archives/">Archives</a></li>
+<li class="page_item page-item-2793"><a href="https://mattmazur.com/contact/">Contact</a></li>
+<li class="page_item page-item-7118"><a href="https://mattmazur.com/now/">Now</a></li>
+<li class="page_item page-item-2779 page_item_has_children"><a href="https://mattmazur.com/projects/">Projects</a></li>
+</ul></div>
+		</nav><!-- .site-navigation .main-navigation -->
+
+			</header><!-- #masthead .site-header -->
+
+	<div id="main" class="site-main">
+
+		<div id="primary" class="content-area">
+			<div id="content" class="site-content" role="main">
+
+			
+				
+<article id="post-1471" class="post-1471 post type-post status-publish format-standard hentry category-poker-bot">
+	<header class="entry-header">
+		<h1 class="entry-title">Poker Bot Strategy for Postflop&nbsp;Play</h1>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<div style="border:1px solid #e6db55;margin:0 auto 20px;padding:10px;width:80%;background-color:#fffbcc;font-size:.9em;text-align:center;">This is post #17 in an ongoing <a href="http://www.mattmazur.com/category/poker-bot/">series of articles</a> about my work as a poker bot developer.</div>
+<p>In the <a href="http://www.mattmazur.com/2010/10/poker-bot-preflop-strategy/">last post</a>, I explained how in mid 2007 I partnered with a talented poker player to help develop a full stacked, full ring $1/$2 No Limit Hold&#8217;em bot.</p>
+<p>After laying out our preflop strategy and a bit of prototyping, we moved onto planning for postflop play. The strategy email below was written by him and it outlines in detail how we wanted to approach it.</p>
+<p>While we never wound up building it, I did successfully implement many of the techniques while building a <a href="http://www.mattmazur.com/2009/06/no-limit-holdem-poker-bot-profits-by-effective-stack-size/">Heads Up No Limit bot</a> several months later which I&#8217;ll detail in a future post.</p>
+<p>If you have any questions feel free to leave a comment or shoot me an email.</p>
+<p>###</p>
+<h1><strong>Intro: Approaching Postflop</strong></h1>
+<p>There are innumerable ways to determine action postflop in poker. Over time, using math, game theory, and experience, the methods that most mid-high stakes poker players use has started to become standardized. While I am quite familiar with these methods, and can describe them for the most part in detail (although this would take the space of a large book), most can’t be systemized and automated in ways directly useful to a bot. What are some other, more rigorous ways of making decisions that can replace the more intuitive aspects of mid-high pros’ processes? To answer this question, we must take a step back and analyze poker from a basic mathematical perspective.</p>
+<p>I won’t get into the specifics of  this analyzation here. I think Chen and Ankenman do a really good job of laying forth a very solid mathematical groundwork in their book. However, approaching poker from an entirely math perspective has the opposite problem of trying to copy the pros’ style: Instead of being too exclusive and intuitive, any resultant system would by impossibly hard to program because of the ridiculous level of complex programming iterations and unsolved game theory and other high level math involved.</p>
+<p>Instead, I propose a system that uses mathematical and game theory principles on EV and hand ranges that would be impossible for a regular player to compute live, and then that we take short cuts modeled after pros’ decision making to cut tough corners and help with a lot of the evaluations. We can also use other innovative programming strategies and modules taken from other fields to solve specific problems, such as using neural nets or Bayesian statistical techniques to predict opponent actions. The trick here is first determining what will produce profitable play, and then balancing our techniques and strategies so that we can reach the final stages of this project in a reasonable amount of time. Another concern is writing our program in such a way that we can easily add, tweak, and replace things later on.</p>
+<p>This document will contain three sections. First, I will describe an idealized form of the program and the decisions involved in making it, relying mostly on math and game theory, without getting into a lot of specifics regarding the inner workings. Next, I will describe a much more realistic system, replacing a lot of the difficult generalizations of the first section with more realistic methods and strategies. Included in this will be details about some of the specific strategies and methods employed. Lastly, I will give a conclusion detailing what I see as the biggest problems and the most efficient ways to go about solving them, and a rough timeline for this project.</p>
+<h2>Section 1: A Naïve Plan</h2>
+<p>The purpose of this section is to provide a frame of reference while finalizing our actual system. As problems arise, new methods are discovered, and our actual system shifts, it is important to have something to look back on to help keep perspective. That is not to say however that what is written here is final… I will try to use a level of abstraction that is both useful to planning future changes and is still unlikely to change, but this is a line drawn subjectively in sand.</p>
+<p>There are a number of more abstract questions that need to be answered before we can move on to actual systems. The only one I will go into any depth here is the distinction between exploitive play and optimal play. Generally, good players focus on exploitive play while most bots and math focus on unexploitable play. There are of course many exceptions, and lines can often be blurred in real application. Here are some quick arguments pertaining to exploitive vs. unexploitable as it relates to this project:</p>
+<h3>For unexploitable:</h3>
+<p>-Every time we try to exploit someone, we are opening ourselves up to exploitation. In normal play by professionals, this isn’t a large problem as we can counter-counter adjust to the counter adjustments. But modeling this in actual play with code is difficult to say the least. Making agile adjustments to game flow is something that humans will almost always have an edge in. As a bot, if we play an exploitive system, it is important to write a lot of protections in so that we are not consistently exploited for our attempts to exploit. These protections are potentially complex and take away from our time working on the more important nuts and bolts.</p>
+<p>-If we could describe an unexploitable system, we would be a large winner at all levels regardless of opponents. We would not have to worry about all the levels of complexity involved in an exploitive system (figuring out opponent weakness, adjusting, counter adjusting, etc.).</p>
+<h3>For exploitive:</h3>
+<p>-We have access to a ton of information about our opponents’ styles, and can do complex sorting and statistical tests of this data to get information applicable to specific hands not available to players at the table. This makes it easier for us to exploit.</p>
+<p>-The players we play against will be poor and exploitable on average. All but the best players at 2/4 will likely have serious leaks. Exploiting these leaks will be much much more profitable than playing unexploitably. Also, players at these levels will often have limited knowledge about how to take advantage of the adjustments we make.</p>
+<p>-If we could play either style perfectly, exploitive will always make us substantially more money. The perfect exploitive strategy is THE perfect strategy.</p>
+<p>-No one knows how to play unexploitably, but we do know how to exploit people. Describing an unexploitable system has some practical problems, and often it is easier to just react to opponent tendencies.</p>
+<p>We will need to solve this problem independently for many individual situations. Right now, I think our basic strategy will should be thus: We write code that is mathematically exploitive of our opponents play characteristics, and hope to do a good enough job that when other players are playing unexploitably, we also tend towards unexploitable play. We start with the assumption that all others play somewhat unexploitably, and cautiously adjust our play to more exploitive lines as we receive evidence of opponent mistakes. This is an important concept that we will use a lot in section 2: using our opponents to balance our play.</p>
+<h3>Our system:</h3>
+<p>We will make all postflop decisions by evaluating the expected values of the various lines we can take, accounting for as many factors and possible future situations as we can. What follows are some of the root aspects and factors involved in this system.</p>
+<p><strong>Hand reading</strong>. We will read hands by assigning our opponents to a weighted range based on their preflop actions. Every time they act postflop, we will determine what hands they are likely to execute that specific action with, given that player’s play characteristics, and use Bayesian methods to figure out their new likely weighted range given their previous range and their most recent action. We will try to be extremely careful with this process, and will spend significant time making sure that we are effective in getting accurate ranges with cushions for errors. A lot of our overall profitability depends on our ability to hand read, as we will use these hand ranges for multiple purposes.</p>
+<p><strong>Predicting future actions</strong>. There are a number of different ways this is possible. We can use our opponents’ range of hands and play characteristics combined with future possible cards. If we are less confident in our abilities to do this in an exhaustive fashion, we could use pure statistics of what our opponent has done when faced with similar situations in the past, or what players like him have done for lower samples. Another option is using databases to train neural networks in various ways to predict actions. We will use these predictions primarily to figure out the differing total EV of different lines, in conjunction with other things on this list.</p>
+<p><strong>Showdown equity</strong>. We can use the weighted range of opponents hand and future cards to guess our equity in the pot. Showdown equity, or SdE as I will refer to it, is our equity in the pot against our opponent’s range if we were to be all in on this street.</p>
+<p><strong>Extraneous equity</strong>. I will refer to this as ExE. It is the equity in the hand that is caused from factors outside our showdown equity, usually by how the hand is likely to play out. Our ExE will always equal the negative of our cumulative opponents’ ExE. ExE will usually play a larger roll than SdE in our decision making, especially on the flop. Determining ExE is an uncertain (we are forced to repeatedly guess) and involved process.</p>
+<p><strong>The final decision making equations</strong>. We will figure out the EV for each of our various possible lines, modeling future streets for possible cards and combining SdE with ExE. For any set of possibilities, our total EV of the line that leads to those possibilities is the sum of the equity of each possible outcome times the probability of that outcome happening. The probabilities should always sum to one.</p>
+<p>Thus concludes the overview of our general postflop plan. There are a lot of things left in vague terms and plans that call for impossible or near impossible complexity. For example, how are we supposed to write an EV calculation for every turn and river card and action given a certain flop situation? This is called for above but would require writing out millions of functions by hand, which is obviously not going to happen. Coming up with innovative solutions for the problems associated with the above summary is perhaps our most important task.</p>
+<h2>Section 2: A first attempt</h2>
+<p>While I had much of the previous parts of this document written in my head before I contacted you the first time, this section will start to drift into newer territory. While some aspects of the system outlined below will be well thought out and are likely to remain intact in their described form throughout the project, others will be stopgaps or untested technology hopefully to be replaced and refined at a later point.</p>
+<p>Please keep in perspective what this whole document is: a preliminary report on our approach to postflop, drafted in without consultation in a days. This is not a specific and complete plan, but it is a plan regardless. Because the purpose of this plan is to shed light on the different aspects of postflop play we need to work on, and to act as a survey of options available to us, to further these goals <strong>I will be adding commentary in <span style="color:#0000ff;">blue</span> outside the plan and different possible methods in <span style="color:#ff0000;">red</span></strong>, and an overall discussion section at the end.</p>
+<h3>A system:</h3>
+<p>Here goes. It’s pretty dense, and not as well written as it could be, so it might take a few passes to decipher. I recommend reading everything that follows a few times (except maybe this next part which we have already covered), and giving comments the last time you read it.</p>
+<p><strong>First opponent hand ranging.</strong> We will start by obtaining a weighted range of hands from preflop actions. This will be accomplished first by determining the percent of all possible hands that this player would do his preflop actions with. Next, we will refer to a predrafted list ranking the ordered likelihood of each hand for that action. As many of these will be drafted as is seen fit, but the final number will likely be 4-8. A general probability density function will be created for various percents of total hands for each list. We will use the density function, the list, and the percent of hands to come up with a real probability density function of our opponent’s range which fits the percent.</p>
+<p><span style="color:#0000ff;">This description is vague, but as you already have a more complete explanation, I don’t feel I need to go into detail here. Frankly, I think this system will work alright but not great. I think there are some innovative improvements that are possible, but I don’t see any other substantially different way to do what we need to do. I think the biggest problems with this system are the oversimplification of having only 4-8 lists, and the course way in which the distributions are fitted. Strength of this system include how easy it is to tweak and modify and how straight forward it will be in implementing (we already have a working sample algorithm for a distribution function).</span></p>
+<p><span style="color:#ff0000;">Possible improvements include a dynamic system of creating lists for each situation and each player, and dynamic methods of creating functions for determining the final distribution based on specific players and situations. For example, someone we viewed as a straight forward player (we could measure this by how much they play fit or fold on the flop and a few other things, for example) we could create a really value based list for their raises and the more confident we were in the read, the more the function would be towards the top (i.e., there would be more hands with 100% and bad hands would all have 0 weight).</span></p>
+<p><span style="color:#ff0000;">Another possible method here is adapting our preflop program so that we could input opponent preflop statistics and card values and “my variables” will be changed such that someone using this preflop system would get stats similar to our opponent’s specific stats. Then we would run this program for preflop from their perspective and use this to get a hand range. The big positive about this system is that it could end up with much more accurate ranges than are possible any other way, but the big negative is that it would be complex (time consuming), possibly resource intensive, and hard to write.</span></p>
+<p>General opponent hand ranging. Every time someone does an action throughout the hand or hypothetically (see later), this section will be activated and the opponent will be given a new hand range. This will be done by putting previous opponent hand ranges through a distribution transformation algorithm (DTA). A new DTA will be created for each situation.</p>
+<p>To construct our DTA, if our opponent raised or bet, we will determine the hands our opponent would do this with for value, based on the board, the percent of time we predict he bets or raises here based on our neural net (described later), our current range strength (defined below) and opponent tendencies. We would then determine what types of semibluffing hands our opponent can have, and determine the likelihood of each given he raised or bet based on the percentage of his range that are draws, the strength of those draws, the percent of time we predict he bets or raises here, and the strength of our own range. We will then determine the likelihood he bluffs outright, based on the differences in SdE between our two ranges, and how often he bets here.</p>
+<p>We will then take this new range consisting of value bets (all hands above the vb cutoff for immediate showdown value), semi bluffs, and bluffs, and normalize it based on the percent of times we think our opponent will take this action in this spot. We will obtain this percent through neural nets.</p>
+<p>Our calling process will be very similar, except we will break things down into calling for value and floating. Value will make up a much large part of opponent ranges on average. We will determine which hands our opponent will call for value with based on our estimated percent chance he will call, the strength of our own range after making the bet, and his previous hand range.</p>
+<p>When our opponent checks, we will similarly use how often he checks in this spot with the types of hands he is most likely to check with, and thus obtain our distribution.</p>
+<p>For every time we use a DTA, after we determine which hands are likely, but before normalization occurs, we will “blur” the cut offs of hands that would be folded/raised/called. This blurring will be a gradating of percents based on the error of our neural net (described below). Another way you could describe this blurring is gradating, or smoothing, out the graph of the resultant transformation function. For example, say his range consists of (1 is fully part of his range and .5 is half discounted, not accounting for number of combinations possible) 1AA, 1KK, .8QQ, .5JJ before he called, and we estimate he will call 50% with the cutoff being at KK, and we have very low error from our neural net here, and there is a king in our hand. We take 50% (the percent he calls) of the total number of combinations present in the original distribution, which is 1(6)+1(3)+.8(6)+.5(6)=16.8. So our new distribution should be equal to 8.4 combinations and filled from the top down. This would result in 1AA (6 combos) and .8KK (2.4 combos). But if we are unsure about our read on his calling range, to account for possible errors, we don’t only fill top down but blur the line of the calling range. Our end result will still equal 8.4 combos, but we will include more hands. If we were somewhat unsure our range might equal .8AA+.6KK+.3QQ. If we were completely unsure of our ability to predict, the range would remain unchanged (it would be normalized down, so all discount numbers would be multiplied by the percent, but this wouldn’t have any effect on the relative probability of our opponent having each hand). We will very rarely be completely sure or unsure, and will usually use at least some blurring. Note that blurring can also come from other things besides neural net uncertainty, but the ratio of hands in a given distribution which are discounted, and the degree of these discounts, still always acts as a measure of how unsure we are of their range.</p>
+<p><span style="color:#0000ff;">As you will see later, this process needs to be fast, as it will happen a lot of times each decision as we estimate the EV of hypothetical situations. There are a lot of details I left off here, most because I haven’t thought about them and some because I felt it tedious to list them all. An example of something I oversimplified is suites need to be differentiated, but were left out of the example. One aspect of this system which could be positive or negative is that it is heavily reliant on the abilities of our neural net to predict.</span></p>
+<p><span style="color:#ff0000;">There are 2 main alternatives to this system. The first is the bayes net you have been working on which to be honest I still don’t understand well. The other system would work roughly like this: Before each opponent acts, we will figure out what our opponent is likely to do with each of the hands in his range. Then, after he acts, we will figure out his new range using Bayesian statistics using the likelihood of each hand to begin and  the likelihood he would execute that action with each hand, given his action. This is a very open ended system and quite similar to the one described in black above. The key to it is the first step, determining what he is likely to do with each hand in his range.</span></p>
+<p><strong>Initial self hand ranging.</strong> We create a probability density function of our own hand range by running every possible hand through the preflop program.<br />
+Hopefully this won’t be too computationally time consuming. We could have this running in the background while preflop is going on and it isn’t our turn to act.</p>
+<p><strong>General self hand ranging.</strong> We will run through the hand ranging system we built for our opponents, using our own stats and previous range.</p>
+<p><span style="color:#0000ff;">I was going to go into more detail here but it doesn’t seem needed. Hopefully you can see how this would work and I’m not missing any major problem we could have with it. Not that there won’t be problems, just that we can overcome them.</span></p>
+<p><span style="color:#0000ff;">A small problem arises each time we use our own hand range for anything: We are assuming our opponent is as good at reading our hand as our system is, which is not going to be true. Mid stakes pros will certainly be better and low stakes fish will certainly be much worse. Determining where we are on this scale and adjusting for it is a serious issue, but one that we should wait to address in full until we have a better idea how good this system will be at guessing our range. Nevertheless, certain fixes will be built into uses of our range for times where fish will have no clue what our range is. In general, determining our own range isn’t very important against major fish and every time we are doing it we are not allowing ourselves to maximally exploit fish.</span></p>
+<p><span style="color:#ff0000;">A method that would produce perfectly accurate hand ranges would be to run through our entire decision making process with each hand in our range, and use that to find our new range. This would be extremely simple to implement, but would likely cause serious computational time issues.</span></p>
+<p><strong>EV trees and determining action</strong>. We will take the action with the highest EV. The function for EV of an action is the probability each result of that action will take place times the total EV resulting from that action taking place. This has a branching effect,  as in order to determine the EV of immediate possibilities we have to break it down into each later possibility, and this creates a nearly limitless function tree. Because this will be too complex for us to carry out in real time over all streets (trying to calculate the EV of each possible outcome for each possible turn and river card would be too resource intensive), we will always estimate explicitly all of the flop actions, and then use an estimator function for all turn and river possibilities for each ending branch of the whole flop action tree.</p>
+<p>Each time it is our turn to act on each street after our first time, we will already know our action. This is because while evaluating this tree for the first time, we need to know the “probability” we will execute each 2nd or 3rd action because this determines the EV of this course. Thus we will always solve for the highest EV options down the road and determine conditional probabilities of 1 for the choices we would make. Each time we need to make a hypothetical choice, new hand reading will be done for hypothetical ranges at that point, and these new hand ranges will be used in all further actions down this path (and will possibly be modified hypothetically again).</p>
+<p>Because this is somewhat complicated, here is an example to illustrate.</p>
+<p><img data-attachment-id="1473" data-permalink="https://mattmazur.com/pokerev/" data-orig-file="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=525" data-orig-size="623,226" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;}" data-image-title="pokerev" data-image-description="" data-medium-file="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=525?w=300" data-large-file="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=525?w=525" class="aligncenter size-full wp-image-1473" title="pokerev" src="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=525" alt="" srcset="https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=525 525w, https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=150 150w, https://matthewmazur.files.wordpress.com/2010/10/pokerev.png?w=300 300w, https://matthewmazur.files.wordpress.com/2010/10/pokerev.png 623w" sizes="(max-width: 525px) 100vw, 525px" /></p>
+<p>Every box that is a dead end will be calculated first, and these will be used to calculate the boxes before them. Each end box will have different calculations in the part labeled “EV” on the graph (<span style="color:#0000ff;">which is really not the whole EV in every box it is in, I just needed to call it something on the graph</span>), but these will be standardized and an algorithm will be written to determine each specific equity equation. The trees will not extend past this street. Estimations will be used to look at ExE on future streets from the point we are at in the tree and this will be combined with pot size and SdE to give the “EV” values.</p>
+<p>In this example, we raised preflop and got called by the big blind. He checks the flop. We now need to determine if checking or betting has high EV in this spot. Each probability is conditional and dependant on all probabilities of paths leading to it, and is determined by our neural network discussed later, unless the probability is our choice in which case it will be 1 or 0 depending on which branch has the highest EV. Our choices are shown by lines in green and words in orange. There is one last unfinished choice (the last (we raise)), who’s branches were left undone because of space limitations. But this brings up an important point…</p>
+<p><strong>When we can’t finish the equation in a reasonable amount of time</strong>. When it isn’t possible to complete trees because there are too many raises possible (deep stacked unraised pot), ranges are really wide, or the pot is multiway, or when we are going to take too long for any reason, we will write code that will quickly estimate and finish off sections of trees. We will write a time estimator function that will run beforehand and also will rank branches based on importance, which will be based on EV affect times probability, and thus we will determine which branches to estimate and which to complete.</p>
+<p><span style="color:#0000ff;">I left off descriptions of how to write these estimating functions because I want to have a better idea of what situations I need to cover when I write these. This estimator function could be written in a number of ways, but it will probably be at least somewhat time consuming. This section will be similar to the ExE section.</span></p>
+<p><span style="color:#0000ff;">So there you have it. This is the real heart of this system. Two quick notes: First, you might want to come back and read this after you have read the later parts and understand the whole system. Second, I wrote it originally for flop play and went back and converted it to all play, so this could be a cause of errors. Anyways…</span></p>
+<p><span style="color:#0000ff;">I think this is about the only way that really makes sense. All other systems I imagine us using would either be too complicated to program or wouldn’t be advanced or scaleable enough. The biggest limiter here is computation power. I really am not sure about what things we can and can’t do in a reasonable amount of time. I know in the past I’ve way underestimated on these things, and so you need to read this whole document and understand everything and then tell me what we can and can’t do in a reasonable amount of time. My conservative guesses are the guideline I have written out here, and I could really use a more experienced view. If I have overestimated but not by a lot, and we can’t get the time down by writing better algorithms, it might be worth looking into buying a fast computer.<br />
+</span></p>
+<p><span style="color:#0000ff;">This system’s success will depend primarily on 2 later sections, which are really just extensions of this section: the predicting probabilities section, which needs to be good, as a few points in deviation will often decide action, and the ExE section which will quantify how much of our SdE equity can be retrieved as real equity, and how much we can outplay opponents. If we somehow fail in one of these other two sections, we will need a new system.</span></p>
+<p><span style="color:#ff0000;">As I see it, the level of complexity we implement is the only real variable in the above. There are two issues with this: computation power, and amount of time programming, when considering possible outcomes especially in regards to the turn and river. There are some times, like heads up when the pot is largish relative to effective stack size, and thus the equity calcs are all really short, where we could probably do some later street calculations for different cards and possibilities. But this would have to be written separate from everything else, and might be tough for the flop because you also have to consider river possibilities which could be too complex to model in the same way, and so maybe would only be worth adding on after the bot was already working. However, adding some of this functionality to later streets should be our major priority after this bot is working, if we haven’t already done it.</span></p>
+<p><span style="color:#ff0000;">If things are taking too long and we can’t make it more efficient, there are some simple things we could adjust that would be only slightly worse but much quicker, as is discussed in most of those sections.<br />
+</span></p>
+<p><span style="color:#ff0000;">The other options would be simpler “cheating” systems that use clever generalizations to arrive at correct play (this also describes this current system, but at least it does some ev calcs). One example would be a system that would (in a nutshell) find the proper bet percent by using opponent call, fold, raise, check raise, etc. percents, and adjusting for some things like flop texture and stack size, and then rank our hand based on where it is in our range, and then decide action based on which percent on the list we ended up on. Then we would use a system similar to the “section 2” one above but only for the turn and river where there are less branching variables and stack sizes are higher relative to the pot usually. This is actually my original flop system before I contacted you, and I think with some other clever adjustments that I won’t go into here, it would play pretty well without using many comp resources.</span></p>
+<p><strong>Dealing with different bet sizes</strong>. The above chart is also overly simplistic because we do not account for different bet sizes. In the actual program, we will break our own choices down into 2-4 different bet sizes depending mostly on stack sizes, pot size, board texture, and the street we are on. For each opponent decision, we will evaluate for a number of rounded raise sizes, using the likelihood of each and the difference in likely EV as the biggest factors in HOW we break it up. The NUMBER of pieces we break it into will be determined by computation time considerations.</p>
+<p><span style="color:#0000ff;">This is something that will exponentially affect computation times with that won’t affect our results much at higher levels, but we need to maintain at least a base of 2 for us and like 3 (pref 4 cause we always need all in) for them. It might seem like a huge simplification to only have 2 bet sizes (and 1 for most flops), but really when I play I use 2 95-98% of the time, not including the river, which we can probably increase just for that because of a smaller tree. Having less bet sizes is a great way to hide information in our play, something I will talk about later.<br />
+</span></p>
+<p><span style="color:#0000ff;">Two other things worth noting here: I really want to read the section in math of poker for bet sizing, but haven’t yet, and I might change my ideas based on some content. The other thing is that I need to know what is computationally possible before I write this in, because programming for 4 sizes will be much different than for 2. Keep in mind that for each extra size, we are creating an exponential amount more of new DTAs, nn run-throughs, comparative and relative range and equity calculations, etc.</span></p>
+<p><strong>Calculating EV</strong>. Because we don’t have to worry about probability, and because adjustments for contributions are already made in the EV tree part, we only have to worry about three main components, set forth in this equation…</p>
+<p>EV=(pot size)(SdE+ExE)</p>
+<p>Pot size is simple, and SdE is just our equity if we were all in at this point. ExE is much more complicated. Here are SOME of the factors that will be involved in ExE equations. For all these things I will write functions in general form that can use all the real or hypothetical data we have, and combine it in a set of functions with subjective weights based on certain factors.</p>
+<p>-Generally, how likely we are to get paid off when we are ahead and how likely we are to get our opponent to fold when we are not. An equation for this could consist of a measure of the how many second best hands the opponent is likely to make, and how easily we can value bet (how many hands does he have that are better, will we need to fold if raised). This will be added to a special neural net trained to determine later bluff equities. <span style="color:#0000ff;">This neural network will be as complex as any of our others. It will involve a large number of factors and will be based on how often our opponent folds on next street(s) given the action on the street so far and other info. If  for some reason it isn’t feasible, we could use some quick general stats like fold to next street bet %s.</span></p>
+<p>-Knowledge of our opponent and specifically which mistakes he makes, their severity, and how often he makes them. <span style="color:#0000ff;">This is a more nebulous assignment, which I will work on specifying later. I have some ideas though.</span></p>
+<p>-How much of our SdE is coming from draws and the quality (i.e. strength of the hand that we are drawing to) of those draws, compared to effective stack size(s). <span style="color:#0000ff;">An algorithm can be written for this. It will be a pain to do perfectly though.</span></p>
+<p>-Having a mixed range of draws and made hands in our range will increase our ExE for all hands. <span style="color:#0000ff;">It should be easy to write an algorithm to determine how many draws (of a certain minimum quality) are in our range versus how many made hands</span></p>
+<p>-How much of our opponents’ SdE come from draws, and the quality of those draws. <span style="color:#0000ff;">Uses the algorithm above</span></p>
+<p>-Considering how this hand lies in our own range, the lower the hand’s value is in our range relatively, the higher its ExE</p>
+<p>&#8211; Position</p>
+<p>-Generally, the narrower our range the lower our ExE. <span style="color:#0000ff;">These last three will be easy to do but hard to weight</span></p>
+<p>-Knowledge of our own limitations as a program, and knowing how mistakes we make or shortcuts we take cost us in specific situations (one likely example of this might be difficulties in accurately modeling correct play in multi-way pots). <span style="color:#0000ff;">This one will be tough, and we will need to do it after the rest of the program is tested and working.</span></p>
+<p>We will combine these by just summing their individual importance. Our ExE will always be expressed as a real number, usually a decimal, showing importance relative to SdE, and should average 0 against players we are even against, negative against better players, and positive against worse players. However, our situation (cards, position, stack size, etc.) will usually have a larger impact than the players we are playing against. Also not that these values will be computed differently for each street.</p>
+<p><span style="color:#0000ff;">This is something I will work on after you leave, as it is more of a poker issue than a programming issue. I would like to hear your input on how I approach this, however, if you have any. One thing I WILL be sure to do is heavily document my approach to dealing with weightings and all subject variables, and show my work with explanations on all math I do (different than how I did preflop).</span></p>
+<p><span style="color:#ff0000;">Short of just fully calcing all streets, I don’t see what else we could do that differently for this.</span></p>
+<p><span style="color:#ff0000;">One good but difficult change we could make for this is to fully integrate the “When we can’t finish…” section with this section and the tree section. The resulting process would go something like, calc each immediate possible outcome, then do the ExE section ignoring street, just using later action (it would have to be partially rewritten), then if the result with the probability is “important” enough then we would toss this estimation out the window and instead go one level deeper, for all the next possible actions (whether its on this street or next) and estimate from that point and repeat the process. We would have to build a “barrier” so that we only jump to next street action when it is very important, as we have to predict action for each new card in these cases and it will thus take a lot of time. We would continue this until some set time has passed or till we figure relevant paths out to our satisfaction.</span></p>
+<p><span style="color:#0000ff;">This was written rather densely but I think is an important idea, so I’ll explain it better if this isn’t enough. Even though this is more complicated than the system described in black, I actually thought of it first, and decided it was too complicated to write out in this document, so I simplified everything. If you don’t think computation problems and difficulty with the required dependant algorithms will be too much, or if they WILL be too much (in which case we would throw out the later street part) then I want to write this section instead of what’s written in black. Maybe we should write it like this anyways.</span></p>
+<p>Probabilities will all be taken from six large and important neural nets. We will have two nets per street; one of these nets will focus on when play is heads up going into that street and the other will focus on pots that are multiway going into that street. These nets will be trained using roughly a few hundred total factors. Here is a very rough breakdown of some of the factors involved.</p>
+<p>-Factors describing the basic action preflop and position and stack sizes(~20)</p>
+<p>-Factors describing every action so far postflop (with bet sizes)(~20-50)</p>
+<p>-Factors describing board texture, especially last card on turn and river (~15-35)</p>
+<p>-Stats describing our opponents’ play style(s) (~25-60)</p>
+<p>-Stats describing our opponents’ opponents, including us when we are playing against them (~25-60)</p>
+<p>-Various metrics on all hand ranges describing their make ups and how they relate to others and themselves. A lot of this will be taken from the ExE section. (~25-60 factors) <span style="color:#0000ff;">This section of metrics might be pretty resource intensive, so keep that in mind. Every time a probability is grabbed, which can be hundreds of times each decision, if we are doing multiple algorithms for each hand in each players’ range, this could end up at many thousands of algorithms for each decision. There are obvious ways we could limit this without giving up much, like writing non-rigorous algorithms in the ExE section.</span></p>
+<p>Error will be determined by using the average success of this particular net with similar factors used <span style="color:#0000ff;">(this is doable right?)</span>, and the success of the last ~25 non hypothetical predictions we made against this player.</p>
+<p><span style="color:#0000ff;">So I’ve decided breaking it up into six was best, as people act so differently heads up and since they each have like 25-100 different variables, it would be better to split them.<br />
+</span></p>
+<p><span style="color:#0000ff;">One big problem with using neural nets, especially against good players is that it’s going to be hard to factor in our own play styles. I wrote in “opponent statistics” as a category, but there are some issues that might come up. Frankly, I don’t know how this will turn out.</span></p>
+<p><span style="color:#0000ff;">Another important thing to consider along with the above, and this applies to all sections not just predictions, is that because this whole postflop system is more advanced and less organic than the one I had envisioned, it might create a play style that is pretty divergent from most “normal” tags. Many players at medium stakes fold a very exploitable amount, and this might cause us to go somewhat apeshit on them (raise raise raise raise). </span><span style="color:#ff0000;">This will be great at first, but as they play with us more and start adjusting, we are going to have to write something in to counter this in the short run (we would have trouble adjusting to adjustments naturally because it will take a while for the new opponent stats to show up, especially if we have a lot of hands on them). This whole “adjustments by good players” issue could potentially cause us a lot of problems, but there are solutions to them. I don’t want to write fixes for this yet though because a) we are going to start at lower limits where players will be much worse at adjusting to us and b) I’m not really sure what our style will look like yet, and I need to know how we play to know how our opponents will react to us.</span></p>
+<p><span style="color:#0000ff;">A quick tangent to the above: because I decided to go in a more inorganic direction, choosing EV calcs over pros’ thought processes, our play might be noticeably inorganic. This could raise suspicion if we play a lot, but I’m not too worried about it, and if our style is too divergent, we could always right some adjustments that should solve the problem.</span></p>
+<p><span style="color:#0000ff;">Getting back to the neural nets: we need to remember we are using this for a large amount of things, and have no secondary protection worked out. One thing that relies completely on our NN is our raise sizing. </span><span style="color:#ff0000;">We might need to go back and write some separate raise sizing algorithms (this would also greatly slim our action tree) if the NN isn’t able to adjust well to a few changing values. There are probably other circumstances similar to this one that might need separate algorithms.</span></p>
+<p><span style="color:#0000ff;">How good these neural networks are determines a big chunk of our profit. It is one of the four big ifs: IF the DTAs with initial ranging are pretty accurate, IF the ExE section is well written, IF we don’t run into major computation time problems, and IF we can accurately predict opponent frequencies, I think we will be able to beat middle games better than all but the best (how does $72/100 hands sound?). Obviously, if we fall short, we still have some cushion to work with.</span></p>
+<h2>Conclusion</h2>
+<p>The above plan is optimistic. There are a lot of interconnecting variables, and if one of these is off, or they are all by a bit, we might get screwy results. There aren’t a lot of protections built in. If we make a mistake, often we won’t just fail to exploit, we ourselves will play a losing style. Generally, the more dependant aspects of a system are on each other, the more potential the system has, but the more affected it is by mistakes. So if we want to protect ourselves, the way to do it would be to isolate some of the sections from each other and use less exploiting processes and more focus on playing a certain style in certain “isolated” situations.</p>
+<p>This is certainly something to think about. I thought a lot about each aspect of the above plan, but postflop NLHE play isn’t something that is usually described in 8 pages (a lot less without comments).</p>
+<p>There is a lot of red and blue text above. This underlines that we are in an extremely open ended situation right now. Building this from the ground up allows us an insane amount of flexibility, and given the nature of this project, we should try not to “settle” on anything. If there is an aspect we don’t like, we need to fix it before code is written and time is wasted. I feel the design of postflop is the most important part of this project, and is all we should focus on this week. I want to have you here during the most crucial parts because you understand the technology and programming much better than me, and it is also good to have another poker mind checking my work.</p>
+<p>I was going to write out a plan of attack here, but I want to read your comments on each part, and do some more in depth reviews of other possible technology you have in mind like Bayesian networks before we allocate the time we have this week. Nevertheless, I will give a very naïve time line.</p>
+<p>-Work on outline of postflop plan, review options and choices (this week)</p>
+<p>-Hammer out some of the details and write a more in depth plan (next week)</p>
+<p>-Write out the algorithms, thought testing and error checking as I go (3-5 weeks?)</p>
+<p>-Error check and edit the whole thing, write new code if needed (1-2 weeks)</p>
+<p>-Finish preflop if you aren’t back yet, if you are, do this with below (1-2 weeks)</p>
+<p>-Work with you on neural nets, hand parsing, and other misc. tech (2-5 weeks?)</p>
+<p>-Work with you on programming postflop (1-2 weeks?)</p>
+<p>-Concurrently play a good amount of poker to get back in touch with games (n/a)</p>
+<p>-Bug finding, troubleshooting, polishing (0-2 weeks)</p>
+<p>-Work with you on speeding up algorithms and program in general (0-2 weeks)</p>
+<p>-Prelim play tests and optimization (1-2 weeks)</p>
+<p>-Setting up to play online (0-1 weeks?)</p>
+<p>-Sweating sessions in real online games, more optimization (1-4 weeks)</p>
+<p>-Unleash the monster, while working on more add-ons, optimization, fixes, etc.</p>
+<p>So adding up the times, I guess a minimum of 12 more weeks and a max of 30 weeks. Longer than I thought, but I think a lot of these guesses are pretty conservative.</p>
+<p>All in all, I still feel as optimistic as I ever have about this project. I am confident that even if a large number of the aspects of the plan I wrote above don’t work out, we can find acceptable alternate methods. Tell me what you think!</p>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-1471" class="share-twitter sd-button share-icon" href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-1471" class="share-facebook sd-button share-icon" href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-53579024-1471-5a3032bada7a3' data-src='//widgets.wp.com/likes/#blog_id=53579024&amp;post_id=1471&amp;origin=matthewmazur.wordpress.com&amp;obj_id=53579024-1471-5a3032bada7a3' data-name='like-post-frame-53579024-1471-5a3032bada7a3'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		Posted on <a href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/" title="7:01 pm" rel="bookmark"><time class="entry-date" datetime="2010-10-04T19:01:54+00:00" pubdate>October 4, 2010</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://mattmazur.com/author/mhmazur/" title="View all posts by Mazur" rel="author">Mazur</a></span></span>.		This entry was posted in <a href="https://mattmazur.com/category/poker-bot/" rel="category tag">Poker Bot</a>. Bookmark the <a href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/" title="Permalink to Poker Bot Strategy for Postflop&nbsp;Play" rel="bookmark">permalink</a>.
+			</footer><!-- .entry-meta -->
+</article><!-- #post-1471 -->
+
+					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/" rel="prev"><span class="meta-nav">&larr;</span> Poker Bot Preflop&nbsp;Strategy</a></div>		<div class="nav-next"><a href="https://mattmazur.com/2010/10/05/italian-poker-club-article-on-poker-bot-development/" rel="next">Italian Poker Club Article on Poker Bot&nbsp;Development <span class="meta-nav">&rarr;</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+				
+	<div id="comments" class="comments-area">
+
+	
+			<h2 class="comments-title">
+			2 thoughts on &ldquo;<span>Poker Bot Strategy for Postflop&nbsp;Play</span>&rdquo;		</h2>
+
+		
+		<ol class="commentlist">
+			
+	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-721">
+		<article id="comment-721" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://1.gravatar.com/avatar/a27b681bfdcaef67fc95f70e04a3ae91?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ethan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/#comment-721"><time pubdate datetime="2010-10-11T10:16:23+00:00">
+					October 11, 2010 at 10:16 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>&#8220;While we never wound up building it&#8230;&#8221;</p>
+<p>I&#8217;m interested in learning about what caused you guys to abandon the project and what struggles you had when attempting to code some of the components.  Perhaps in a future blog post?</p>
+<p>Even though the system detailed by your partner is a simplification of human postflop decision making, it is difficult to completely wrap my head around, even after multiple readings.  A major problem with a project of this scope is the lack of a (near) immediate feedback loop.  You won&#8217;t really know how well the bot performs until the entire system is in place.  Waiting 12-30 weeks or more for feedback would be a mind-racking experience!</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/?replytocom=721#respond' onclick='return addComment.moveForm( "comment-721", "721", "respond", "1471" )' aria-label='Reply to Ethan'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+
+	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-722">
+		<article id="comment-722" class="comment">
+			<footer>
+				<div class="comment-author vcard">
+					<img alt='' src='https://2.gravatar.com/avatar/29e72ed6340e801e9bcf207fc182d1fd?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Dolores C.</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
+				
+				<div class="comment-meta commentmetadata">
+					<a href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/#comment-722"><time pubdate datetime="2011-01-27T02:35:13+00:00">
+					January 27, 2011 at 2:35 am					</time></a>
+									</div><!-- .comment-meta .commentmetadata -->
+			</footer>
+
+			<div class="comment-content"><p>__&#8212;_-_______-_____-_&#8211;__&#8211;__</p>
+<p>Great website! I think there are many valuable information and advices here. Along the same line, I came across the following website which I found interesting. Traditionally, personality tests such as MBTI have been used as career aptitude test. However, these tests have a very limited scope as they ignore many important factors such as person&#8217;s skills, values, and interests.</p>
+<p>There have been many advancements in the area of career aptitude testing. Usage of artificial intelligence to evaluate suitability of a job for a person is one of the these techniques. You can take a complete version of the MBTI personality test plus many others such as memory, IQ, problem solving, and patience tests in OptYourLife. This website&#8217;s expert system tries to find the most suitable career path for you using neural network. Moreover, salary of different careers will be considered in the final analysis to provide a more insightful advice for you:</p>
+<p><a href="http://www.optyourlife" rel="nofollow">http://www.optyourlife</a> [dot] com/</p>
+<p>____&#8212;-__&#8211;_-______&#8212;_&#8211;_&#8212;</p>
+</div>
+
+			<div class="reply">
+				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/?replytocom=722#respond' onclick='return addComment.moveForm( "comment-722", "722", "respond", "1471" )' aria-label='Reply to Dolores C.'>Reply</a>			</div><!-- .reply -->
+		</article><!-- #comment-## -->
+
+	</li><!-- #comment-## -->
+		</ol><!-- .commentlist -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/10/04/poker-bot-strategy-for-postflop-play/#respond" style="display:none;">Cancel reply</a></small></h3>			<form action="https://mattmazur.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+				<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="e87885d80d" /><input type="hidden" name="_wp_http_referer" value="/2010/10/04/poker-bot-strategy-for-postflop-play/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='1471' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="07a4516462" /></p>
+<input type="hidden" name="genseq" value="1513108154" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="116"/></p>			</form>
+			</div><!-- #respond -->
+	<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+
+			
+			</div><!-- #content .site-content -->
+		</div><!-- #primary .content-area -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+						<aside id="blog_subscription-3" class="widget widget_blog_subscription"><h1 class="widget-title"><label for="subscribe-field">Follow via Email</label></h1>
+				<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="subscribe-blog">
+											<p>Enter your email address to follow this blog and receive notifications of new posts by email.</p>
+<p>Join 2,548 other followers</p>
+						<p><input type="text" name="email" style="width: 95%; padding: 1px 2px" placeholder="Enter your email address" value="" id="subscribe-field"/></p>
+					
+					<p>
+						<input type="hidden" name="action" value="subscribe"/>
+						<input type="hidden" name="blog_id" value="53579024"/>
+						<input type="hidden" name="source" value="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/"/>
+						<input type="hidden" name="sub-type" value="widget"/>
+						<input type="hidden" name="redirect_fragment" value="blog_subscription-3" />
+						<input type="hidden" id="_wpnonce" name="_wpnonce" value="6197be8645" />						<input type="submit" value="Follow" />
+					</p>
+				</form>
+			
+</aside><aside id="text-3" class="widget widget_text"><h1 class="widget-title">About</h1>			<div class="textwidget"><p>Hey there! I&#8217;m a data scientist at <a href="https://helpscout.net">Help Scout</a> where I wrangle data to gain insights into our product and business. I also built <a href="http://www.leandomainsearch.com">Lean Domain Search</a>, <a href="http://www.preceden.com">Preceden</a> and <a href="https://mattmazur.com/projects">many other software products</a> over the years.</p>
+</div>
+		</aside><aside id="text-2" class="widget widget_text">			<div class="textwidget"><p></p>
+<a href="mailto:matthew.h.mazur@gmail.com" title="GMail"><img src="https://matthewmazur.files.wordpress.com/2013/06/gmail.png"></a>
+
+<a href="http://twitter.com/mhmazur" title="Twitter"><img src="https://matthewmazur.files.wordpress.com/2013/06/twitter.png"></a>
+
+<a href="http://www.linkedin.com/in/mhmazur" title="LinkedIn"><img src="https://matthewmazur.files.wordpress.com/2013/06/linkedin.png"></a>
+
+<a href="https://mattmazur.com/feed/" title="RSS"><img src="https://matthewmazur.files.wordpress.com/2013/06/rss.png"></a>
+
+<a href="http://cloud.feedly.com/#subscription%2Ffeed%2Fhttp%3A%2F%2Fmattmazur.com%2Ffeed%2F" title="Feedly"><img src="https://matthewmazur.files.wordpress.com/2013/10/feedly1.png"></a></div>
+		</aside><aside id="search-3" class="widget widget_search">	<form method="get" id="searchform" action="https://mattmazur.com/" role="search">
+		<label for="s" class="assistive-text">Search</label>
+		<input type="text" class="field" name="s" value="" id="s" placeholder="Search &hellip;" />
+		<input type="submit" class="submit" name="submit" id="searchsubmit" value="Search" />
+	</form>
+</aside><aside id="twitter_timeline-2" class="widget widget_twitter_timeline"><h1 class="widget-title">Follow me on Twitter</h1><a class="twitter-timeline" data-width="225" data-height="400" data-theme="light" data-link-color="#f96e5b" data-border-color="#e8e8e8" data-tweet-limit="6" data-lang="EN" data-partner="jetpack" data-widget-id="545611726235123712">My Tweets</a></aside>		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main .site-main -->
+
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+			<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a> 		</div><!-- .site-info -->
+	</footer><!-- #colophon .site-footer -->
+</div><!-- #page .hfeed .site -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201750y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-a27b681bfdcaef67fc95f70e04a3ae91">
+	</div>
+	<div class="grofile-hash-map-29e72ed6340e801e9bcf207fc182d1fd">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/matthewmazur.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?action=logout&_wpnonce=99b1f08a2e","homeURL":"https:\/\/mattmazur.com\/","postID":"1471","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"","userIsLoggedIn":"","isJetpack":"","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+
+	<div id="carousel-reblog-box">
+		<form action="#" name="carousel-reblog">
+			<textarea id="carousel-reblog-content" name="carousel-reblog-content" placeholder="Add your thoughts here... (optional)"></textarea>
+			<label for="carousel-reblog-to-blog-id" id="carousel-reblog-lblogid">Post to</label>
+			<select name="carousel-reblog-to-blog-id" id="carousel-reblog-to-blog-id">
+						</select>
+
+			<div class="submit">
+				<span class="canceltext"><a href="#" class="cancel">Cancel</a></span>
+				<input type="submit" name="carousel-reblog-submit" class="button" id="carousel-reblog-submit" value="Reblog Post" />
+				<input type="hidden" id="carousel-reblog-blog-id" value="53579024" />
+				<input type="hidden" id="carousel-reblog-blog-url" value="https://mattmazur.com" />
+				<input type="hidden" id="carousel-reblog-blog-title" value="Matt Mazur" />
+				<input type="hidden" id="carousel-reblog-post-url" value="" />
+				<input type="hidden" id="carousel-reblog-post-title" value="" />
+			</div>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="7a570d20c5" /><input type="hidden" name="_wp_http_referer" value="/2010/10/04/poker-bot-strategy-for-postflop-play/" />		</form>
+
+		<div class="arrow"></div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = {"https:\/\/mattmazur.com\/2010\/10\/04\/poker-bot-strategy-for-postflop-play\/":1471};
+	</script>
+		<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+			var windowOpen;
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				if ( 'undefined' !== typeof windowOpen ){ // If there's another sharing window open, close it.
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+		<link rel='stylesheet' id='all-css-0-3' href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel.css?m=1481571546h' type='text/css' media='all' />
+<!--[if lte IE 8]>
+<link rel='stylesheet' id='jetpack-carousel-ie8fix-css'  href='https://s1.wp.com/wp-content/mu-plugins/carousel/jetpack-carousel-ie8fix.css?m=1412618825h&#038;ver=20121024' type='text/css' media='all' />
+<![endif]-->
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"53579024","siteName":"Matt Mazur","siteURL":"https:\/\/mattmazur.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/publish","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F","themeURL":"","xhrURL":"https:\/\/mattmazur.com\/wp-admin\/admin-ajax.php","nonce":"da2926f40d","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"6197be8645\" \/>","referer":"https:\/\/mattmazur.com\/2010\/10\/04\/poker-bot-strategy-for-postflop-play\/","canFollow":"1","feedID":"22397902","statusMessage":"","customizeLink":"https:\/\/matthewmazur.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fmatthewmazur.wordpress.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F","postID":"1471","shortlink":"https:\/\/wp.me\/p3COlO-nJ","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/mattmazur.com\/1471","statsLink":"https:\/\/wordpress.com\/stats\/post\/1471\/mattmazur.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Publish","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in Reader","viewReadPost":"View post in Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"Join 2,548 other followers","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var jetpackCarouselStrings = {"widths":[370,700,1000,1200,1400,2000],"is_logged_in":"","lang":"en","ajaxurl":"https:\/\/mattmazur.com\/wp-admin\/admin-ajax.php","nonce":"e2cc200dcd","display_exif":"1","display_geo":"1","single_image_gallery":"1","single_image_gallery_media_file":"","background_color":"black","comment":"Comment","post_comment":"Post Comment","write_comment":"Write a Comment...","loading_comments":"Loading Comments...","download_original":"View full size <span class=\"photo-size\">{0}<span class=\"photo-size-times\">\u00d7<\/span>{1}<\/span>","no_comment_text":"Please be sure to submit some text with your comment.","no_comment_email":"Please provide an email address to comment.","no_comment_author":"Please provide your name to comment.","comment_post_error":"Sorry, but there was an error posting your comment. Please try again later.","comment_approved":"Your comment was approved.","comment_unapproved":"Your comment is in moderation.","camera":"Camera","aperture":"Aperture","shutter_speed":"Shutter Speed","focal_length":"Focal Length","comment_registration":"0","require_name_email":"1","login_url":"https:\/\/matthewmazur.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fmattmazur.com%2F2010%2F10%2F04%2Fpoker-bot-strategy-for-postflop-play%2F","blog_id":"53579024","local_comments_commenting_as":"<fieldset><label for=\"email\">Email (Required)<\/label> <input type=\"text\" name=\"email\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-email-field\" \/><\/fieldset><fieldset><label for=\"author\">Name (Required)<\/label> <input type=\"text\" name=\"author\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-author-field\" \/><\/fieldset><fieldset><label for=\"url\">Website<\/label> <input type=\"text\" name=\"url\" class=\"jp-carousel-comment-form-field jp-carousel-comment-form-text-field\" id=\"jp-carousel-comment-form-url-field\" \/><\/fieldset>","reblog":"Reblog","reblogged":"Reblogged","reblog_add_thoughts":"Add your thoughts here... (optional)","reblogging":"Reblogging...","post_reblog":"Post Reblog","stats_query_args":"blog=53579024&v=wpcom&tz=-5&user_id=0&subd=matthewmazur","is_public":"1","reblog_enabled":""};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??-eJyVUO1OwzAMfCHSDI0O8QPxKChLvdVtvmY7G3v7uYKOCk2V+BHZsu/Ol7OXYnxOAknswLaDM3ooX83AT3axitWUUI+Y2AYcge2pQoXepS4A/QVLD1Ehpe6nF5D7SZqjC8FESHXGY/KhdorUrc9RV2IISrg2EdOKgwGkOD/aTxWwckERICMYIWCCFZ7rVNfsHdnoWDnamXwGIpxM3Gf/VBBSL7xG8oI5TaR79ygBLr+fXs4HjZquP6VZoh7c8o5yZQhzRmYerPkbkSOI2Tab70gPmeIKvmQWcwgOyXLvCNNxrkr6iO/P7eZt+/rS7trhBhxs4n4='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20170206#ver=20170206' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+<script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'53579024','blog_tz':'-5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'53579024','v':'wpcom','tz':'-5','user_id':'0','post':'1471','subd':'matthewmazur'}]);
+_stq.push(['extra', {'crypt':'UE40eW5QN0p8M2Y/RE1TaVhzUzFMbjdWNHpwZGhTayxPSUFCMGRVYVNrSFguN3FwSmQ5RGtNX3VQcj1yVzhiflM1THQtLGFdQ2toOXYlK0JfZ0Y2Zk1mRUQtVkxkeWZBTzRYWlo9S2RoaEJXaEJZT1lRVGRncj9IZXM9bzBxLUVsLTJiQ3VvR00wblV6ZF1dOGh6MEhuS3g4NlVualNWRGdnLTFaYW9IWyZNYmJyP2J+eE5+cTN5NT04ZGZwS0Y0WlYwSFZRSEQlMlVHNWllbThIaFo/OTB8MC5UZ0MwQ25rfDFMQ3FRenBIQ19FYlt1aj1oaythXVImVU9JS3dJazNVRFg2VytlWSw/LSZvaDRSWV1RTFtuR3NnTSsvNjd2cmdFJWtSJi5ESzBYLkxbWmpNYUpieGxBdVAsSk9ZNzFaOUlWV3k9cHRJOFg='}]);
+_stq.push([ 'clickTrackerInit', '53579024', '1471' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated in 0.193 seconds
+	96477 bytes batcached for 300 seconds
+-->
