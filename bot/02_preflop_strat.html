@@ -5,15 +5,9 @@
 </head>
 
 <body>
-<article id="post-1465" class="post-1465 post type-post status-publish format-standard hentry category-poker-bot">
-	<header class="entry-header">
-		<h1 class="entry-title">Poker Bot Preflop&nbsp;Strategy</h1>
-	</header><!-- .entry-header -->
+<h1 class="entry-title">Poker Bot Preflop&nbsp;Strategy</h1>
 
-	<div class="entry-content">
-		<div style="border:1px solid #e6db55;margin:0 auto 20px;padding:10px;width:80%;background-color:#fffbcc;font-size:.9em;text-align:center;">This is post #16 in an ongoing <a href="http://www.mattmazur.com/category/poker-bot/">series of articles</a> about my work as a poker bot developer.</div>
-<p>In mid 2007, several months into building <a href="http://www.mattmazur.com/2009/10/building-a-shortstacking-poker-bot-a-visual-history/">the first version of my poker bot</a>, I decided to seek some help with the bot&#8217;s poker strategy. I was a pretty good at <a href="http://www.mattmazur.com/2009/06/introduction-heads-up-no-limit-holdem-sit-n-gos/">Heads Up Sit-n-Gos</a>, but I didn&#8217;t have a lot of experience playing full ring games, which is what I was building the bot for. I posted a thread in a poker forum explaining that I had a working bot but that I needed help with strategy and that anyone who wanted to help should email me.</p>
-<p>Several folks contacted me, but one stood out above the rest. This guy was not only an extremely talented player, but he also possessed a deep analytical ability that helped him understand <em>why</em> he made decisions he made. So with him guiding the strategy, we set out to build a profitable NL200 ($1/$2) six-max poker bot.</p>
+<p> This guy was not only an extremely talented player, but he also possessed a deep analytical ability that helped him understand <em>why</em> he made decisions he made. So with him guiding the strategy, we set out to build a profitable NL200 ($1/$2) six-max poker bot.</p>
 <p>As you&#8217;ll see in a minute, he was brilliant. A genius. He knew his stuff inside and out. As I read over the first strategy email he sent me I couldn&#8217;t help but think that we were going to completely destroy the tables.</p>
 <p>However, the more we worked, the more he realized how complex it was. It&#8217;s funny: you can teach someone to play decent poker in half an hour so it seems like it shouldn&#8217;t be that hard to teach a computer. After all, you have access to millions hands and more processing power that you could ever need&#8211;how hard could it be?</p>
 <p>It&#8217;s pretty hard. If you doubt it, try writing down a winning strategy and giving it to someone who has never played poker before. Have them join a game and tell the person to follow your directions no matter what and never to deviate even when they think it makes sense to do so. One of the things you&#8217;ll quickly discover is that a lot of factors influence your decisions. At least they should. It&#8217;s not just your hole cards and the hand you make that you have to factor in: your position, the stack sizes, the action leading up to that point, the table dynamics, your opponents&#8217; styles, the meta game, and a dozen other factors help you decide what to do. How do you tell a poker bot to make a decision based on all these factors? That&#8217;s the tricky. But if you don&#8217;t, you&#8217;re going to have a tough time building a winning full stack no limit bot.</p>
@@ -175,119 +169,5 @@ EV folding is 0<br />
 EV calling is (equity)*(size of pot after call)*TIO – (amount to call) – (chance we will have to fold this round*amount to call)<br />
 EV raising is (Equity when called)*(size of pot when called)*TIO + (% chance all fold)* (size of the pot with our raise) – (amount costs us to raise) – (EV loss when we have to fold after we raise)</p>
 <p>We will assign hand ranges to each relevant (defined later) player in the hand by taking the % of time they perform that action for raising (positional pfr for 1st raises, 3 betting graduated for position for 2nd raises) and using our predefined raising table, and 1/2raise%-call% for players who have called.</p>
-<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-1465" class="share-twitter sd-button share-icon" href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/?share=twitter" target="_blank" title="Click to share on Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-1465" class="share-facebook sd-button share-icon" href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/?share=facebook" target="_blank" title="Share on Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-53579024-1465-5a3030f13df44' data-src='//widgets.wp.com/likes/#blog_id=53579024&amp;post_id=1465&amp;origin=matthewmazur.wordpress.com&amp;obj_id=53579024-1465-5a3030f13df44' data-name='like-post-frame-53579024-1465-5a3030f13df44'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
-<div id='jp-relatedposts' class='jp-relatedposts' >
-	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
-</div></div>			</div><!-- .entry-content -->
-
-	<footer class="entry-meta">
-		Posted on <a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/" title="6:06 pm" rel="bookmark"><time class="entry-date" datetime="2010-10-01T18:06:29+00:00" pubdate>October 1, 2010</time></a><span class="byline"> by <span class="author vcard"><a class="url fn n" href="https://mattmazur.com/author/mhmazur/" title="View all posts by Mazur" rel="author">Mazur</a></span></span>.		This entry was posted in <a href="https://mattmazur.com/category/poker-bot/" rel="category tag">Poker Bot</a>. Bookmark the <a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/" title="Permalink to Poker Bot Preflop&nbsp;Strategy" rel="bookmark">permalink</a>.
-			</footer><!-- .entry-meta -->
-</article><!-- #post-1465 -->
-
-					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
-		<h1 class="assistive-text">Post navigation</h1>
-
-	
-		<div class="nav-previous"><a href="https://mattmazur.com/2010/09/15/recurring-billing-fun/" rel="prev"><span class="meta-nav">&larr;</span> Recurring Billing Fun</a></div>		<div class="nav-next"><a href="https://mattmazur.com/2010/10/04/poker-bot-strategy-for-postflop-play/" rel="next">Poker Bot Strategy for Postflop&nbsp;Play <span class="meta-nav">&rarr;</span></a></div>
-	
-	</nav><!-- #nav-below -->
-	
-				
-	<div id="comments" class="comments-area">
-
-	
-			<h2 class="comments-title">
-			4 thoughts on &ldquo;<span>Poker Bot Preflop&nbsp;Strategy</span>&rdquo;		</h2>
-
-		
-		<ol class="commentlist">
-			
-	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-717">
-		<article id="comment-717" class="comment">
-			<footer>
-				<div class="comment-author vcard">
-					<img alt='' src='https://2.gravatar.com/avatar/87855b06def1df56b43281ba5ac115a8?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn"><a href='http://mindfsck.net' rel='external nofollow' class='url'>Jason</a></cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
-				
-				<div class="comment-meta commentmetadata">
-					<a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/#comment-717"><time pubdate datetime="2010-10-02T02:03:47+00:00">
-					October 2, 2010 at 2:03 am					</time></a>
-									</div><!-- .comment-meta .commentmetadata -->
-			</footer>
-
-			<div class="comment-content"><p>Thanks for sharing, your so right when you say along the lines of &#8216;seems simple on the surface, but not when you try to implement it&#8217;</p>
-<p>I got to the end and thought wow there&#8217;s so many variables, equations and decisions which go into poker. </p>
-<p>Then I realized that this logic decides only 1 decision in 1 variety of poker and that just blew my mind.</p>
-<p>To bad this guy isn&#8217;t as good of a programming as he is cash game player however.</p>
-</div>
-
-			<div class="reply">
-				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/?replytocom=717#respond' onclick='return addComment.moveForm( "comment-717", "717", "respond", "1465" )' aria-label='Reply to Jason'>Reply</a>			</div><!-- .reply -->
-		</article><!-- #comment-## -->
-
-	</li><!-- #comment-## -->
-
-	<li class="comment byuser comment-author-mhmazur bypostauthor odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-718">
-		<article id="comment-718" class="comment">
-			<footer>
-				<div class="comment-author vcard">
-					<img alt='' src='https://0.gravatar.com/avatar/36410bc698c05fe9cc30bca18d8e96ed?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">mattm</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
-				
-				<div class="comment-meta commentmetadata">
-					<a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/#comment-718"><time pubdate datetime="2010-10-02T10:09:45+00:00">
-					October 2, 2010 at 10:09 am					</time></a>
-									</div><!-- .comment-meta .commentmetadata -->
-			</footer>
-
-			<div class="comment-content"><p>Jason, yeah, it&#8217;s a doozy. </p>
-<p>The mind-blowing thing is that human players don&#8217;t make decisions like this. They weigh factors, sure, but they don&#8217;t perform complex weighted averages in their head to decide whether to call or fold or whatever, which brings about a more fundamental question: how *do* we make decisions?</p>
-</div>
-
-			<div class="reply">
-				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/?replytocom=718#respond' onclick='return addComment.moveForm( "comment-718", "718", "respond", "1465" )' aria-label='Reply to mattm'>Reply</a>			</div><!-- .reply -->
-		</article><!-- #comment-## -->
-
-	</li><!-- #comment-## -->
-
-	<li class="comment even thread-even depth-1 highlander-comment" id="li-comment-719">
-		<article id="comment-719" class="comment">
-			<footer>
-				<div class="comment-author vcard">
-					<img alt='' src='https://0.gravatar.com/avatar/6621b288d03f4378064b6af904d63fb7?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">alex</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
-				
-				<div class="comment-meta commentmetadata">
-					<a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/#comment-719"><time pubdate datetime="2010-10-02T13:45:28+00:00">
-					October 2, 2010 at 1:45 pm					</time></a>
-									</div><!-- .comment-meta .commentmetadata -->
-			</footer>
-
-			<div class="comment-content"><p>The task is seems not so easy to solve using ordinary if then logic, even using weights in formulas.<br />
-The more I think about the problem the less I understand how to deal with it. However I&#8217;m going to check if I could write an easier sub models (like playing HU SNG, 9max SNG) for the bot. There is much less postflop play decisions and this could work at least at low-stakes.</p>
-<p>When you talk about different factors used by human to make a decision &#8211; it seems that the task could be solved using basic AI algos, but it should be somehow optimized to use limited amount of initial knowledge</p>
-</div>
-
-			<div class="reply">
-				<a rel='nofollow' class='comment-reply-link' href='https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/?replytocom=719#respond' onclick='return addComment.moveForm( "comment-719", "719", "respond", "1465" )' aria-label='Reply to alex'>Reply</a>			</div><!-- .reply -->
-		</article><!-- #comment-## -->
-
-	</li><!-- #comment-## -->
-
-	<li class="comment odd alt thread-odd thread-alt depth-1 highlander-comment" id="li-comment-720">
-		<article id="comment-720" class="comment">
-			<footer>
-				<div class="comment-author vcard">
-					<img alt='' src='https://2.gravatar.com/avatar/88e221781f7a530a8697f792314fbfae?s=40&#038;d=identicon&#038;r=G' class='avatar avatar-40' height='40' width='40' />					<cite class="fn">Ethan</cite> <span class="says">says:</span>				</div><!-- .comment-author .vcard -->
-				
-				<div class="comment-meta commentmetadata">
-					<a href="https://mattmazur.com/2010/10/01/poker-bot-preflop-strategy/#comment-720"><time pubdate datetime="2010-10-09T11:20:29+00:00">
-					October 9, 2010 at 11:20 am					</time></a>
-									</div><!-- .comment-meta .commentmetadata -->
-			</footer>
-
-			<div class="comment-content"><p>I think &#8220;how *do* we make decisions?&#8221; is the wrong question to ask in relation to creating a winning bot strategy while maintaining your sanity.  Each individual has his own unique decision making process based on mental models formed over time.  That&#8217;s the beauty of the human mind.</p>
-<p>As I was reading the email, I couldn&#8217;t help but be overwhelmed by the complexity of the proposed algorithm.  If I was tasked with constructing a winning $200NL full-ring strategy, I would try to simplify things from the start.  Humans are good imitators.  Instead of trying to create an sLAG strategy from scratch, I would try to mimic the nitty winning strategies being employed by mass-multitablers.  I chose the criteria (nitty, winning, mass-multitabler) because I suspect the strategies will be inherently robotic.</p>
-<p>Anyways, thank you for continuing to post about your botting endeavors!</p>
-</div>
-</script>
 </body>
 </html>
