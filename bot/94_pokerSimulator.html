@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="ru-RU" prefix="og: http://ogp.me/ns#" prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile# fb: http://ogp.me/ns/fb#">
+
+<head>
+<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="https://xakep.ru/xmlrpc.php" />
+<title>Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов - создаем симулятор тренировки - «Хакер»</title>
+<link rel=amp href="https://xakep.ru/2010/08/07/54479/?amp"><script type='text/javascript'>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-6342695-5', {alwaysSendReferrer:true, allowLinker:true});
+  ga('require', 'linkid', 'linkid.js');
+  ga('require', 'displayfeatures');
+  ga('require', 'ec');
+  ga('set', 'transport', 'beacon');
+    ga('set', 'dimension3', 'Сайт: Бесплатная статья');
+  setTimeout(function(){ga('send', 'pageview')}, 3000);
+</script>
+
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/92401962/xa_mpu-0', [[240, 400], [300, 500]], 'div-gpt-ad-1490636343115-0').addService(googletag.pubads());
+    googletag.defineSlot('/92401962/xa_infinite-scroll-0', [[970, 250], [900, 300]], 'div-gpt-ad-1503061604477-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.pubads().collapseEmptyDivs();
+    googletag.enableServices();
+  });
+</script>
+
+  <script src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+  <script src="//yastatic.net/share2/share.js"></script>
+
+<!-- This site is optimized with the Yoast SEO plugin v5.9.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="https://xakep.ru/2010/08/07/54479/" />
+<meta property="og:locale" content="ru_RU" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов - создаем симулятор тренировки - «Хакер»" />
+<meta property="og:description" content="В этой статье мы рассмотрим создание симулятора покера. Так как правила покера немного отличаются между собой, то в качестве правил для симуляции мы возьмем правила Holdem No Limit Poker с сайта PokerStars. На основе симулятора мы сделаем две игры — игра компьютера с живым игроком и просто игра компьютерных игроков между собой" />
+<meta property="og:url" content="https://xakep.ru/2010/08/07/54479/" />
+<meta property="og:site_name" content="«Хакер»" />
+<meta property="article:tag" content="Статьи" />
+<meta property="article:section" content="Материалы сайта" />
+<meta property="article:published_time" content="2010-08-07T14:18:18+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:description" content="В этой статье мы рассмотрим создание симулятора покера. Так как правила покера немного отличаются между собой, то в качестве правил для симуляции мы возьмем правила Holdem No Limit Poker с сайта PokerStars. На основе симулятора мы сделаем две игры — игра компьютера с живым игроком и просто игра компьютерных игроков между собой" />
+<meta name="twitter:title" content="Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов - создаем симулятор тренировки - «Хакер»" />
+<script type='application/ld+json'>{"@context":"http:\/\/schema.org","@type":"WebSite","@id":"#website","url":"https:\/\/xakep.ru\/","name":"\u0416\u0443\u0440\u043d\u0430\u043b \"XAKEP\"","potentialAction":{"@type":"SearchAction","target":"https:\/\/xakep.ru\/?s={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="«Хакер» &raquo; Лента" href="https://xakep.ru/feed/" />
+<link rel="alternate" type="application/rss+xml" title="«Хакер» &raquo; Лента комментариев" href="https://xakep.ru/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="«Хакер» &raquo; Лента комментариев к &laquo;Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов &#8212; создаем симулятор тренировки&raquo;" href="https://xakep.ru/2010/08/07/54479/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/xakep.ru\/wp-includes\/js\/wp-emoji-release.min.js"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b!==c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='snp_styles_reset-group-css' href='https://xakep.ru/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/arscode-ninja-popups/themes/reset.min.css,wp-content/plugins/arscode-ninja-popups/fancybox2/jquery.fancybox.min.css,wp-content/plugins/arscode-ninja-popups/themes/newtheme1/css/newtheme1.css,wp-content/plugins/contact-form-7/includes/css/styles.css,wp-content/plugins/google-captcha/css/gglcptch.css,wp-content/plugins/wp-polls/polls-css.css,wp-content/themes/woohoo/style.css,wp-content/themes/woohoo/css/main.css,wp-content/themes/woohoo/css/ilightbox/dark-skin/skin.css,wp-content/plugins/prettify-code-syntax/stylesheets/default.css,wp-content/plugins/xakep-core/style.css,wp-content/plugins/xakep-core/banners/style.css&#038;ver=1513032822' type='text/css' media='all' />
+<style id='wp-polls-inline-css' type='text/css'>
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background: #dd2200;
+	border: 1px solid #dd2200;
+}
+
+</style>
+<link rel='stylesheet' id='Ubuntu-css'  href='https://fonts.googleapis.com/css?family=Ubuntu%3A300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C700%2C700italic&#038;subset=latin%2Ccyrillic' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var bd_w_blocks = {"bdaia_w_ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","bdaia_w_ajax_nonce":"c0078d9c35"};
+var bd_blocks = {"bdaia_ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","bdaia_ajaxnonce":"c0078d9c35"};
+var bd_script = {"post_id":"43446","ajaxurl":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://xakep.ru/wp-includes/js/jquery/jquery.js'></script>
+<script type='text/javascript' src='https://xakep.ru/wp-includes/js/jquery/jquery-migrate.min.js'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var woohoo_views_c = {"admin_ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","post_id":"43446"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://xakep.ru/wp-content/plugins/bwp-minify/min/?f=wp-content/themes/woohoo/js/views.js&#038;ver=1513032822'></script>
+<link rel='https://api.w.org/' href='https://xakep.ru/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://xakep.ru/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://xakep.ru/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.8.4" />
+<link rel='shortlink' href='https://xakep.ru/?p=43446' />
+<link rel="alternate" type="application/json+oembed" href="https://xakep.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxakep.ru%2F2010%2F08%2F07%2F54479%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://xakep.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxakep.ru%2F2010%2F08%2F07%2F54479%2F&#038;format=xml" />
+<style type="text/css">
+    #wpadminbar .quicklinks {margin: 0 4px;}
+    #wpadminbar .quicklinks a {color: #aaa !important;}
+    #wpadminbar .quicklinks a strong {color: #fff; font-weight: bold;}
+    #wpadminbar .quicklinks li:hover>a,
+    #wpadminbar .quicklinks li a:hover,
+    #wpadminbar .quicklinks li a:focus {color: #fff !important; background-color: transparent !important;}
+    #wpadminbar .quicklinks #wp-admin-bar-bp-login,
+    #wpadminbar .quicklinks #wp-admin-bar-bp-register {display: none;}
+    #wpadminbar .quicklinks #wp-admin-bar-login,
+    #wpadminbar .quicklinks #wp-admin-bar-register {float: right;}
+    @media screen and (max-width: 782px){
+      #wpadminbar .quicklinks #wp-admin-bar-login,
+      #wpadminbar .quicklinks #wp-admin-bar-register {display: block; padding: 0 12px;}
+    }
+  </style>        <script type="text/javascript">
+            /* <![CDATA[ */
+            var sf_position = '0';
+            var sf_templates = "<a href=\"{search_url_escaped}\"><span class=\"sf_text\">\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0432\u0441\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b<\/span><\/a>";
+            var sf_input = '.search-live';
+            jQuery(document).ready(function(){if(typeof jQuery(sf_input).ajaxyLiveSearch === 'function'){
+                jQuery(sf_input).ajaxyLiveSearch({"expand":false,"searchUrl":"https:\/\/xakep.ru\/?s=%s","text":"Search","delay":500,"iwidth":180,"width":315,"ajaxUrl":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","rtl":0});
+                jQuery(".live-search_ajaxy-selective-input").keyup(function() {
+                    var width = jQuery(this).val().length * 8;
+                    if(width < 50) {
+                        width = 50;
+                    }
+                    jQuery(this).width(width);
+                });
+                jQuery(".live-search_ajaxy-selective-search").click(function() {
+                    jQuery(this).find(".live-search_ajaxy-selective-input").focus();
+                });
+                jQuery(".live-search_ajaxy-selective-close").click(function() {
+                    jQuery(this).parent().remove();
+                });
+            }});
+            /* ]]> */
+        </script>
+    <link rel="shortcut icon" href="https://xakep.ru/wp-content/uploads/2016/09/favicon.ico" type="image/x-icon" />	<script type="text/javascript">
+		var bdaia_theme_uri = 'https://xakep.ru/wp-content/themes/woohoo';
+	</script>
+	<style type="text/css">
+.bdaia-post-content, .bdaia-post-content p, .bdaia-post-content h1, .bdaia-post-content h2, .bdaia-post-content h3, .bdaia-post-content h4, .bdaia-post-content h5, .bdaia-post-content h6, .bdaia-post-content blockquote p, blockquote p {color: 333333;}.bdaia-post-content a{color: #2283B3;}.bdaia-post-content a:hover{color: #3AA0E8;}body {}
+a:hover{color:#dd2200}
+::selection{background:#dd2200}
+a.more-link, button, .btn-link, input[type="button"], input[type="reset"], input[type="submit"] { background-color:#dd2200}
+button:active, .btn-link:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active { background-color:#dd2200}
+.gotop:hover { background-color:#dd2200}
+.top-search { background-color:#dd2200}
+.primary-menu ul#menu-primary > li.current-menu-parent, .primary-menu ul#menu-primary > li.current-menu-ancestor, .primary-menu ul#menu-primary > li.current-menu-item, .primary-menu ul#menu-primary > li.current_page_item { color: #dd2200; }
+.primary-menu ul#menu-primary > li.current-menu-parent > a, .primary-menu ul#menu-primary > li.current-menu-ancestor > a, .primary-menu ul#menu-primary > li.current-menu-item > a, .primary-menu ul#menu-primary > li.current_page_item > a { color: #dd2200; }
+.primary-menu ul#menu-primary > li:hover > a { color: #dd2200; }
+.primary-menu ul#menu-primary li.bd_menu_item ul.sub-menu li:hover > ul.sub-menu, .primary-menu ul#menu-primary li.bd_mega_menu:hover > ul.bd_mega.sub-menu, .primary-menu ul#menu-primary li.bd_menu_item:hover > ul.sub-menu, .primary-menu ul#menu-primary .sub_cats_posts { border-top-color: #dd2200; }
+div.nav-menu.primary-menu-dark a.menu-trigger:hover i, div.nav-menu.primary-menu-light a.menu-trigger:hover i, div.nav-menu.primary-menu-light a.menu-trigger.active i, div.nav-menu.primary-menu-dark a.menu-trigger.active i { background: #dd2200; }
+span.bd-criteria-percentage { background: #dd2200; color: #dd2200; }
+.divider-colors { background: #dd2200; }
+.blog-v1 article .entry-meta a { color: #dd2200; }
+.blog-v1 article .article-formats { background-color: #dd2200; }
+.cat-links { background-color: #dd2200; }
+.new-box { border-top-color: #dd2200; }
+.widget a:hover { color: #dd2200; }
+.timeline-article a:hover i {
+    color: #dd2200;
+}
+h4.block-title:before {background: #dd2200;}
+#header.bdayh-header.a {background: #dd2200;}
+.bdaia-load-comments-btn a:hover,
+.bd-more-btn:hover{
+    border-color: #dd2200 ;
+    background-color: #dd2200 ;
+}
+#bdaia-cats-builder ul.slick-dots li.slick-active button{
+	background: #dd2200;
+}
+.bdaia-cats-more-btn,
+.bbd-post-cat-content, .bbd-post-cat-content a,
+.blog-v1 article a.more-link { color: #dd2200; }
+#big-grids .flex-next:hover,
+#big-grids .flex-prev:hover,
+.featured-title:hover .featured-cat a,
+.featured-title .featured-comment a,
+.big-grids-container .flex-control-paging li a.flex-active,
+.tagcloud a:hover { background: #dd2200; }
+.featured-title:hover .bd-cat-link:before {border-top-color: #dd2200;}
+.featured-title .featured-comment a:after {
+    border-color: #dd2200 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+ul.tabs_nav li.active a { background: #dd2200; }
+.bd-tweets ul.tweet_list li.twitter-item a { color: #dd2200; }
+.widget.bd-login .login_user .bio-author-desc a { color: #dd2200; }
+.comment-reply-link, .comment-reply-link:link, .comment-reply-link:active { color: #dd2200; }
+.gallery-caption { background-color: #dd2200; }
+.slider-flex ol.flex-control-paging li a.flex-active { background: #dd2200; }
+#folio-main ul#filters li a.selected { background: #dd2200; }
+.search-mobile button.search-button { background: #dd2200; }
+.bdaia-pagination .current {
+background-color: #dd2200;
+border-color: #dd2200;
+}
+.gotop{background: #dd2200;}
+.ei-slider-thumbs li.ei-slider-element {background: #dd2200;}
+.ei-title h2,
+.ei-title h3 {border-right-color: #dd2200;}
+.sk-circle .sk-child:before,
+#reading-position-indicator{background: #dd2200;}
+#bdCheckAlso{border-top-color: #dd2200;}
+.woocommerce .product .onsale, .woocommerce .product a.button:hover, .woocommerce .product #respond input#submit:hover, .woocommerce .checkout input#place_order:hover, .woocommerce .woocommerce.widget .button:hover, .single-product .product .summary .cart .button:hover, .woocommerce-cart .woocommerce table.cart .button:hover, .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover, .woocommerce .woocommerce-message .button:hover, .woocommerce .woocommerce-error .button:hover, .woocommerce .woocommerce-info .button:hover, .woocommerce-checkout .woocommerce input.button:hover, .woocommerce-page .woocommerce a.button:hover, .woocommerce-account div.woocommerce .button:hover, .woocommerce.widget .ui-slider .ui-slider-handle, .woocommerce.widget.widget_layered_nav_filters ul li a {background: none repeat scroll 0 0 #dd2200 !important}
+.bdaia-ns-wrap:after {background:#dd2200}
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li >.bd_mega.sub-menu,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li > .sub-menu,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary .sub_cats_posts {border-top-color: #dd2200}
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li:hover > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-item > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-ancestor > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-parent > a:after {background:#dd2200}
+.bdaia-header-default #navigation .primary-menu #menu-primary > li:hover > a{color: #dd2200}
+.bdayh-click-open{background:#dd2200}
+div.bdaia-alert-new-posts-inner,
+.bdaia-header-default .header-wrapper{border-top-color: #dd2200}
+.bdaia-post-content blockquote{border-color: #dd2200}
+.bdaia-post-content a {color: #dd2200}
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover,
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover span.bdayh-date {
+    color: #dd2200;
+}
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover span.bdayh-date:before {
+    background: #dd2200;
+    border-color: #dd2200;
+}
+#navigation .bdaia-alert-new-posts,
+#navigation .bdaia-cart span.shooping-count,
+div.bdaia-tabs.horizontal-tabs ul.nav-tabs li.current:before,
+div.bdaia-toggle h4.bdaia-toggle-head.toggle-head-open span.bdaia-sio {
+    background: #dd2200;
+}
+.woocommerce .product .onsale, .woocommerce .product a.button:hover, .woocommerce .product #respond input#submit:hover, .woocommerce .checkout input#place_order:hover, .woocommerce .woocommerce.widget .button:hover, .single-product .product .summary .cart .button:hover, .woocommerce-cart .woocommerce table.cart .button:hover, .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover, .woocommerce .woocommerce-message .button:hover, .woocommerce .woocommerce-error .button:hover, .woocommerce .woocommerce-info .button:hover, .woocommerce-checkout .woocommerce input.button:hover, .woocommerce-page .woocommerce a.button:hover, .woocommerce-account div.woocommerce .button:hover, .woocommerce.widget .ui-slider .ui-slider-handle, .woocommerce.widget.widget_layered_nav_filters ul li a {
+    background: none repeat scroll 0 0 #dd2200 !important
+}
+div.bdaia-post-count {border-left-color :#dd2200}
+#bdaia-selector #bdaia-selector-toggle {background:#dd2200}
+div.bdaia-blocks.bdaia-block22 div.block-article hr{background:#dd2200}
+div.bdaia-blocks.bdaia-block22 div.block-article .post-more-btn a,
+div.bdaia-blocks.bdaia-block22 div.block-article .post-more-btn a:hover,
+div.bdaia-blocks.bdaia-block22 div.block-article .bdaia-post-cat-list a,
+div.bdaia-blocks.bdaia-block22 div.block-article .bdaia-post-cat-list a:hover{color:#dd2200}
+.bd-cat-104{ background : #23282d !important }.bd-cat-104:before{ border-top-color : #23282d !important }.bd-cat-103{ background : #23282d !important }.bd-cat-103:before{ border-top-color : #23282d !important }body{font-size : 15px; }
+.bdaia-header-default .topbar .top-nav > li > a{font-size : 13px; }
+.bdaia-header-default #navigation .primary-menu #menu-primary > li > a{font-size : 14px; font-weight: bold; }
+#bd-MobileSiderbar #mobile-menu a{font-weight: bolder; }
+.bdaia-crumb-container{font-family: 'Ubuntu'; }
+.bdaia-feature-posts.bdaia-fp-s1 .bdaia-post-title .entry-title{font-family: 'Ubuntu'; }
+.bdaia-feature-posts.bdaia-fp-s2 .big-grids .featured-title h2{font-family: 'Ubuntu'; }
+.bdaia-feature-posts.bdaia-fp-s2 .big-grids.big-grid1 .big-grid-1 .featured-title h2{font-size : 36px; line-height : 36px; }
+.bdaia-feature-posts.bdaia-fp-s3 .big-grids.big-grid2 .big-grid-1 .featured-title h2, .bdaia-feature-posts.bdaia-fp-s3 .big-grids.big-grid2 .big-grid-2 .featured-title h2{font-family: 'Ubuntu'; font-size : 36px; line-height : 36px; }
+.bd-post-carousel-item article .bd-meta-info-align h3{font-family: 'Ubuntu'; }
+.bd-cat-link{font-family: 'Ubuntu'; }
+.bd-more-btn, .bdaia-wb-wrap .bdaia-wb-more-btn .bdaia-wb-mb-inner, .bdaia-load-more-news-btn, button, input[type="button"], input[type="reset"], input[type="submit"]{font-family: 'Ubuntu'; text-transform: uppercase; }
+.bdaia-block-wrap h4.block-title, .bdaia-template-head h4.block-title{font-family: 'Ubuntu'; font-size : 26px; line-height : 32px; }
+.bdaia-block-wrap .bdaia-blocks p.block-exb, .bdaia-slider-block .ei-title h3{font-size : 16px; }
+.bdaia-blocks.bdaia-block1 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block2 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block3 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block4 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block5 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block6 h3{font-family: 'Ubuntu'; font-weight: bolder; }
+.bdaia-blocks.bdaia-block7 h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block8 .block-article.block-first-article h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block9 .block-article.block-first-article h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block10 .block-article.block-first-article h3{font-family: 'Ubuntu'; }
+.bdaia-blocks.bdaia-block11 .block-article.block-first-article h3{font-family: 'Ubuntu'; }
+.bdaia-wb-wrap .bwb-article-content-wrapper footer{font-size : 13px; line-height : 16px; font-weight: normal; }
+.bdaia-wb-wrap .bdaia-wb-article p.block-exb, .check-also-post p{font-size : 14px; }
+div.widget.bdaia-widget .widget-inner li, div.widget.bdaia-widget .widget-inner h3, div.widget.bdaia-widget .widget-inner h4, div.widget.bdaia-widget.bd-tweets .widget-inner p.twitter-text, .check-also-post .post-title, .bdaia-posts-grid-post.post .entry-title, .bdaia-posts-grid-post h3{font-size : 15px; line-height : 18px; font-weight: 400; }
+.bdaia-wb-wrap .bdaia-wb-article.bdaia-wba-big .entry-title, .bdaia-wb-wrap .bdaia-wb-article.bdaia-wba-bigsh .entry-title{font-family: 'Ubuntu'; }
+.single .bdaia-meta-info, .page .bdaia-meta-info{font-family: 'Ubuntu'; }
+.bdaia-post-title .entry-title{font-family: 'Ubuntu'; }
+.single .bdaia-site-content h4.block-title, .page .bdaia-site-content h4.block-title, .bdaia-author-box .authorBlock-header-title{font-family: 'Ubuntu'; }
+.single .bdaia-site-content .bdaia-post-content, .single .bdaia-site-content .bdaia-post-content p, .page .bdaia-site-content .bdaia-post-content, .page .bdaia-site-content .bdaia-post-content p{font-size : 18px; line-height : 26px; }
+.single .bdaia-site-content .bdaia-post-content blockquote, .single .bdaia-site-content .bdaia-post-content blockquote p, .page .bdaia-site-content .bdaia-post-content blockquote, .page .bdaia-site-content .bdaia-post-content blockquote p{font-size : 16px; line-height : 22px; font-weight: 400; text-transform: none; }
+.bdaia-site-content .bdaia-post-content h1{font-family: 'Ubuntu'; }
+.bdaia-site-content .bdaia-post-content h2{font-family: 'Ubuntu'; }
+.bdaia-site-content .bdaia-post-content h3{font-family: 'Ubuntu'; }
+.bdaia-site-content .bdaia-post-content h4{font-family: 'Ubuntu'; }
+.bdaia-site-content .bdaia-post-content h5{font-family: 'Ubuntu'; }
+.bdaia-site-content .bdaia-post-content h6{font-family: 'Ubuntu'; }
+
+</style><!--[if IE]>
+<script type="text/javascript">jQuery(document).ready(function (){ jQuery(".menu-item").has("ul").children("a").attr("aria-haspopup", "true");});</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="https://xakep.ru/wp-content/themes/woohoo/js/html5.js"></script>
+<script src="https://xakep.ru/wp-content/themes/woohoo/js/selectivizr-min.js"></script>
+<![endif]-->
+<!--[if IE 9]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie9.css" />
+<![endif]-->
+<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie8.css" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie7.css" />
+<![endif]-->
+	<link rel="icon" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon-93x93.png" sizes="32x32" />
+<link rel="icon" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png" sizes="192x192" />
+<link rel="apple-touch-icon-precomposed" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png" />
+<meta name="msapplication-TileImage" content="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png" />
+</head>
+<body class="post-template-default single single-post postid-43446 single-format-standard " itemscope itemtype="http://schema.org/WebPage">
+
+<div class="page-outer bdaia-header-default bdaia-post-template-style7  bdaia-sidebar-none ">
+	<div class="bg-cover"></div>
+	<aside id="bd-MobileSiderbar">
+					<div class="search-mobile">
+				<form role="search" method="get" class="search-form" action="https://xakep.ru/">
+				<label>
+					<span class="screen-reader-text">Найти:</span>
+					<input type="search" class="search-field" placeholder="Поиск&hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Поиск" />
+			</form>			</div>
+				<div id="mobile-menu"></div>
+					<div class="widget-social-links bdaia-social-io-colored">
+				<div class="sl-widget-inner">
+									</div>
+			</div>
+			</aside>
+	<div id="page">
+		<div class="inner-wrapper">
+			<div id="warp" class="clearfix  bdaia-sidebar-none ">
+				
+<div class="header-wrapper bdaia-hibryd-menu">
+
+	<div class="bdayh-click-open">
+		<div class="bd-ClickOpen bd-ClickAOpen">
+			<span></span>
+		</div>
+	</div>
+
+	
+	
+	
+	<style scoped>.bdaia-header-default #navigation .primary-menu #menu-primary > li > a, .bdaia-header-default #navigation .primary-menu #menu-primary > li > a > *, #navigation .bdaia-cart, .bdaia-nav-search, #navigation .bdaia-random-post{color: #ededed !important;} .bdaia-header-default #navigation .primary-menu #menu-primary > li.bd_mega_menu > a:before, .bdaia-header-default #navigation .primary-menu #menu-primary > li.menu-item-object-category > a:before, .bdaia-header-default #navigation .primary-menu #menu-primary > li.menu-item-has-children > a:before{border-top-color:#ededed;}.bdaia-header-default #navigation .primary-menu #menu-primary > li > a:hover, .bdaia-header-default #navigation .primary-menu #menu-primary > li:hover > a {color: #ffffff;}.bdaia-header-default #navigation .primary-menu ul#menu-primary > li:hover > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-item > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-ancestor > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-parent > a, #navigation .bdaia-cart, .bdaia-nav-search, #navigation .bdaia-random-post {background: #23282D; border : 0 none !important; color: #ffffff;}</style>
+
+<div class="cfix"></div>
+<nav id="profile">
+			<span>Войти в свой аккаунт:</span>
+		<form action="https://xakep.ru/wp-login.php" method="post">
+			<input type="hidden" name="rememberme" value="forever">
+			<input type="hidden" name="redirect_to" value="https://xakep.ru/2010/08/07/54479/">
+			<input type="text" name="log" id="log" size="15" placeholder="Логин" value="">
+			<input type="password" name="pwd" size="15" placeholder="Пароль" value="">
+			<button value="Войти" name="Submit" type="submit" class="btn">Войти</button>
+		</form>
+		или&nbsp;<a href="https://xakep.ru/wp-login.php?action=register">зарегистрироваться</a>
+		<div class=langs>
+		<span>Язык:</span>
+		<select id=lang>
+			<option value=ru selected>Русский</option>
+			<option value=en>Английский</option>
+			<option value=jp>Японский</option>
+			<option value=de>Немецкий</option>
+			<option value=es>Испанский</option>
+			<option value=fr>Французский</option>
+			<option value=it>Итальянский</option>
+			<option value=hk>Китайский</option>
+			<option value=tr>Турецкий</option>
+			<option value=kr>Корейский</option>
+			<option value=pt>Португальский</option>
+			<option value=iw>Иврит</option>
+		</select>
+		<script>
+			jQuery('#lang').on('change', function(){
+				var lang = jQuery(this).val();
+				if(lang != 'ru') window.location.replace('/soon?lang='+lang);
+			});
+		</script>
+	</div>
+</nav>
+
+
+
+<div class="cfix"></div>
+<nav id="navigation" style="background: #32393D; border-top-color:transparent !important">
+	<div class="navigation-wrapper" style="background: #32393D; border-top-color:transparent !important">
+		<div class="bd-container">
+			<a id=header-subscribe class="btn button" href="/wp-admin/users.php?page=paywall_subscribes&from=paywall_subscribe&subscribe=12_months">Подписаться на материалы</a>
+
+			<div class="primary-menu">
+				
+									
+    <div class="logo">
+        <h2 class="site-title">                                <a href="https://xakep.ru/" rel="home">
+                <img src="https://xakep.ru/wp-content/uploads/2016/09/xakep_logo_ws.png" alt="«Хакер»" />
+            </a>
+                        </h2>    </div><!-- End Logo -->
+				
+				<ul id="menu-primary">
+					<li id="menu-item-69574" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/hack/">  <span class="menu-label" style="" >Взлом</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69575" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/malware/">  <span class="menu-label" style="" >Вирусы</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69573" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/mobile/">  <span class="menu-label" style="" >Mobile</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69577" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/coding/">  <span class="menu-label" style="" >Кодинг</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69580" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/linuxoid/">  <span class="menu-label" style="" >Linuxoid</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69581" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/admin/">  <span class="menu-label" style="" >Admin</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69579" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/soft/">  <span class="menu-label" style="" >Софт</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69576" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/ferrum/">  <span class="menu-label" style="" >Железо</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69578" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/people/">  <span class="menu-label" style="" >Люди</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-69572" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/geek/">  <span class="menu-label" style="" >Geek</span></a>
+
+<div class="mega-menu-content">
+</div><li id="menu-item-132644" class="red menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item " ><a href="https://xakep.ru/category/partners/zn/">  <span class="menu-label" style="" >Zero Nights</span></a>
+
+<div class="mega-menu-content">
+</div>				</ul>
+			</div>
+
+							<span class="bdaia-alert-new-posts">
+					<span class="n">224</span>
+					<span class="t">
+						<small>выпуска</small>
+						<small>Хакера</small>
+					</span>
+				</span>
+			
+							<div class="bdaia-nav-search">
+					<span class="bdaia-ns-btn bdaia-io bdaia-io-search"></span>
+					<div class="bdaia-ns-wrap">
+						<div class="bdaia-ns-content">
+							<div class="bdaia-ns-inner">
+								<form method="get" id="searchform" action="https://xakep.ru/">
+									<input type="text" class="bbd-search-field search-live" id="s" name="s" value="Поиск по заголовкам статей" onfocus="if (this.value == 'Поиск по заголовкам статей') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Поиск по заголовкам статей';}"  />
+									<button type="submit" class="bbd-search-btn"><span class="bdaia-io bdaia-io-search"></span></button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+							<div class="cfix"></div>
+				<style type=text/css>
+									</style>
+				<div class=bdaia-alert-new-posts-content>
+					<div class=bdaia-alert-new-posts-inner>
+						<div class=bdaia-anp-inner>
+
+														<a href=/issues title="Все выпуски «Хакера»" class="bdaia-io bdaia-io-angle-double-left">&nbsp;</a>
+
+														<div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 sub sub-year">
+								<a href=/wp-admin/users.php?page=paywall_subscribes&from=paywall_subscribe&subscribe=12_months>
+									<p class=desc>
+										<img src=/wp-content/plugins/xakep-core/images/xakep_logo_w.png alt= />
+										<!-- Подпишись<br/>на&nbsp;год&nbsp;за<br/><br/><strong>5190&nbsp;р</strong> -->
+										Подпишись<br/>на&nbsp;год&nbsp;за<br/><strong>5190&nbsp;р</strong>
+									</p>
+									<img src=/wp-content/plugins/xakep-core/images/issue-stub.png width=210 height=280 alt= />
+								</a>
+							</div>
+														<div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 sub sub-month">
+								<a href=/wp-admin/users.php?page=paywall_subscribes&from=paywall_subscribe&subscribe=1_month>
+									<p class=desc>
+										<img src=/wp-content/plugins/xakep-core/images/xakep_logo_w.png alt= />
+										Подпишись<br/>на&nbsp;месяц&nbsp;за<br/><strong>600&nbsp;р</strong>
+									</p>
+									<img src=/wp-content/plugins/xakep-core/images/issue-stub.png width=210 height=280 alt= />
+								</a>
+							</div>
+							<div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 current_issue">
+									<div class=img-wrap>
+										<a href="/issues/xa/224"><img width="210" height="280" src="https://xakep.ru/wp-content/uploads/2017/09/137458/cover_224-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" srcset="https://xakep.ru/wp-content/uploads/2017/09/137458/cover_224-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2017/09/137458/cover_224-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2017/09/137458/cover_224.jpg 768w, https://xakep.ru/wp-content/uploads/2017/09/137458/cover_224-675x900.jpg 675w" sizes="(max-width: 210px) 100vw, 210px" /></a>
+										<p class=title>Xakep #224. Доступ разрешен</p>
+									</div>
+								</div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+									<div class=img-wrap>
+										<a href="/issues/xa/223"><img width="210" height="280" src="https://xakep.ru/wp-content/uploads/2017/08/136698/0_COVER_fixed-210x280.png" class="attachment-medium size-medium wp-post-image" alt="" srcset="https://xakep.ru/wp-content/uploads/2017/08/136698/0_COVER_fixed-210x280.png 210w, https://xakep.ru/wp-content/uploads/2017/08/136698/0_COVER_fixed-70x93.png 70w, https://xakep.ru/wp-content/uploads/2017/08/136698/0_COVER_fixed.png 768w, https://xakep.ru/wp-content/uploads/2017/08/136698/0_COVER_fixed-675x900.png 675w" sizes="(max-width: 210px) 100vw, 210px" /></a>
+										<p class=title>Xakep #223. Железо для вардрайвинга</p>
+									</div>
+								</div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+									<div class=img-wrap>
+										<a href="/issues/xa/222"><img width="210" height="280" src="https://xakep.ru/wp-content/uploads/2017/07/130431/Cover_222_new_mid-res-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" srcset="https://xakep.ru/wp-content/uploads/2017/07/130431/Cover_222_new_mid-res-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2017/07/130431/Cover_222_new_mid-res-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2017/07/130431/Cover_222_new_mid-res.jpg 768w, https://xakep.ru/wp-content/uploads/2017/07/130431/Cover_222_new_mid-res-675x900.jpg 675w" sizes="(max-width: 210px) 100vw, 210px" /></a>
+										<p class=title>Xakep #222. Логика подлога</p>
+									</div>
+								</div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+									<div class=img-wrap>
+										<a href="/issues/xa/221"><img width="210" height="280" src="https://xakep.ru/wp-content/uploads/2017/06/128900/Cover_221-210x280.png" class="attachment-medium size-medium wp-post-image" alt="" srcset="https://xakep.ru/wp-content/uploads/2017/06/128900/Cover_221-210x280.png 210w, https://xakep.ru/wp-content/uploads/2017/06/128900/Cover_221-70x93.png 70w, https://xakep.ru/wp-content/uploads/2017/06/128900/Cover_221.png 768w, https://xakep.ru/wp-content/uploads/2017/06/128900/Cover_221-675x900.png 675w" sizes="(max-width: 210px) 100vw, 210px" /></a>
+										<p class=title>Xakep #221. Майнинг криптовалют</p>
+									</div>
+								</div>							<div id=sub-help>
+								<a href=/subscribe target=_blank>Подробнее о подписке</a>&nbsp;&nbsp;&nbsp;<a href=/subscribe/discounts target=_blank>Информация о скидках</a>
+							</div>
+
+						</div>
+						<div class="cfix"></div>
+					</div>
+				</div>
+			
+
+
+			<div class="cfix"></div>
+		</div>
+	</div>
+</nav>
+<div class="cfix"></div>
+
+</div>
+
+
+									<div class="bdaia-post-style7-head">
+				<a class="bdaia-featured-img-cover" ></a>
+
+				<div class="bd-container">
+
+					<header class="bdaia-post-header">
+
+													<div class="bdaia-category">
+								<a class="bd-cat-link bd-cat-1" href="https://xakep.ru/category/units/site/">Материалы сайта</a>
+							</div>
+							<!-- END category. -->
+						
+						<div class="bdaia-post-title">
+							<a href="https://xakep.ru/2010/08/07/54479/"><h1 class="post-title entry-title">Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов &#8212; создаем симулятор тренировки</h1></a>
+						</div>
+						<!-- END Post Title. -->
+
+						
+<div class="bdaia-meta-info">
+
+	<div class="bdaia-post-author-name">
+				<a href="https://xakep.ru/author/jonsnow/" title="Записи Журнал «Хакер»" rel="author">Журнал «Хакер»</a>			</div>
+			<div class="bdaia-post-date"><span class="bdayh-date">07.08.2010</span></div>
+	
+			<div class="bdaia-post-time-read">10&nbsp;мин на чтение</div>
+	
+			<div class="bdaia-post-comment"><span class='bdaia-io bdaia-io-bubble'></span><a href="https://xakep.ru/2010/08/07/54479/#respond">0</a></div>
+	
+			<div class="bdaia-post-like"><span class="post-like"><a href="#" data-post_id="43446">
+					<span  title="Добавить в закладки"class="qtip like"><span class="bdaia-io bdaia-io-heart"></span></span>
+				</a><em class="count">0</em></span></div>
+	
+			<div class="bdaia-post-view">
+			<span class='bdaia-io bdaia-io-eye4'></span>
+			997		</div>
+	
+</div>
+<!-- END Meta Info. -->
+						<div class="bdaia-post-read-down">
+							<a href="#">
+								<span class="bdaia-io bdaia-io-angle-double-down"></span>
+							</a>
+						</div>
+
+					</header>
+
+				</div>
+			</div>
+
+		
+						
+								
+									<div class="cfix"></div>
+					<div class="bdaia-hibryd-e3">
+						
+						</div>
+					<div class="cfix"></div>
+																				<div class="bdMain"><div id=amp-link><a href=https://xakep.ru/2010/08/07/54479/?amp>Мобильная версия статьи</a></div>
+<div class="bd-container bdaia-post-template">
+	<div class="bd-main bdaia-site-content" id="bdaia-primary">
+		<div id="content" role="main">			<article id="post-43446" data-id="43446" class="hentry post-43446 post type-post status-publish format-standard category-site tag-article" itemscope itemtype="http://schema.org/Article">
+				<div class="bdaia-post-content">
+					<div id=dfp-single class=right><div class=dfp-wrapper>
+					<div id=div-gpt-ad-1490636343115-0><script>googletag.cmd.push(function(){googletag.display('div-gpt-ad-1490636343115-0');});</script></div>
+					</div></div>
+					
+	<div id=toc><h3>Содержание статьи</h3><ul><li class=h2 data-id=01.><a href=#toc01.>Интерфейсы</a></li><li class=h2 data-id=02.><a href=#toc02.>Схема симулятора</a></li><li class=h2 data-id=03.><a href=#toc03.>Порядок симуляции</a></li><li class=h2 data-id=04.><a href=#toc04.>Код симулятора</a></li><li class=h2 data-id=05.><a href=#toc05.>Startgame</a></li><li class=h2 data-id=06.><a href=#toc06.>Trade</a></li><li class=h2 data-id=07.><a href=#toc07.>Симуляция</a></li><li class=h2 data-id=08.><a href=#toc08.>Вывод</a></li><li class=h2 data-id=09.><a href=#toc09.>Сайты по теме</a></li><li class=h2 data-id=10.><a href=#toc10.>Links</a></li></ul></div><p>В этой статье мы рассмотрим создание симулятора покера. Так как правила покера немного отличаются между собой, то в качестве правил для симуляции мы возьмем правила Holdem No Limit Poker с сайта PokerStars. На основе симулятора мы сделаем две игры — игра компьютера с живым игроком и просто игра компьютерных игроков между собой. Первая игра нам понадобится для тестирования.</p>
+<div id=toc01. class=toch>&nbsp;</div><h2>Интерфейсы</h2>
+<p>Создадим два интерфейса — Ilogic и IEventSimulation. Первый интерфейс нужен для того, чтобы унифицировать вызов различных логик. То есть у нас имеется один интерфейс, который реализует различные логики, и нам не нужно беспокоиться о хранении различных логик — мы храним только массив интерфейсов ILogic и вызываем метод этого интерфейса. У данного интерфейса есть только один метод — int getAnswer(float p, float totalBet, float curBet, float pot, int betting, int minRaise), он возвращает 0, когда нужно сбросить (fold), 1 при принятии ставки (call) и 2 при увеличении ставки (raise). Немного упростим модель — при рейзе не будем выставлять значение ставки, а просто увеличим ставку на минимально возможное значение.</p><div class="bdaia-p-inline-e3-desktop"><div class="bdaia-e3-container"></div></div>
+<p>  Рассмотрим параметры этого метода: p — вероятность выигрыша (про нее читай в статье «Натягиваем сетевые poker room’ы» в июньском ] [ или на диске к этому номеру), totalBet — все поставленные игроком деньги за игру, curBet — текущее количество денег, которое нужно поставить, pot — размер банка, betting — номер круга торговли, minRaise — минимальное количество денег, на которое нужно повысить ставку при рейзе. Второй интерфейс нужен для создания различных оболочек для симулятора. В нашем случае будет две оболочки — для игры компьютерных игроков с человеком и для игры компьютерных игроков между собой. В интерфейсе IEventSimulation определены методы, которые позволяют сообщать оболочке обо всех изменениях в игре.</p>
+<p>  Перечислим эти методы: changeBoardCard(int[] board) — метод вызывается при изменении карт на столе, changePot(int pot) вызывается при изменении размера банка, changeMoneyOfPlayers(int[] money)вызывается при изменении количества денег игроков, postDillerMessage(String message)вызывается при отправке сообщений дилера, changeDillerPosition(int posOfDealer)вызывается при изменении позиции дилера, changePlayerStatus(int player, int status, int[] hand) вызывается при изменении статуса игрока.</p>
+<div id=toc02. class=toch>&nbsp;</div><h2>Схема симулятора</h2>
+<p>Как известно, правила покера неоднородны и склонны друг от друга отличаться. Например, в круге торговли. Так, по правилам с сайта PokerStars после первого круга торговли первым ходит активный игрок слева от дилера, а по другим правилам первым ходит игрок слева от игрока, который ходил первым на прошлом круге торговли. В симуляторе реализованы правила Holdem Poker с сайта PokerStars. По размеру ставок будем делать не NoLimit и не Limit, а кое-что свое — ограничим размер рейза текущей ставкой.</p>
+<p>  Всего логик семь: AggressiveLogic (разыгрывает даже слабые руки), CautiousLogic (разыгрывает только сильные руки), RationalLogic (действует рационально), RaiseLogic (все время повышает ставку), CallLogic (все время поддерживает ставку), FoldLogic (все время сбрасывает), RandomLogic (случайно ходит).</p>
+<p>  AggressiveLogic, CautiousLogic и RationalLogic используют в принятии решений формулу p*pot = win и сравнивает win со своими ставками. Иначе говоря, использует формулу, которую мы обсуждали в прошлой статье (если хочешь освежить память — вставь в свою ЭВМ диск к этому журналу и зачитай ее). Единственное, что — CautiousLogic уменьшает вероятность, чтобы разыгрывать меньше рук, а AggressiveLogic увеличивает, чтобы разыгрывать больше. Оболочка HoldemForm рисует форму на swing’e и реализует два интерфейса — IEventSimulation и ILogic. Первый интерфейс нужен для того, чтобы отображать на форме все события симуляции — раздачу карт, сообщения дилера, изменения состояний игроков и т.д. Второй интерфейс мы создаем, чтобы пользователь мог сообщать симулятору свои действия — Fold, Call или Raise. Форма отображает все карты игроков и вероятности их выигрыша, поэтому она не подходит для честной игры с компьютером, но зато идеально подходит для отладки симулятора.</p>
+<p>  HoldemConsole просто выводит все сообщения дилера на экран.</p>
+<div id=toc03. class=toch>&nbsp;</div><h2>Порядок симуляции</h2>
+<p>  Для начала — небольшой алгоритм. Итак:</p>
+<ol>
+<li>  Поставить большой и малый блайнды;</li>
+<li> Раздать карты игрокам (Пре флоп);</li>
+<li> Провести круг торговли;</li>
+<li> Положить три карты на стол (Флоп);</li>
+<li> Провести круг торговли;</li>
+<li> Положить четвертую карту на стол (Терн);</li>
+<li> Провести круг торговли;</li>
+<li> Положить пятую карту на стол (Ривер);</li>
+<li> Провести круг торговли;</li>
+<li> Открыть карты и определить выигрышную комбинацию.</li>
+</ol>
+<p>Соответственно, после каждого круга торговли нужно проверять, не остался ли в игре только один игрок. Если да, то весь банк уходит ему.<br />
+Количество игроков, которые будут играть, равно девяти. Во время игры их может стать меньше, но в начале их будет именно девять. Это сделано в целях упрощения симуляции — не надо заботиться о длинах массивов.</p>
+<div id=toc04. class=toch>&nbsp;</div><h2>Код симулятора</h2>
+<p>Определимся с тем, что должен знать симулятор. Во-первых, симулятор должен иметь следующие данные об игроках: их деньги (moneyOfPlayers), карты (handOfPlayers) и их состояние (в игре или вышли) — stateOfPlayers. Во-вторых, должен знать позицию дилера (posOfDealer), количество денег в банке (pot), размер большого блайнда (bigBlind) и текущие карты на столе (board). Для работы логики принятия решений нужно также запоминать, сколько денег положил в банк каждый из игроков за текущую игру(totalBet). И самое главное — симулятор должен знать, что за игроки играют за столом, то есть у него должен быть список всех игроков (playersList). </p>
+<p>  Методы, нужные для симуляции: trade(int betting) — метод торговли, startGame() — главный метод, в котором происходит игра, int getSinglePlayer() — если в игре остался один игрок, то метод вернет индекс этого игрока, int getActivePlayer() — количество активных игроков в игре. К этим методам добавляются несколько setметодов для изменения значений по умолчанию — setBigBlind(int bigBlind), setRoundCount(int roundCount). Можно сделать метод по изменению количества денег перед игрой, но я считаю, это не критично, ведь, в конце концов, это симулятор для тестирования алгоритмов, а там не важно, сколько денег у игроков в начале игры.</p>
+<p>  Хотя, если делать на основе этого симулятора приложение для игры в покер, то стоит реализовать данный метод, плюс сделать возможность изменения количества игроков в начале игры. Теперь рассмотрим подробнее методы игры и торговли.</p>
+<div id=toc05. class=toch>&nbsp;</div><h2>Startgame</h2>
+<p>Шаги симуляции в теории расписаны выше, на практике же к ним добавляются следующие действия: обнуление переменных перед началом каждого раунда, перемешивание карт перед началом каждого раунда, проверка на наличие более одного игрока в игре после каждого круга торговли. Небольшое замечание: хотя перемешивание карт и занимает больше времени, чем вытаскивание случайной карты (как было сделано при определении вероятности выигрыша в прошлой статье), более наглядно и удобно это демонстрируется при сдаче карт. Если производительности будет не хватать, то можно будет оптимизировать этот алгоритм.</p>
+<p>  Еще можно свернуть код проведения игры в цикл, поскольку сейчас там имеют место повторяющиеся участки с проверками и проведение круга торговли. Однако, их всего четыре, они не занимают много места, и при сворачивании в цикл нужно будет изменять алгоритм раздачи карт на стол, поэтому пока оставим все как есть.<br />
+  В исходном коде часто встречается такая конструкция:</p>
+<p><code>  x = (x + 1) % 9;</code></p>
+<p>Эта массивная конструкция представляет собой всего лишь циклическое увеличение значения переменной x от 0 до 8-9. В данном случае оно означает количество игроков за столом.</p>
+<div id=toc06. class=toch>&nbsp;</div><h2>Trade</h2>
+<p>Входной параметр в методе, которой проводит круг торговли — номер круга торговли. Это 1 (пре-флоп), 2 (флоп), 3 (терн), 4 (ривер). В начале метода проверяем на первый круг торговли, и если да, то находим позиции малого и большого блайндов и кладем деньги в банк. Далее происходит сам круг торговли.</p>
+<p>  Непосредственно перед ходом каждого игрока проверяются следующие параметры: больше ли одного игрока в игре, может ли текущий игрок играть. При повторном круге торговли проверяется, не равна ли ставка текущего игрока максимальной ставке (то есть нужно ли игроку еще вкладывать деньги в банк), и есть ли у игрока вообще деньги.<br />
+  Проверки перед началом торговли</p>
+<p><code>  // увеличиваем номер текущего игрока<br />
+  curPlayer = (curPlayer + 1) % 9;<br />
+  if (getSinglePlayer() != -1) {<br />
+  break;<br />
+  }<br />
+  if (stateOfPlayers[curPlayer] == false) {<br />
+  continue;<br />
+  }<br />
+  if ((repeatTrade == true) &amp;&amp; (betOfPlayers[curPlayer]<br />
+  == maxBet)) {<br />
+  continue;<br />
+  }<br />
+  if (moneyOfPlayers[curPlayer] == 0) {<br />
+  continue;<br />
+  }</code></p>
+<p>После этих проверок можно переходить непосредственно к определению текущего хода игрока. Для этого вычисляем вероятность выигрыша игрока на основе его карт, карт на столе и количества игроков и вызываем метод интерфейса ILogic для определения хода игрока:</p>
+<p><strong>  Вызов методов расчета вероятности и принятия решений</strong></p>
+<p>  <code>float p=logic.getProbabilityOfWin(<br />
+  handOfPlayers[curPlayer], board,getActivePlayers());<br />
+  int action=playersList.get(curPlayer).getAction(p,<br />
+  totalBet[curPlayer] + betOfPlayers[curPlayer],<br />
+  maxBet-betOfPlayers[curPlayer],pot,betting,<br />
+  maxBet==0?bigBlind:maxBet);</code></p>
+<p>Метод расчета вероятности вызывается со следующими параметрами: текущие карты игрока, карты на столе и количество активных (тех, кто не сбросил карты) игроков в игре.<br />
+  Первый параметр в методе getAction — вероятность выигрыша; второй — сумма всех поставленных денег за прошлые круги торговли и поставленных денег на текущем круге торговли; третий параметр — то количество денег, которое нужно поставить игроку, чтобы уравнять ставки, то есть разность между максимальной ставкой на текущем круге торговли и текущей ставкой игрока; четвертый параметр — размер банка; пятый — номер круга торговли, шестой — минимальное количество денег, которое нужно поставить при рейзе. Здесь мы приняли его как значение максимальной ставки за текущий круг торговли или, если эта ставка равна нулю, размер большого блайнда. После получения действия от игрока (переменная action) выполняем это действие. </p>
+<p>  Алгоритм таков: если игрок сделал fold, то делаем его неактивным; если call, то сначала проверяем, может ли он поставить деньги, или сразу идет all-in, а потом выполняем требуемое действие, то есть или ставим часть денег, или ставим все, что есть; если raise, то сначала уравниваем ставку игрока до максимальной ставки, а потом ставим оставшуюся часть денег, требуемую для рейза. В общем случае при ставке следует проверять, есть ли требуемая сумма на счету у игрока, если нет, то ставим все оставшиеся деньги (all-in). После проведения ставок всех игроков проверяем, все ли игроки поставили одинаковое количество денег. Если кто-то не поставил, и у него при этом еще есть деньги, проводим повторный круг торговли.</p>
+<div id=toc07. class=toch>&nbsp;</div><h2>Симуляция</h2>
+<p>Перед началом игры нужно добавить игроков. Это делается следующим образом:</p>
+<p><strong>  Добавление игроков для игры в HoldemForm</strong></p>
+<p>  <code>List&lt;ILogic&gt; playersList=new ArrayList&lt;ILogic&gt;();<br />
+  playersList.add(frame);<br />
+  playersList.add(new FoldLogic());<br />
+  playersList.add(new CautiousLogic());<br />
+  playersList.add(new CallLogic());<br />
+  playersList.add(new RationalLogic());<br />
+  playersList.add(new AggressiveLogic());<br />
+  playersList.add(new CautiousLogic());<br />
+  playersList.add(new AggressiveLogic());<br />
+  playersList.add(new RaiseLogic());</code></p>
+<p>Во второй строчке мы добавляем в качестве игрока текущую форму, это означает, что все методы принятия решений для первого игрока будут вызываться из этой формы. Он, в свою очередь, будет спрашивать пользователя, что делать — fold, call или raise. Для начала проведем игру между человеком и компьютерными игроками, проверим работу правил симуляции — как раздаются карты, как ходят игроки, как происходит смена дилера. Я ошибок не нашел, но они наверняка там есть. Поэтому если ты что-то нашел, или у тебя будут предложения по улучшению программы, пиши мне на <a href="https://xakep.ru/wp-content/uploads/post/54479/mailto:timreset@mail.ru">timreset@mail.ru</a></p>
+<p>  Перечислю некоторые неточности в симуляции, чтобы знать, где можно доделать симулятор:</p>
+<ol>
+<li>  Фиксированное количество игроков. Можно сделать от двух до десяти.</li>
+<li> В HoldemForm не отображается фишка дилера, хотя метод changeDillerPosition при смене дилера вызывается. Нужно добавить на форму возле игрока-дилера пометку.</li>
+<li> Фиксированное количество денег в начале игры. Можно сделать изменение этого значения перед игрой.</li>
+<li> Только целые значения большого и малого блайнов. Сделать тип float для них. Int был выбран только из-за произ водительности… и то, наверное, это спорный выбор.</li>
+<li> Неправильный выбор минимального значения ставки при рейзе. Сделать вычисление минимального рейза по правилам. Ссылка на них есть в статье.</li>
+<li> Фиксированное увеличение ставки при рейзе. Сделать значение рейза динамическим — от минимального значения до максимального.</li>
+<li> При открытии карт, если есть игроки с одинаковыми картами, выигрывает только первый игрок. Можно это исправить, чтобы выигрыш делился поровну между игроками. Хотя эта ошибка будет повторяться нечасто (все-таки вероятность того, что у игроков будут две одинаковые по силе комбинации, мала), лучше все же реализовать ее по правилам. После того, как был протестирован алгоритм симуляции, запустим несколько десятков раундов в оболочке HoldemConsole. </li>
+</ol>
+<p>Игроки там распределены следующим образом:</p>
+<p><strong>  Добавление игроков для игры в HoldemConsole</strong></p>
+<p>  <code>playersList.add(new RationalLogic());<br />
+  playersList.add(new FoldLogic());<br />
+  playersList.add(new CautiousLogic());<br />
+  playersList.add(new CallLogic());<br />
+  playersList.add(new CautiousLogic());<br />
+  playersList.add(new AggressiveLogic());<br />
+  playersList.add(new RandomLogic());<br />
+  playersList.add(new AggressiveLogic());<br />
+  playersList.add(new RaiseLogic());</code></p>
+<p>50 раундов на моем ноуте выполнялись около 15 минут. В принципе, приемлемое значение. Количество денег после 49 раундов следующее (начальное количество у всех одинаково — $750):</p>
+<ul>
+<li> 1-й — $580</li>
+<li> 2-й — $590</li>
+<li> 3-й — $570</li>
+<li> 4-й — $2220</li>
+<li> 5-й — $570</li>
+<li> 6-й — $680</li>
+<li> 7-й — $0</li>
+<li> 8-й — $750</li>
+<li> 9-й — $790</li>
+</ul>
+<p>  После второй симуляции:</p>
+<ul>
+<li> 1-й — $570</li>
+<li> 2-й — $560</li>
+<li> 3-й — $580</li>
+<li> 4-й — $2450</li>
+<li> 5-й — $590</li>
+<li> 6-й — $1110</li>
+<li> 7-й — $0</li>
+<li> 8-й — $890</li>
+<li> 9-й — $0</li>
+</ul>
+<div id=toc08. class=toch>&nbsp;</div><h2>Вывод</h2>
+<p>Теперь самое главное — интерпретация результатов. Выше можно заметить, что самый успешный игрок — CallLogic, за ним следует RaiseLogic (в первом случае) и AggressiveLogic (во втором случае). Почему так? Ведь самый оптимальный алгоритм у нас — это RationalLogic и, по идее, он должен всех обыгрывать? Да, это так, но на данном этапе этот алгоритм не учитывает одной важной составляющей — истории рук, то есть того, как ходят остальные игроки при тех или иных картах и текущих ходах игроков. А ведь история рук позволяет узнать, что значат ходы игроков — блефуют ли они (то есть колируют и рейзят со слабыми руками) или у них действительно сильные карты. Больше информации об игроках, по теореме покера, приводит к лучшим ходам. Так как он это не учиты вает, а основывается только на ставках и размере банка, то получается, что он много рук не разыгрывает, а сбрасывает. В отличие от других игроков — CallLogic, RaiseLogic и AggressiveLogic.</p>
+<p>  Они же разыгрывают большой диапазон рук, то есть блефуют. Кстати, хотел бы сделать небольшое замечание к своей прошлой статье. В условии определения действия вместо SB нужно использовать minRaise, где minRaise — минимальный размер ставки, который нужно сделать при рейзе. Он равен последней ставке игрока, который ходил до нас. В общем, твори, дорабатывай логику и обязательно пиши нам письма, ведь именно благодаря твоим отзывам — от критичных и даже агрессивных до позитивных и даже благодарных 🙂 — мы приняли решение и дальше развивать тему кодинга покерных ботов. Если все пойдет нормально, то в следующей статье мы реализуем взаимодействие с клиентом покер-рума — считывание информации и нажимание на кнопки. </p>
+<p><strong>Метод для определения хода пользователя</strong></p>
+<p>  <code>public int getAction(float p, float totalBet, float<br />
+  curBet, float pot, int betting, int minRaise) {<br />
+  if (curBet == 0) {<br />
+  btnCall.setText(&quot;Check&quot;);<br />
+  } else {<br />
+  btnCall.setText(&quot;Call &quot; +<br />
+  String.valueOf(curBet));<br />
+  }<br />
+  btnCall.setVisible(true);<br />
+  btnFold.setVisible(true);<br />
+  btnRiase.setVisible(true);<br />
+  btnRiase.setText(&quot;Raise &quot; +<br />
+  String.valueOf(curBet + minRaise));<br />
+  frame.repaint();<br />
+  action = -1;<br />
+  while (action == -1) {<br />
+  try {<br />
+  Thread.sleep(500);<br />
+  } catch (InterruptedException e) {<br />
+  e.printStackTrace();<br />
+  }<br />
+  frame.repaint();<br />
+  }<br />
+  btnCall.setVisible(false);<br />
+  btnFold.setVisible(false);<br />
+  btnRiase.setVisible(false);<br />
+  frame.repaint();<br />
+  return action;<br />
+  }</code></p>
+<div id=toc09. class=toch>&nbsp;</div><h2>Сайты по теме</h2>
+<p>  Правила покера:</p>
+<ul>
+<li><a href="http://www.pokerbonus.org.ua/menu/pravila.html" target="_blank">http://www.pokerbonus.org.ua/menu/pravila.html</a></li>
+<li><a href="http://www.tehasskiy-holdem.info/" target="_blank">http://www.tehasskiy-holdem.info/</a></li>
+<li><a href="http://www.pokerstars.com/ru/poker/games/texas-holdem/" target="_blank">http://www.pokerstars.com/ru/poker/games/texas-holdem/</a></li>
+</ul>
+<p>Фундаментальная теорема покера: <a href="http://poker-wiki.ru/poker/Фундаментальная_теорема_покера" target="_blank">http://poker-wiki.ru/poker/Фундаментальная_теорема_покера</a><br />
+Вики по покеру: <a href="http://poker-wiki.ru/" target="_blank">http://poker-wiki.ru/</a></p>
+<div id=toc10. class=toch>&nbsp;</div><h2>Links</h2>
+<ul>
+<li>  Много документации по покеру на сайте<a href="http://poker-wiki.ru" target="_blank">http://poker-wiki.ru</a></li>
+</ul>
+</p></div>
+				<footer><div class=share_buttons>
+  <div class=share_text>Покажи эту статью друзьям:</div>
+  <div id="ya-share-p43446" data-services="telegram,vkontakte,twitter,facebook,gplus,viber,whatsapp,evernote,pocket" class=share_buttons></div>
+</div>
+<script type=text/javascript>
+  Ya.share2('ya-share-p43446', {
+    content: {
+      url: "https://xakep.ru/2010/08/07/54479/",
+      title: "Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов &#8212; создаем симулятор тренировки",
+      image: ""
+    }
+  });
+</script>
+<div class="bdaia-author-box">
+		<div class="authorBlock-avatar">
+			<a href="https://xakep.ru/author/jonsnow/"><img src="https://secure.gravatar.com/avatar/a67aac47235cbf6d274fbf806e5adeba?s=150&#038;d=retro&#038;r=g" width="150" height="150" alt="" class="avatar avatar-150 wp-user-avatar wp-user-avatar-150 photo avatar-default" /></a>
+		</div>
+
+		<div class="authorBlock-header">
+			<h3 class="authorBlock-header-title vcard author">
+				<span class="fn"><a href="https://xakep.ru/author/jonsnow/">Журнал «Хакер»</a></span>
+			</h3>
+
+			<p class="authorBlock-header-bio">
+							</p>
+
+			<div class="authorBlock-meta bdaia-social-io-colored">
+				<div class="bdaia-social-io bdaia-social-io-size-32">
+					
+					
+					
+					
+					
+					
+					
+					
+									</div>
+			</div>
+		</div>
+	</div><!-- END Author Box. --><div class="clear"></div><div class="tagcloud"><span>Теги:</span><a href="https://xakep.ru/tag/article/" rel="tag">Статьи</a></div><div class="clear"></div><div class="bdaia-post-next-prev"><div class="bdaia-post-prev-post"><a href="https://xakep.ru/2010/08/06/52900/" rel="prev"><span>&larr; Ранее</span> Специалисты Google подсчитали общее количество книг в мире</a></div><div class="bdaia-post-next-post"><a href="https://xakep.ru/2010/08/07/52901/" rel="next"><span>Далее &rarr;</span> Создан искусственный разум, способный к эволюции</a></div></div><!-- END Previous/Next article. --></footer><span style="display: none;" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+	<meta itemprop="name" content="Журнал «Хакер»">
+</span>
+<meta itemprop="interactionCount" content="UserComments:0">
+<meta itemprop="datePublished" content="2010-08-07T14:18:18+00:00">
+<meta itemprop="dateModified" content="2010-08-07T14:18:18+00:00">
+<meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://xakep.ru/2010/08/07/54479/">
+<span style="display: none;" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+	<span style="display: none;" itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject">
+		<meta itemprop="url" content="https://xakep.ru/wp-content/uploads/2016/09/xakep_logo_ws.png">
+	</span>
+	<meta itemprop="name" content="«Хакер»">
+</span>
+<meta itemprop="headline " content="Симуляция покерного оргазма: Вкуриваем в кодинг покерных ботов &#8212; создаем симулятор тренировки">
+<span style="display: none;" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+	<meta itemprop="url" content="https://xakep.ru/wp-content/uploads/2016/09/xakep_logo_big.png">
+	<meta itemprop="width" content="800">
+	<meta itemprop="height" content="300">
+</span>			</article><section id=bdaia-ralated-posts class=bdaia-ralated-posts>
+  <div class=bdaia-ralated-posts-head><ul>
+    <li id=nav-links-after><a href=#content-links-after>Далее по этой теме</a></li>
+    <li id=nav-links-before><a href=#content-links-before>Ранее по этой теме</a></li>
+  </ul></div>
+
+  <div class="bdaia-ralated-content bdaia-posts-grid light grid-3col" id="content-links-after">
+    <ul class="bdaia-posts-grid-list"><li class="bdaia-posts-grid-post post-item post-id post post-42698 type-post status-publish format-standard hentry category-site tag-article">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/10/28/53647/" >Натягиваем сетевые poker Room’ы: кодинг покер-бота &#8212; логика принятия решений</a></h3>			<div class="bdaia-post-excerpt">Сегодня мы расскажем тебе о создании своего покер-бота. Зачем? Во-первых, это интересно — &#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">28.10.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 14&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-41981 type-post status-publish format-standard hentry category-site tag-vzlom tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/08/10/52929/" >Киберпреступники участили атаки на игроков в онлайн-покер</a></h3>			<div class="bdaia-post-excerpt">Компания G Data Software AG в своем новом отчете указала на опасность игры в  онлайн-покер&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">10.08.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 15&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-43469 type-post status-publish format-standard hentry category-site tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2011/01/11/54502/" >В Америке судят выигравших в игровые автоматы</a></h3>			<div class="bdaia-post-excerpt">Два человека, которые использовали ошибку в программном обеспечении автоматов  для игры в &#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">11.01.2011</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 55&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-46290 type-post status-publish format-standard hentry tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2011/06/11/57406/" >Meganews</a></h3>			<div class="bdaia-post-excerpt">Неприятная новость распространилась по интернету со скоростью лесного пожара: в Dropbox, п&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">11.06.2011</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 10&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-46296 type-post status-publish format-standard hentry category-soft tag-article">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2011/06/11/57412/" >Визуальные скрипты. Sikuli: простая автоматизация через скриншоты и Python</a></h3>			<div class="bdaia-post-excerpt">Помнишь, какой фурор произвело появление WYSIWYG-редакторов, которые позволили верстать ве&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">11.06.2011</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 5&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-43672 type-post status-publish format-standard hentry category-site tag-article">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2011/02/10/54713/" >Щелкаем как орешки: Лентяям на заметку, или море взломов одним движением руки</a></h3>			<div class="bdaia-post-excerpt">Привет! Сегодня мы займемся необычным делом — будем искать SQL-инъекции, но не так, как ты&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">10.02.2011</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 5&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li></ul>
+    <div class="bdayh-clearfix"></div>
+  </div>
+  <div class="bdaia-ralated-content bdaia-posts-grid light grid-3col" id="content-links-before">
+    <ul class="bdaia-posts-grid-list"><li class="bdaia-posts-grid-post post-item post-id post post-41118 type-post status-publish format-standard hentry category-site tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/05/12/52060/" >Гражданин Канады признал себя виновным в мошенничестве с азартными играми на сумму 350 млн долларов</a></h3>			<div class="bdaia-post-excerpt">Федеральная прокуратура США сообщила, что вчера в одном из окружных судов  Нью-Йорка состо&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">12.05.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 6&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-41671 type-post status-publish format-standard hentry category-site tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/07/06/52616/" >В КНР арестованы организаторы крупнейшего незаконного интернет-тотализатора</a></h3>			<div class="bdaia-post-excerpt">Китайская полиция раскрыла преступную группировку, создавшую сеть  интернет-тотализаторов &#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">06.07.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 19&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-41338 type-post status-publish format-standard hentry category-site tag-news tag-software">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/06/03/52283/" >Киберпреступники эксплуатируют интерес к игре Red Dead Redemption</a></h3>			<div class="bdaia-post-excerpt">Сетевые злоумышленники воспользовались популярностью видеоигры Red Dead  Redemption. Экспе&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">03.06.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 9&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-40484 type-post status-publish format-standard hentry category-site tag-vzlom tag-news">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/03/10/51425/" >Silent Hunter 5 кишит руткитами</a></h3>			<div class="bdaia-post-excerpt">Игроки, ищущие в Сети взломанные копии игр, рискуют загрузить вместе с ними  целый коктейл&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">10.03.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 10&nbsp;сек на чтение </span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-41464 type-post status-publish format-standard hentry category-site tag-vzlom tag-article">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/06/15/52409/" >Дополненная реальность</a></h3>			<div class="bdaia-post-excerpt">Если вы видите вещи, которых нет на самом деле, это означает одно из двух: вы  либо нуждае&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">15.06.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 5&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li><li class="bdaia-posts-grid-post post-item post-id post post-41489 type-post status-publish format-standard hentry category-site tag-software tag-article">
+	<div class="bdaia-posts-grid-post-inner">
+				<div class="bdayh-post-header">
+			<h3 class="entry-title"><a href="https://xakep.ru/2010/06/16/52434/" >.NET Remoting: программим системы распределенных grid-вычислений</a></h3>			<div class="bdaia-post-excerpt">При правильном подходе к распределению трудоемкой задачи между имеющимися  вычислительными&#8230;</div>			<div class="bbd-post-cat">
+				<div class="bbd-post-cat-content">
+					<div class="bdayh-post-meta-date">
+						<span class="bdayh-date">16.06.2010</span>					</div>
+					<span class="bdayh-post-meta-time-read"><span class='bdaia-io bdaia-io-clock'></span> 3&nbsp;мин на чтение</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</li></ul>
+    <div class="bdayh-clearfix"></div>
+  </div>
+
+  <script>
+    jQuery(document).ready(function(){
+      $ralated_content     = jQuery( "#bdaia-ralated-posts .bdaia-ralated-content" );
+      $ralated_li          = jQuery( "#bdaia-ralated-posts .bdaia-ralated-posts-head ul li" );
+      $ralated_li.on('click', function(){
+        $ralated_li.removeClass( "active" );
+        jQuery(this).addClass("active");
+        $ralated_content.hide();
+        var activeTab = jQuery(this).find( "a" ).attr( "href" );
+        jQuery(activeTab).fadeIn( "fast" );
+        return false;
+      });
+      $ralated_li.first().click();
+    });
+  </script>
+</section><div class=bdayh-clearfix></div>
+<div class='bdaia-load-comments-btn'><a href="https://xakep.ru/2010/08/07/54479/#respond">Открыть комментарии</a></div>	<div id="respond" class="comment-respond">
+		<h4 class="block-title" id="reply-title"><span class="comment-reply-title"><span>Оставить мнение</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/08/07/54479/#respond" style="display:none;">(отменить)</a></small></span></h4><p class="must-log-in">Чтобы оставить мнение, <a href="https://xakep.ru/wp-login.php?redirect_to=https%3A%2F%2Fxakep.ru%2F2010%2F08%2F07%2F54479%2F">нужно залогиниться</a></p>	</div><!-- #respond -->
+	            <section id="bdCheckAlso" class="bdCheckAlso-right">
+
+	            <h4 class="block-title">
+		            <span>Check Also</span>
+
+		            <a href="#" id="check-also-close"><span class="bdaia-io bdaia-io-cross"></span></a>
+	            </h4>
+
+                                    <div class="check-also-post">
+                                                    <figure
+                                class="check-also-thumb"  style="background-image:url(https://xakep.ru/wp-content/uploads/2017/12/145907/IMG_9162-h-320x220.jpg);">
+                            </figure>
+                        
+                        <h2 class="post-title"><a href="https://xakep.ru/2017/12/13/cryptogram-replay-attack/" rel="bookmark">Мошенничество по воздуху. Разбираем возможность Cryptogram Replay Attack в Apple Pay</a></h2>
+
+                        <p>Задача платежной системы — списать нужную сумму в пользу продавца со счета верное число ра&#8230;</p>
+                    </div>
+                            </section>
+        </div>
+			</div>
+</div>
+						</div>
+						                        			                        <div class="bdaia-footer">
+	                        
+		<div class="bdaia-footer-widgets" style ="background-color:#32393D;">
+		<div class="bd-container">
+			<div class="bdaia-footer-widgets-area footer-col-three">
+
+									<div id="footer-first" class="footer-widget-inner">
+						<div id="bdaia-widget-box1-4" class="widget bdaia-widget bdaia-box1"><h4 class="block-title"><span>Последние взломы</span></h4><div class="widget-inner">
+		<div class="bdaia-wb-wrap bdaia-wb1 bdaia-wb-iduO9Rz bdaia-ajax-pagination-" data-box_nu="wb1" data-box_id="bdaia-wb-iduO9Rz" data-paged="1" data-sort_order="" data-ajax_pagination="" data-num_posts="4" data-tag_slug="" data-cat_uid="111" data-cat_uids="" data-max_nu="654" data-total_posts_num="2613" data-posts="" data-com_meta="" data-thumbnail="" data-author_meta="" data-date_meta="true" data-review="" >
+
+			<div class="bdaia-wb-content">
+				<div class="bdaia-wb-inner">
+					
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/12/13/cryptogram-replay-attack/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/12/145907/IMG_9162-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/12/13/cryptogram-replay-attack/')"><span>Мошенничество по воздуху. Разбираем возможность Cryptogram Replay Attack в Apple Pay</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">6 часов назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/12/12/apple-jailbreak-exploit/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/12/145869/iphone_broken-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/12/12/apple-jailbreak-exploit/')"><span>Специалист Google Project Zero опубликовал инструмент, который должен помочь джейлбрейкнуть iOS 11</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">22 часа назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/12/12/janus/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/12/145829/Android-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/12/12/janus/')"><span>Уязвимость позволяла внедрять вредоносный код в подписанные APK</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">1 день назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/12/11/vaultek-flaws/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/12/145807/Vaultek-VT20i-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/12/11/vaultek-flaws/')"><span>Популярные оружейные сейфы Vaultek можно взломать и открыть удаленно</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">2 дня назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+						</div>
+				<div class="bdayh-posts-load-wait">
+					<div class="sk-circle"><div class="sk-circle1 sk-child"></div><div class="sk-circle2 sk-child"></div><div class="sk-circle3 sk-child"></div><div class="sk-circle4 sk-child"></div><div class="sk-circle5 sk-child"></div><div class="sk-circle6 sk-child"></div><div class="sk-circle7 sk-child"></div><div class="sk-circle8 sk-child"></div><div class="sk-circle9 sk-child"></div><div class="sk-circle10 sk-child"></div><div class="sk-circle11 sk-child"></div><div class="sk-circle12 sk-child"></div></div>
+				</div>
+			</div>
+
+					</div>
+
+		</div></div>					</div>
+				
+									<div id="footer-second" class="footer-widget-inner">
+						<div id="bdaia-widget-box1-3" class="widget bdaia-widget bdaia-box1"><h4 class="block-title"><span>Колумнисты «Хакера»</span></h4><div class="widget-inner">
+		<div class="bdaia-wb-wrap bdaia-wb1 bdaia-wb-idkNMyW bdaia-ajax-pagination-" data-box_nu="wb1" data-box_id="bdaia-wb-idkNMyW" data-paged="1" data-sort_order="" data-ajax_pagination="" data-num_posts="4" data-tag_slug="" data-cat_uid="576" data-cat_uids="" data-max_nu="16" data-total_posts_num="61" data-posts="" data-com_meta="" data-thumbnail="" data-author_meta="" data-date_meta="true" data-review="" >
+
+			<div class="bdaia-wb-content">
+				<div class="bdaia-wb-inner">
+					
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/09/29/android-vs-ios-security/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/09/138529/zobnin3_0-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/09/29/android-vs-ios-security/')"><span>Android безопаснее iOS? Колонка Евгения Зобнина</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">29.09.2017</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/06/07/treble-android-upadtes/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/06/128155/google-io-sundar-100723014-orig_0-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/06/07/treble-android-upadtes/')"><span>Проект Treble: долгожданное решение проблемы обновления Android. Колонка Евгения Зобнина</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">07.06.2017</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/05/15/replacement-for-android/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/05/125853/fuchia-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/05/15/replacement-for-android/')"><span>Google готовит замену Android? Колонка Евгения Зобнина</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">15.05.2017</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="javascript:window.open('https://xakep.ru/2017/04/20/bug-bounty-contest-faq/')"><img width="104" height="74" src="https://xakep.ru/wp-content/uploads/2017/04/121564/lawbb2_feat_web-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" /></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title"><a href="javascript:window.open('https://xakep.ru/2017/04/20/bug-bounty-contest-faq/')"><span>Ответы юриста. Что нужно знать хакеру для участия в конкурсных Bug Bounty</span></a></h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">20.04.2017</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+						</div>
+				<div class="bdayh-posts-load-wait">
+					<div class="sk-circle"><div class="sk-circle1 sk-child"></div><div class="sk-circle2 sk-child"></div><div class="sk-circle3 sk-child"></div><div class="sk-circle4 sk-child"></div><div class="sk-circle5 sk-child"></div><div class="sk-circle6 sk-child"></div><div class="sk-circle7 sk-child"></div><div class="sk-circle8 sk-child"></div><div class="sk-circle9 sk-child"></div><div class="sk-circle10 sk-child"></div><div class="sk-circle11 sk-child"></div><div class="sk-circle12 sk-child"></div></div>
+				</div>
+			</div>
+
+					</div>
+
+		</div></div>					</div>
+				
+									<div id="footer-third" class="footer-widget-inner">
+						<div id="bdaia-widget-timeline-2" class="widget-odd widget-last widget-first widget-1 widget bdaia-widget bdaia-widget-timeline">
+<h4 class="block-title"><span>Последние новости</span></h4>
+<div class="widget-inner">
+			<ul>
+				<li><a href="javascript:window.open('https://xakep.ru/2017/12/13/strongpity2/')">
+						<span class="bdayh-date">9 часов назад</span>						<h3>ESET предупредила о продолжении кибершпионской операции, к которой причастен интернет-провайдер</h3>
+					</a></li><li><a href="javascript:window.open('https://xakep.ru/2017/12/12/aacs-20-keys-leak/')">
+						<span class="bdayh-date">20 часов назад</span>						<h3>Защита дисков UHD Blu-ray оказалась под угрозой: в сеть утекли ключи AACS 2.0</h3>
+					</a></li><li><a href="javascript:window.open('https://xakep.ru/2017/12/12/darkweb-data-base/')">
+						<span class="bdayh-date">21 час назад</span>						<h3>В даркнете нашли базу данных, содержащую более 1 400 000 000 учетных данных</h3>
+					</a></li><li><a href="javascript:window.open('https://xakep.ru/2017/12/12/apple-jailbreak-exploit/')">
+						<span class="bdayh-date">22 часа назад</span>						<h3>Специалист Google Project Zero опубликовал инструмент, который должен помочь джейлбрейкнуть iOS 11</h3>
+					</a></li><li><a href="javascript:window.open('https://xakep.ru/2017/12/12/wp-vcd/')">
+						<span class="bdayh-date">1 день назад</span>						<h3>Вредонос Wp-Vcd распространяется через «пиратские» темы для WordPress</h3>
+					</a></li>			</ul>
+		</div>
+</div>					</div>
+				
+				
+			</div>
+		</div>
+	</div><!--Widgets/-->
+
+	                        	                        <div class="bdaia-footer-area" style ="background-color:#23282D;">
+		                        <div class="bd-container" style="font-size:13px">
+
+															<div class=footer-col-two>
+															  <div class=footer-widget-inner>
+															         Вопросы по&nbsp;сайту, подписке, журналу: <a href="mailto:support@glc.ru">support@glc.ru</a>
+															    <br/>Отдел рекламы и&nbsp;спецпроектов: <a href="mailto:yakovleva.a@glc.ru">yakovleva.a@glc.ru</a>
+															    <br/>Контент&nbsp;<strong>18+</strong>
+                                  <br/><br/>
+                                  <div style="font-size:95%"><a href=https://qrator.net/ru/ target=_blank rel=nofollow><img src=https://xakep.ru/wp-content/uploads/2017/10/300px-Qrator_LOGO.png width=100 alt=Qrator style="float:left;margin: 0 10px 0 0" /></a> Сайт защищен Qrator&nbsp;—<br/>самой забойной защитой от&nbsp;DDoS в&nbsp;мире</div>
+															  </div>
+															  <div class=footer-widget-inner style="text-align:right">
+															         <a href="/about/">О журнале и подписке</a>
+															    <br/><a href="/advert/">Реклама на «Хакере»</a>
+															    <br/><a href="/contact/">Контакты</a>
+															  </div>
+															</div>
+
+		                        </div>
+	                        </div>
+                        </div><!--.bdaia-footer/-->
+                    </div>
+                </div>
+            </div><!-- #page/-->
+        </div><!-- .page-outer/-->
+        <div id="reading-position-indicator"></div>
+<script>
+    </script>    <script>
+        var snp_f = [];
+        var snp_hostname = new RegExp(location.host);
+        var snp_http = new RegExp("^(http|https)://", "i");
+        var snp_cookie_prefix = '';
+        var snp_separate_cookies = true;
+        var snp_ajax_url = 'https://xakep.ru/wp-admin/admin-ajax.php';
+        var snp_ignore_cookies = false;
+        var snp_enable_analytics_events = false;
+        var snp_enable_mobile = true;
+        var snp_use_in_all = false;
+        var snp_excluded_urls = [];
+        snp_excluded_urls.push('');    </script>
+    <div class="snp-root">
+        <input type="hidden" id="snp_popup" value="" />
+        <input type="hidden" id="snp_popup_id" value="" />
+        <input type="hidden" id="snp_popup_theme" value="" />
+        <input type="hidden" id="snp_exithref" value="" />
+        <input type="hidden" id="snp_exittarget" value="" />
+    	<div id="snppopup-welcome" class="snp-pop-127840 snppopup"><input type="hidden" class="snp_open" value="scroll" /><input type="hidden" class="snp_show_on_exit" value="2" /><input type="hidden" class="snp_exit_js_alert_text" value="" /><input type="hidden" class="snp_open_scroll" value="10" /><input type="hidden" class="snp_optin_redirect_url" value="" /><input type="hidden" class="snp_show_cb_button" value="yes" /><input type="hidden" class="snp_popup_id" value="127840" /><input type="hidden" class="snp_popup_theme" value="newtheme1" /><input type="hidden" class="snp_overlay" value="default" /><input type="hidden" class="snp_cookie_conversion" value="180" /><input type="hidden" class="snp_cookie_close" value="30" /><div class="snp-fb snp-newtheme1">
+	<a class="snp-close snp_nothanks" href="#"></a>    <div class="snp-newsletter-content">
+	<h2>Хочешь годовую подписку в подарок?</h2><p>Каждую неделю, вместе с дайджестом актуальных хакерских трендов, ты можешь получить один из 1000+ еженедельных кодов на скидку от 10 до 50% или один из 5 промокодов на бесплатную годовую подписку на «Хакер»</p> 
+	<form action="#" method="post" class="snp-subscribeform snp_subscribeform">
+		    <div>
+		<input type="text" name="email" id="snp_email" placeholder="Укажи свой Email"  class="snp-field snp-field-email" />	    </div>
+	    <input type="submit" class="snp-subscribe-button snp-submit" data-loading="Сохранение..." data-success="Спасибо!" value="Участвовать!">
+	</form>
+	<p><small><img src="https://xakep.ru/wp-content/plugins/arscode-ninja-popups/themes/newtheme1/img/lock.png" alt="">Данные участников не передаются третьим лицам</small></p>	
+    </div>
+	</div>
+<style>.snp-pop-127840 .snp-newtheme1 { width: 400px;}
+.snp-pop-127840 .snp-newtheme1 h2 {font-size: 16px; color: #ffffff;}
+.snp-pop-127840 .snp-newtheme1 .snp-newsletter-content p {font-size: 13px;}
+.snp-pop-127840 .snp-newtheme1 .snp-newsletter-content p {color: #ddd;}
+.snp-pop-127840 .snp-newtheme1 .snp-submit { color: #ffffff;}
+.snp-pop-127840 .snp-newtheme1 .snp-submit { background-color: #ff4300;}
+.snp-pop-127840 .snp-newtheme1 .snp-newsletter-content h2:before { background-color: #ff4300;}
+.snp-pop-127840 .snp-newtheme1 form input[type="text"],.snp-pop-127840 .snp-newtheme1 form select,.snp-pop-127840 .snp-newtheme1 form textarea,.snp-pop-127840 .snp-newtheme1 form input[type="text"]:focus,.snp-pop-127840 .snp-newtheme1 form select:focus,.snp-pop-127840 .snp-newtheme1 form textarea:focus {border: 1px solid #ff4300;}.snp-pop-127840 .snp-newtheme1 form input[type="submit"]:hover { background-color: #0abd0a;}
+.snp-pop-127840 .snp-newtheme1 .snp-newsletter-content { background: rgba(0,0,0, 0.7);}
+.snp-pop-127840 .snp-newtheme1 { background: url('https://xakep.ru/wp-content/uploads/2017/06/127840/popup-bg.jpg') no-repeat scroll 50% 50% transparent; }
+</style><style>.snp-pop-127840-wrap .fancybox-close { width: 33px; height: 33px; top: -16px; right: -16px; background: url('https://xakep.ru/wp-content/plugins/arscode-ninja-popups/img/close_3.png');}</style></div>    </div>
+    <script type='text/javascript'>
+/* <![CDATA[ */
+var ajax_var = {"url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","nonce":"c0078d9c35"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var wpcf7 = {"apiSettings":{"root":"https:\/\/xakep.ru\/wp-json\/contact-form-7\/v1","namespace":"contact-form-7\/v1"},"recaptcha":{"messages":{"empty":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435, \u0447\u0442\u043e \u0432\u044b \u043d\u0435 \u0440\u043e\u0431\u043e\u0442."}},"cached":"1"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://xakep.ru/wp-content/plugins/bwp-minify/min/?f=wp-content/themes/woohoo/js/widget-ajax.js,wp-content/themes/woohoo/js/post-like.js,wp-content/themes/woohoo/framework/shorty/js/blocks.js,wp-content/plugins/arscode-ninja-popups/js/jquery.ck.min.js,wp-content/plugins/arscode-ninja-popups/js/ninjapopups.min.js,wp-content/plugins/arscode-ninja-popups/fancybox2/jquery.fancybox.min.js,wp-content/plugins/contact-form-7/includes/js/scripts.js,wp-content/plugins/prettify-code-syntax/javascripts/prettify.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-css.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-sql.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-yaml.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-vb.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-clj.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-scala.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-erlang.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-go.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-hs.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-lua.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-ml.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-pascal.js&#038;ver=1513032822'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","text_wait":"\u0412\u0430\u0448 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0437\u0430\u043f\u0440\u043e\u0441 \u0435\u0449\u0435 \u043e\u0431\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u0435\u0442\u0441\u044f. \u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430 \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 ...","text_valid":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043e\u0442\u0432\u0435\u0442.","text_multiple":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0435 \u0447\u0438\u0441\u043b\u043e \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u043e\u0432:","show_loading":"1","show_fading":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var bd = "{\"is_singular\":true,\"bd_lazyload\":false,\"mobile_topmenu\":false,\"sticky_sidebar\":false,\"post_reading_position_indicator\":\"1\"}";
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://xakep.ru/wp-content/plugins/bwp-minify/min/?f=wp-content/plugins/prettify-code-syntax/javascripts/lang-r.js,wp-content/plugins/prettify-code-syntax/javascripts/lang-tcl.js,wp-content/plugins/prettify-code-syntax/javascripts/load.js,wp-content/plugins/wp-polls/polls-js.js,wp-content/themes/woohoo/js/matchMedia.js,wp-content/themes/woohoo/js/matchMedia.addListener.js,wp-content/themes/woohoo/js/jquery.placeholder.js,wp-content/themes/woohoo/js/ilightbox.packed.js,wp-content/themes/woohoo/js/theia-sticky.js,wp-content/themes/woohoo/js/enquire.min.js,wp-content/themes/woohoo/js/min.js,wp-content/themes/woohoo/js/main.js,wp-includes/js/comment-reply.min.js,wp-includes/js/wp-embed.min.js,wp-content/themes/woohoo/js/search.js&#038;ver=1513032822'></script>
+  <link rel="stylesheet" href="/wp-content/themes/woohoo/js/tablesaw/tablesaw.css">
+  <script src="/wp-content/themes/woohoo/js/tablesaw/tablesaw.jquery.js"></script>
+  <script src="/wp-content/themes/woohoo/js/tablesaw/tablesaw-init.js"></script>
+
+<script type='text/javascript'>(function($){
+  $('.bdaia-post-content>pre').addClass('prettyprint');
+  $('.wp-polls-form .wp-polls-ul input').on('change', function(){$(this).parents('form').find('input[name=vote]').click();})
+}(jQuery));</script>
+<div style="position:fixed;left:-9999px;bottom:-9999px;opacity:0">
+  
+  <!-- Yandex.Metrika counter -->
+  <script type="text/javascript">
+  (function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+      try {
+        w.yaCounter18262075 = new Ya.Metrika({id:18262075,
+          webvisor:true,
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true,
+          ut:"noindex"});
+        } catch(e) { }
+      });
+      var n = d.getElementsByTagName("script")[0],
+      s = d.createElement("script"),
+      f = function () { n.parentNode.insertBefore(s, n); };
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+      if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+      } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+  </script>
+  <noscript><div><img src="//mc.yandex.ru/watch/18262075?ut=noindex" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <!-- Код тега ремаркетинга Google -->
+  <script type="text/javascript">
+      /* <![CDATA[ */
+      var google_conversion_id = 943782719;
+      var google_custom_params = window.google_tag_params;
+      var google_remarketing_only = true;
+      /* ]]> */
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+      <div style="display:inline;">
+         <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/943782719/?value=0&amp;guid=ON&amp;script=0"/>
+      </div>
+  </noscript>
+
+  <!-- Rambler Top100 code -->
+  <script id="top100Counter" type="text/javascript" src="https://counter.rambler.ru/top100.jcn?4437747"></script>
+  <noscript>
+  <a href="https://top100.rambler.ru/navi/4437747/">
+  <img src="https://counter.rambler.ru/top100.cnt?4437747" alt="Rambler's Top100" border="0" />
+  </a>
+  </noscript>
+
+  <!-- AgileCRM analytics -->
+  <script id="_agile_min_js" async type="text/javascript" src="https://d1gwclp1pmzk26.cloudfront.net/agile/agile-cloud.js"> </script>
+  <script type="text/javascript" >
+  var Agile_API = Agile_API || {}; Agile_API.on_after_load = function(){
+    _agile.set_account('926ke0amv2p75i07igb7663vgs', 'xakep');
+    _agile.set_email("");
+    _agile.track_page_view();
+  };
+  </script>
+
+  </div>
+    </body>
+</html>
