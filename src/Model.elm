@@ -1,6 +1,24 @@
 module Model exposing (..)
 
+import Time exposing (..)
+
 -----  Model
+
+
+type Msg = Start
+         | Deal
+         | Initial      (List Int)
+         | Hand         (List Int)
+         | AllIn
+         | Bet           String
+         | Call
+         | Check
+         | Fold
+         | ChangeBet     String
+         | Tick          Time
+         | SwitchToRed
+         | SwitchToBlue
+
 
 type PStatus =  Ca -- call
               | Ch -- check
