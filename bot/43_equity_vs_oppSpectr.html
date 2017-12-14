@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Вычисление эквити против взвешенного спектра оппонента - poker-bot.ru | Покер бот форум, покер старс онлайн, скачать покер, покер AI.</title>
+
+
+
+
+
+	<link rel="canonical" href="http://poker-bot.ru/viewtopic.php?t=802">
+
+	<link href="./styles/digi_darkblue/theme/fonts/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="./styles/digi_darkblue/theme/fonts/glyphicons-pro-1.9/css/glyphicons.css" rel="stylesheet">
+
+<link href="./styles/digi_darkblue/theme/stylesheet.css?assets_version=12" rel="stylesheet">
+
+
+
+<!--[if lte IE 9]>
+	<link href="./styles/digi_darkblue/theme/tweaks.css?assets_version=12" rel="stylesheet">
+<![endif]-->
+
+
+
+
+
+</head>
+<body id="phpbb" class="nojs notouch section-viewtopic ltr " data-online-text="В сети">
+
+
+	<a id="top" class="anchor" accesskey="t"></a>
+	<div id="page-header" class="page-width">
+		<div class="headerbar" role="banner">
+			<div class="inner">
+
+			<div id="site-description">
+				<a id="logo" class="logo" href="./index.php" title="Список форумов"><img src="./styles/digi_darkblue/theme/images/logo.png" data-src-hd="./styles/digi_darkblue/theme/images/logo_hd.png" /></a>
+				<p class="sitename">poker-bot.ru | Покер бот форум, покер старс онлайн, скачать покер, покер AI.</p>
+				<p>Онлайн покер форум о ботах, где вы можете скачать покер софт и литературу.</p>
+				<p class="skiplink"><a href="#start_here">Пропустить</a></p>
+			</div>
+			<div id="site-description">
+			
+			</div>
+															
+			</div>
+		</div>
+
+
+				<div class="navbar tabbed not-static" role="navigation">
+	<div class="inner page-width">
+		<div class="nav-tabs" data-current-page="viewtopic">
+			<ul class="leftside">
+												<li id="quick-links" class="tab responsive-menu dropdown-container">
+					<a href="#" class="nav-link dropdown-trigger">Ссылки</a>
+					<div class="dropdown hidden">
+						<div class="pointer"><div class="pointer-inner"></div></div>
+						<ul class="dropdown-contents" role="menu">
+							
+															<li class="separator"></li>
+																																<li class="small-icon icon-search-unanswered"><a href="./search.php?search_id=unanswered" role="menuitem">Сообщения без ответов</a></li>
+								<li class="small-icon icon-search-active"><a href="./search.php?search_id=active_topics" role="menuitem">Активные темы</a></li>
+								<li class="separator"></li>
+								<li class="small-icon icon-search"><a href="./search.php" role="menuitem">Поиск</a></li>
+							
+							<li class="separator"></li>
+
+													</ul>
+					</div>
+				</li>
+				<li class="tab forums selected" data-responsive-class="small-icon icon-forums">
+					<a class="nav-link" href="./index.php">Форумы</a>
+				</li>
+									<li class="tab members dropdown-container" data-select-match="member" data-responsive-class="small-icon icon-members">
+						<a class="nav-link dropdown-trigger" href="./memberlist.php">Пользователи</a>
+						<div class="dropdown hidden">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<ul class="dropdown-contents" role="menu">
+																<li class="small-icon icon-team"><a href="./memberlist.php?mode=team" role="menuitem">Наша команда</a></li>							</ul>
+						</div>
+					</li>
+											</ul>
+			<ul class="rightside">
+								<li class="tab faq" data-select-match="faq" data-responsive-class="small-icon icon-faq">
+					<a class="nav-link" href="./faq.php" rel="help" title="Часто задаваемые вопросы" role="menuitem">FAQ</a>
+				</li>
+																									<li class="tab login"  data-skip-responsive="true" data-select-match="login"><a class="nav-link" href="./ucp.php?mode=login" title="Вход" accesskey="x" role="menuitem">Вход</a></li>
+											<li class="tab register" data-skip-responsive="true" data-select-match="register"><a class="nav-link" href="./ucp.php?mode=register" role="menuitem">Регистрация</a></li>
+																	</ul>
+		</div>
+	</div>
+</div>
+
+<div class="navbar secondary with-search">
+	<ul role="menubar">
+											<li class="small-icon icon-search responsive-hide"><a href="./search.php">Поиск</a></li>
+														<li class="small-icon icon-login"><a href="./ucp.php?mode=login" title="Вход">Вход</a></li>
+									<li class="small-icon icon-register"><a href="./ucp.php?mode=register">Регистрация</a></li>
+									
+					<li class="search-box not-responsive">			<div id="search-box" class="search-box search-header" role="search">
+				<form action="./search.php" method="get" id="search">
+				<fieldset>
+					<input name="keywords" id="keywords" type="search" maxlength="128" title="Ключевые слова" class="inputbox search tiny" size="20" value="" placeholder="Поиск…" />
+					<button class="button icon-button search-icon" type="submit" title="Поиск">Поиск</button>
+					<a href="./search.php" class="button icon-button search-adv-icon" title="Расширенный поиск">Расширенный поиск</a>
+					
+				</fieldset>
+				</form>
+			</div>
+			</li>
+			</ul>
+</div>
+
+	</div>
+
+<div id="wrap" class="page-width">
+
+	
+	<a id="start_here" class="anchor"></a>
+	<div id="page-body" role="main">
+		<div class="navbar nav-breadcrumbs">
+	<ul id="nav-breadcrumbs" class="linklist navlinks" role="menubar">
+						<li class="small-icon icon-home breadcrumbs">
+									<span class="crumb"><a href="./index.php" accesskey="h" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-navbar-reference="index">Список форумов</a></span>
+											<span class="crumb"><a href="./viewforum.php?f=1" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="1">Покер-боты</a></span>
+															<span class="crumb"><a href="./viewforum.php?f=20" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="20">AI бота</a></span>
+												</li>
+		
+					<li class="rightside responsive-search" style="display: none;"><a href="./search.php" title="Параметры расширенного поиска" role="menuitem">Поиск</a></li>
+				<li class="rightside dropdown-container icon-only">
+			<a href="#" class="dropdown-trigger time" title="Текущее время: 14 дек 2017, 14:01"><i class="fa fa-clock-o"></i></a>
+			<div class="dropdown hidden">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<li>Текущее время: 14 дек 2017, 14:01</li>
+					<li>Часовой пояс: <abbr title="UTC+3">UTC+03:00</abbr></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>
+
+		
+		
+<h2 class="topic-title"><a href="./viewtopic.php?f=20&amp;t=802">Вычисление эквити против взвешенного спектра оппонента</a></h2>
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
+<div style="display: none !important;">Математика, алгоритмы и т.д.<br /></div>
+<p>
+	<strong>Модератор:</strong> <a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>
+</p>
+
+
+<div class="action-bar top">
+
+	<div class="buttons">
+		
+			<a href="./posting.php?mode=reply&amp;f=20&amp;t=802" class="button icon-button reply-icon" title="Ответить">
+			Ответить		</a>
+	
+			</div>
+
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Управление темой" class="button icon-button tools-icon dropdown-trigger dropdown-select"></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="small-icon icon-print"><a href="./viewtopic.php?f=20&amp;t=802&amp;view=print" title="Версия для печати" accesskey="p">Версия для печати</a></li>							</ul>
+		</div>
+	</div>
+
+			<div class="search-box" role="search">
+			<form method="get" id="topic-search" action="./search.php">
+			<fieldset>
+				<input class="inputbox search tiny"  type="search" name="keywords" id="search_keywords" size="20" placeholder="Поиск в теме…" />
+				<button class="button icon-button search-icon" type="submit" title="Поиск">Поиск</button>
+				<a href="./search.php" class="button icon-button search-adv-icon" title="Расширенный поиск">Расширенный поиск</a>
+				<input type="hidden" name="t" value="802" />
+<input type="hidden" name="sf" value="msgonly" />
+
+			</fieldset>
+			</form>
+		</div>
+	
+			<div class="pagination">
+			41 сообщение
+							<ul>
+		<li class="active"><span>1</span></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=10" role="button">2</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=20" role="button">3</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=30" role="button">4</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=40" role="button">5</a></li>
+			<li class="next"><a href="./viewtopic.php?f=20&amp;t=802&amp;start=10" rel="next" role="button">След.</a></li>
+	</ul>
+					</div>
+		</div>
+
+
+			<div id="p4769" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4769">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4769">
+
+			<h3 class="first"><a href="#p4769">Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4769" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4769#p4769"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 22:25 </p>
+			
+			
+			
+			<div class="content">Решил внести некоторую ясность и заодно поделиться своей реализацией алгоритмов вычисления силы HS и потенциалов PPot и NPot руки против взвешенного спектра оппонента. Ничего особенного и тем более секретного в этих алгоритмах нет - они присутствуют в псевдокоде практически в каждой публикации CPRG в разделе Hand Evaluation. Может быть кому то будет полезной моя реализация этих алгоритмов на С++ и некоторые комментарии по этому поводу.<br /><br />Большинство из нас привыкли использовать понятие эквити EQ (не путать с EV!) для оценки своей руки против оппонентов. Несмотря на то, что эквити по определению подразумевает нашу долю в банке, учитывая наши шансы на его выигрыш, большинство обычно этим пренебрегают и рассматривают эквити просто как вероятность на победу Pr(win) на шоудауне (шоудаун эквити). Т.е. эквити – это число от 0 до 1 (или от 0% до 100%). Для того чтобы перевести эквити в денежное выражение и получить таки долю банка мы должны умножить величину EQ на размер банка.<br /><br />В академической литературе обычно не используют понятие эквити (т.к. все-таки по определению оно зависит от размера банка), а вместо этого используют понятие силы руки HS (Hand Strength). Далее я тоже не буду использовать понятие эквити – для меня привычнее показатель HS. К этому, кстати, призываю и всех остальных <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /><br /><br />Сила HS руки показывает вероятность нашей победы в текущем раунде. HS на ривере – это то же самое, что большинство из нас понимают под шоудаун эквити. Следующая функция вычисляет HS для заданных карманных карт c1c2, карт стола board и взвешенного спектра карт оппонента wt:<br /><br /><div class="codebox"><p>Код: <a href="#" onclick="selectCode(this); return false;">Выделить всё</a></p><code>double CalcHandStrength(Hand const &amp;board, Card c1, Card c2, WeightTable const &amp;wt)<br />{<br />&nbsp; &nbsp;int i, j;<br />&nbsp; &nbsp;int opprank;<br />&nbsp; &nbsp;double wins = 0, ties = 0, loses = 0;<br />&nbsp; &nbsp;Card o1, o2;<br />&nbsp; &nbsp;double weight;<br />&nbsp; &nbsp;char impossible&#91;Card::NUM_CARDS&#93;;<br /><br />&nbsp; &nbsp;int ourrank = Evaluate(board, c1, c2);<br /><br />&nbsp; &nbsp;memset(impossible, 0, sizeof(impossible));<br /><br />&nbsp; &nbsp;impossible&#91;c1.GetIndex()&#93; = 1;<br />&nbsp; &nbsp;impossible&#91;c2.GetIndex()&#93; = 1;<br /><br />&nbsp; &nbsp;for (i = 1; i &lt;= board.GetSize(); i++)<br />&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;board.GetCard(i).GetIndex()&#93; = true;<br /><br />&nbsp; &nbsp;for (i = 0; i &lt; Card::NUM_CARDS; i++)<br />&nbsp; &nbsp;&nbsp; &nbsp;for (j = i + 1; j &lt; Card::NUM_CARDS; j++)<br />&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (impossible&#91;i&#93; || impossible&#91;j&#93;)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;continue;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;o1.SetIndex(i);<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;o2.SetIndex(j);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;opprank = Evaluate(board, o1, o2);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;weight = wt.GetHandWeight(o1, o2);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (ourrank &gt;= opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;wins += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else if (ourrank == opprank)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;ties += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else // ourrank &lt; opprank <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;loses += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;}<br />&nbsp; &nbsp;<br />&nbsp; &nbsp;return (wins + ties / 2) / (wins + loses + ties);<br />}</code></div><br /><br />Как видно из кода, вычисление заключается в переборе всех карт оппонента и сравнения очередной получившейся у него руки с учетом карт стола с нашей текущей рукой. Понятно, что вычисленное значение HS показывает наши шансы на победу в текущем раунде, т.е. без учета тех карт, которые могут выйти на стол, поэтому UofA вводит еще одно понятие – EHS (Effective Hand Strength) – эффективную силу руки, которая вычисляется по формуле: EHS = HS * (1 – NPot) + (1 – HS) * PPot. EHS уже учитывает те карты, которые могут выйти на стол (одну или две в зависимости от раунда) за счет того, что в нее «замешаны» показатели NPot и PPot – соответственно, отрицательный и положительный потенциалы нашей руки. Эти показатели для заданных карманных карт c1c2, карт стола board и взвешенного спектра оппонента wt вычисляет следующая функция:<br /><br /><div class="codebox"><p>Код: <a href="#" onclick="selectCode(this); return false;">Выделить всё</a></p><code>void CalcHandPotential(Hand const &amp;board, Potential &amp;pot, Card c1, Card c2, bool fullLookahead, WeightTable const &amp;wt)<br />{<br />&nbsp; &nbsp;enum<br />&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;AHEAD,<br />&nbsp; &nbsp;&nbsp; &nbsp;TIED,<br />&nbsp; &nbsp;&nbsp; &nbsp;BEHIND<br />&nbsp; &nbsp;};<br /><br />&nbsp; &nbsp;double&nbsp; HP&#91;3&#93;&#91;3&#93;; <br />&nbsp; &nbsp;double&nbsp; HPTotal&#91;3&#93;; <br />&nbsp; &nbsp;Hand comm = board;<br />&nbsp; &nbsp;int&nbsp; i, j, k, l, index;<br />&nbsp; &nbsp;double weight;<br /><br />&nbsp; &nbsp;for (i = 0 ; i &lt; 3; i++)<br />&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;for (j = 0; j &lt; 3; j++)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;i&#93;&#91;j&#93; = 0;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;HPTotal&#91;i&#93; = 0;<br />&nbsp; &nbsp;}<br /><br />&nbsp; &nbsp;bool impossible&#91;Card::NUM_CARDS&#93;;<br /><br />&nbsp; &nbsp;memset(impossible, 0, sizeof(impossible));<br /><br />&nbsp; &nbsp;impossible&#91;c1.GetIndex()&#93; = 1;<br />&nbsp; &nbsp;impossible&#91;c2.GetIndex()&#93; = 1;<br /><br />&nbsp; &nbsp;for (i = 1; i &lt;= comm.GetSize(); i++)<br />&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;comm.GetCard(i).GetIndex()&#93; = 1;<br /><br />&nbsp; &nbsp;int ourrank5 = Evaluate(comm, c1, c2);<br />&nbsp; &nbsp;int opprank, ourrank7;<br />&nbsp; &nbsp;Card o1, o2;<br /><br />&nbsp; &nbsp;ASSERT(comm.GetSize() == 3 || comm.GetSize() == 4);<br /><br />&nbsp; &nbsp;fullLookahead = (comm.GetSize() == 3 &amp;&amp; fullLookahead);<br /><br />&nbsp; &nbsp;for (i = 0; i &lt; Card::NUM_CARDS; i++)<br />&nbsp; &nbsp;&nbsp; &nbsp;for (j = i + 1; j &lt; Card::NUM_CARDS; j++)<br />&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (impossible&#91;i&#93; || impossible&#91;j&#93;)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;continue;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;i&#93; = 1;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;j&#93; = 1;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;o1.SetIndex(i);<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;o2.SetIndex(j);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;opprank = Evaluate(comm, o1, o2);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (ourrank5 &gt; opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;index = AHEAD;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else if (ourrank5 == opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;index = TIED;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;index = BEHIND;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;weight = wt.GetHandWeight(o1, o2);<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HPTotal&#91;index&#93; += weight;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;for (k = 0; k &lt; Card::NUM_CARDS; k++) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (impossible&#91;k&#93;)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;continue;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;k&#93; = 1;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;comm.AddCard(k);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (fullLookahead) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;for (l = k + 1; l &lt; Card::NUM_CARDS; l++) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (impossible&#91;l&#93;)<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;continue;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;comm.AddCard(l);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;ourrank7 = Evaluate(comm, c1, c2);<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;opprank = Evaluate(comm, o1, o2);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (ourrank7 &gt; opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;AHEAD&#93; += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else if (ourrank7 == opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;TIED&#93; += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;BEHIND&#93; += weight;<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;comm.RemoveCard();<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;} <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;{<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;ourrank7 = Evaluate(comm, c1, c2);<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;opprank = Evaluate(comm, o1, o2);<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;if (ourrank7 &gt; opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;AHEAD&#93; += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else if (ourrank7 == opprank) <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;TIED&#93; += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;HP&#91;index&#93;&#91;BEHIND&#93; += weight;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;comm.RemoveCard();<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;k&#93; = 0;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;}<br /><br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;o1.GetIndex()&#93; = 0;<br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;impossible&#91;o2.GetIndex()&#93; = 0;<br />&nbsp; &nbsp;&nbsp; &nbsp;}<br /><br />&nbsp; &nbsp;int mult = (fullLookahead ? 990 : (Card::NUM_CARDS - 3 - 2 * 2));<br />&nbsp; &nbsp;double den1 = mult * (HPTotal&#91;BEHIND&#93; + (double)HPTotal&#91;TIED&#93; / 2);<br />&nbsp; &nbsp;double den2 = mult * (HPTotal&#91;AHEAD&#93; + (double)HPTotal&#91;TIED&#93; / 2);<br /><br />&nbsp; &nbsp;if (den1 &gt; 0) <br />&nbsp; &nbsp;&nbsp; &nbsp;pot.ppot = (HP&#91;BEHIND&#93;&#91;AHEAD&#93; + (double)HP&#91;BEHIND&#93;&#91;TIED&#93; / 2 + <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;(double)HP&#91;TIED&#93;&#91;AHEAD&#93; / 2) / den1;<br />&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;pot.ppot = 0;<br /><br />&nbsp; &nbsp;if (den2 &gt; 0) <br />&nbsp; &nbsp;&nbsp; &nbsp;pot.npot = (HP&#91;AHEAD&#93;&#91;BEHIND&#93; + (double)HP&#91;AHEAD&#93;&#91;TIED&#93; / 2 + <br />&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;(double)HP&#91;TIED&#93;&#91;BEHIND&#93; / 2) / den2;<br />&nbsp; &nbsp;else <br />&nbsp; &nbsp;&nbsp; &nbsp;pot.npot = 0;<br />}</code></div><br />Положительный потенциал PPot показывает шансы на то, что мы, находясь в текущем раунде позади, в следующем раунде (или к шоудану, если fullLookahead == true) улучшимся и победим. Отрицательный потенциал NPot показывает шансы на то, что мы, находясь в текущем раунде впереди, в следующем раунде (или к шоудауну) станем хуже и проиграем. Другими словами PPot – это вероятность того, что «переедем» мы, а NPot – это вероятность того, что «переедут» нас. <br /><br />Когда показатели HS, PPot и NPot вычислены, мы можем вычислить эффективную силу руки EHS. EHS – это и есть то значение, которое вычисляет любой эквилятор. Спрашивается, для чего все это делать через… PPot и NPot? Нельзя ли просто перебрать все карты оппа и «прогнать» их до шоудауна? Можно! Именно так и делает эквилятор. Однако при этом теряется очень много полезной информации. PPot, например, показывает силу нашего дро. Если PPot &gt;= potOdds, то мы должны колировать по шансам банка. Кроме того, оценивая PPot, можно выбирать разные стратегии розыгрыша. Так, если PPot &gt;= 0.2, то мы знаем, что у нас какое-то сильное дро, мы уже можем делать бет, чек-рейз и пр. Нам не нужно «вычислять гатшот», вычислять комбинированные дро и т.п. Вместо этого у нас появляется соответствующая математическая характеристика, что очень важно. NPot, наоборот, показывает слабость нашей готовой руки, обычно NPot исключают при вычислении EHS. Т.е. EHS = HS + (1 – HS) * PPot. Такой шаг по заверениям UofA поощряет агрессивную игру вообще и, в частности, при защите готовой руки. Я использую NPot для анализа слабости готовой руки. Это позволяет выделить руки с приличным EHS, но являющиеся при этом чрезвычайно уязвимыми. Такие руки нужно выкидывать на флопе. И, благодаря показателю NPot, бот очень просто делает сложные фолды <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /> и вообще начинает шикарно играть флоп в стиле Склански (либо рейз, либо пас).</div>
+
+			
+													<div class="notice">
+					Последний раз редактировалось <a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a> 17 июл 2011, 22:51, всего редактировалось 3 раза.
+									</div>
+			
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4770" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4770">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4770">
+
+			<h3 ><a href="#p4770">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4770" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4770#p4770"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 22:37 </p>
+			
+			
+			
+			<div class="content">Небольшое уточнение к вышесказанному. <br /><br />Взвешенный спектр в функции CalcHandStrength и CalcHandPotential передается через таблицу весов wt, в которой каждой из 1326 возможных рук оппонента поставлен в соответствие вес - вероятность того, что оппонент разыграл бы эту руку так, как мы увидели. Т.е. сумма весов в таблице НЕ равна 1. Напротив, вес каждой руки - это число от 0 до 1.<br /><br />Еще один момент, касающийся вычислений против нескольких оппонентов. UofA делает просто - они вычисляют HS (не EHS!) против каждого оппа (используя для каждого оппа его таблицу весов), перемножают полученные значения, получая HSn. При этом утверждается, что такое перемножение допустимо, т.к. вносит небольшую погрешность. Затем формируют единую таблицу весов всех оппов, которая называется field array и по этой единой таблице вычисляют PPot и NPot, передавая ее в функцию CalcHandPotential в качестве аргумента wt. Затем вычисляют EHSn = HSn + (1 – HSn) * PPot.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4771" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4771">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4771">
+
+			<h3 ><a href="#p4771">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4771" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4771#p4771"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>17 июл 2011, 22:49 </p>
+			
+			
+			
+			<div class="content">SoullessSteel<br /><br />Чтобы запустить код тут много чего не хватает описание классов, функця Evaluate();<br />мож еще чего упустил<br /><br />если можно загрузи файл проекта который можно скомпилировать и потестть <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /><br /><br />Хотя если у тебя нет цели выкладывать полностью готовый код, то я бы просто сравнил результаты расчета эквити или как ты его назвал HS со своими для проверки.<br /><br /><blockquote class="uncited"><div>Еще один момент, касающийся вычислений против нескольких оппонентов. UofA делает просто - они вычисляют HS (не EHS!) против каждого оппа (используя для каждого оппа его таблицу весов), перемножают полученные значения, получая HSn. При этом утверждается, что такое перемножение допустимо, т.к. вносит небольшую погрешность.</div></blockquote><br />Не согласен бессмысленно приблизительные расчеты делать с доп погрешностью, если это может быть дает большую скорость расчетов еще можно понять, а так нет никаких причин так делать ну разве что алгоритм будет попроще</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4772" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4772">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4772">
+
+			<h3 ><a href="#p4772">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4772" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4772#p4772"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 22:56 </p>
+			
+			
+			
+			<div class="content">Ф-я Evaluate - точка входа стандартного эвалюатора, который вычисляет ранг руки от flash royal до five/seven high. <br /><br />Вот куча алгоритмов: <br /><!-- m --><a class="postlink" href="http://pokerai.org/pf3/viewtopic.php?f=3&amp;t=16&amp;hilit=LUT">http://pokerai.org/pf3/viewtopic.php?f=3&amp;t=16&amp;hilit=LUT</a><!-- m --><br /><br />Все остальные классы - стандартные из Meerkat API, за исключением WeightTable просто таблица весов на 1326 элементов. Два метода SetHandWeight/GetHandWeight.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4773" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4773">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4773">
+
+			<h3 ><a href="#p4773">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4773" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4773#p4773"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 22:57 </p>
+			
+			
+			
+			<div class="content"><blockquote class="uncited"><div>Не согласен бессмысленно приблизительные расчеты делать с доп погрешностью, если это может быть дает большую скорость расчетов еще можно понять, а так нет никаких причин так делать ну разве что алгоритм будет попроще</div></blockquote><br /><br />Ес-но только по соображениям скорости. Может кто-нибудь предложит точный алгоритм вычисления без погрешностей. Я думаю все будут только рады <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /></div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4774" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4774">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4774">
+
+			<h3 ><a href="#p4774">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4774" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4774#p4774"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>17 июл 2011, 23:06 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>SoullessSteel писал(а):</cite>Ф-я Evaluate - точка входа стандартного эвалюатора, который вычисляет ранг руки от flash royal до five/seven high. <br /><br />Вот куча алгоритмов: <br /><!-- m --><a class="postlink" href="http://pokerai.org/pf3/viewtopic.php?f=3&amp;t=16&amp;hilit=LUT">http://pokerai.org/pf3/viewtopic.php?f=3&amp;t=16&amp;hilit=LUT</a><!-- m --><br /><br />Все остальные классы - стандартные из Meerkat API, за исключением WeightTable просто таблица весов на 1326 элементов. Два метода SetHandWeight/GetHandWeight.</div></blockquote><br />ну то есть как по мне еще неделя работы чтоб по тестить<br />что такое Meerkat API я вообще не в курсе<br />моя функция Evaluate принимает карты чуть в другом виде чем у тебя, надо или свою переделывать или искать другую<br /><br />в общем если есть желание скажи в каком формате у тебя спектр рук с весами я вышлю и проверим результаты<br />прог которые считают эквити с весами я не нашел и было бы не плохо просто сравнить цифры</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4775" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4775">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=76" class="username">bob</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=76&amp;sr=posts">282</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 30 авг 2010, 15:41</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4775">
+
+			<h3 ><a href="#p4775">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4775" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4775#p4775"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=76" class="username">bob</a></strong> &raquo; </span>17 июл 2011, 23:13 </p>
+			
+			
+			
+			<div class="content">SoullessSteel спасибо, все просто на высшем уровне<br />судя по тому как оформлен код, и по самому коду, программер ты опытный<br />всё четко, без лишнего, завтра попробую его в деле<br />кстати visual assist юзаешь?</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4776" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4776">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4776">
+
+			<h3 ><a href="#p4776">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4776" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4776#p4776"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 23:16 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>caramba писал(а):</cite>в общем если есть желание скажи в каком формате у тебя спектр рук с весами я вышлю и проверим результаты</div></blockquote><br /><br />Давай так: AhAd 1.0 AhKd 0.99 и т.д. в обычном тексте. Т.е. все 1326 рук.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>прог которые считают эквити с весами я не нашел и было бы не плохо просто сравнить цифры</div></blockquote><br /><br />Серьезно? Не думал. Ну давай я быстро накидаю программуличку, которая на вход берет текстовый файл с весами, карты борда, признак fullLookahead. На выходе все считает. Как считаешь? Положим в скрытый раздел?</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4777" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4777">
+			<dt class="no-profile-rank has-avatar">
+				<div class="avatar-container">
+																<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="avatar"><img src="./download/file.php?avatar=414_1305485578.jpg" width="90" height="76" alt="Аватара пользователя" /></a>														</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=414&amp;sr=posts">349</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 18 фев 2011, 23:33</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4777">
+
+			<h3 ><a href="#p4777">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4777" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4777#p4777"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a></strong> &raquo; </span>17 июл 2011, 23:17 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>bob писал(а):</cite>кстати visual assist юзаешь?</div></blockquote><br /><br />Ну а куда ж без Помидора? <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /></div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p4778" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile4778">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content4778">
+
+			<h3 ><a href="#p4778">Re: Вычисление эквити против взвешенного спектра оппонента</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=4778" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=4778#p4778"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>17 июл 2011, 23:21 </p>
+			
+			
+			
+			<div class="content"><blockquote class="uncited"><div>Давай так: AhAd 1.0 AhKd 0.99 и т.д. в обычном тексте. Т.е. все 1326 рук.</div></blockquote><br />ну не знаю на счет всех, можно просто только те руки у которых не нулевой вес чтобы прога на руки с нулевыми весами не тратила ни секунды своего времени<br /><br /><br /><br /><blockquote class="uncited"><div>Серьезно? Не думал. Ну давай я быстро накидаю программуличку, которая на вход берет текстовый файл с весами, карты борда, признак fullLookahead. На выходе все считает. Как считаешь? Положим в скрытый раздел?</div></blockquote><br />да без проблем положим куда скажешь, я буду просто счастлив <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" /><br /><br />просто у меня вызывает некоторые сомнения мои формулы для вычисления ничьих например, если у тебя такие же то значит все ок, если нет можно будет обсудить кто как считает</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+	
+
+	<form id="viewtopic" method="post" action="./viewtopic.php?f=20&amp;t=802">
+	<fieldset class="display-options" style="margin-top: 0; ">
+				<label>Показать сообщения за: <select name="st" id="st"><option value="0" selected="selected">Все сообщения</option><option value="1">1 день</option><option value="7">7 дней</option><option value="14">2 недели</option><option value="30">1 месяц</option><option value="90">3 месяца</option><option value="180">6 месяцев</option><option value="365">1 год</option></select></label>
+		<label>Поле сортировки <select name="sk" id="sk"><option value="a">Автор</option><option value="t" selected="selected">Время размещения</option><option value="s">Заголовок сообщения</option></select></label> <label><select name="sd" id="sd"><option value="a" selected="selected">по возрастанию</option><option value="d">по убыванию</option></select></label>
+		<input type="submit" name="sort" value="Перейти" class="button2" />
+			</fieldset>
+	</form>
+	<hr />
+
+<div class="action-bar bottom">
+	<div class="buttons">
+		
+			<a href="./posting.php?mode=reply&amp;f=20&amp;t=802" class="button icon-button reply-icon" title="Ответить">
+			Ответить		</a>
+	
+			</div>
+
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Управление темой" class="button icon-button tools-icon dropdown-trigger dropdown-select"></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="small-icon icon-print"><a href="./viewtopic.php?f=20&amp;t=802&amp;view=print" title="Версия для печати" accesskey="p">Версия для печати</a></li>							</ul>
+		</div>
+	</div>
+
+	
+			<div class="pagination">
+			41 сообщение
+							<ul>
+		<li class="active"><span>1</span></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=10" role="button">2</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=20" role="button">3</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=30" role="button">4</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=802&amp;start=40" role="button">5</a></li>
+			<li class="next"><a href="./viewtopic.php?f=20&amp;t=802&amp;start=10" rel="next" role="button">След.</a></li>
+	</ul>
+					</div>
+		<div class="clear"></div>
+</div>
+
+
+	<p class="jumpbox-return"><a href="./viewforum.php?f=20" class="left-box arrow-left" accesskey="r">Вернуться в «AI бота»</a></p>
+
+
+	<div class="dropdown-container dropdown-container-right dropdown-up dropdown-left dropdown-button-control" id="jumpbox">
+		<span title="Перейти" class="dropdown-trigger button dropdown-select">
+			Перейти		</span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																			<li><a href="./viewforum.php?f=68">Для активации аккаунта пишите на thepandamedia@gmail.com</a></li>
+																<li><a href="./viewforum.php?f=1">Покер-боты</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=3">Общая информация о покерных ботах</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=23">Вопросы новичков</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=13">Покерный бот OpenHoldem</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=14">Обсуждение Table map для Open Holdem</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=27">Исходники ОН(Обмен и примеры dll, ohf файлов)</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=28">Прочие покерные Боты</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=2">WinHoldEm</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=24">Shanky Technologies</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=34">Online Poker Inspector</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=50">Свои оболочки</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=29">Autoit/AutoHotKey</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=20">AI бота</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=33">Базы данных</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=53">Программирование</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=22">Сторонние ресурсы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=15">Работа с покерными клиентами</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=18">Дополнительные утилиты</a></li>
+																<li><a href="./viewforum.php?f=30">Переводы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=32">Переводы статей, мануалов и другой литературы</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=26">Переводы статей, мануалов и другой литературы (Архив)</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=38">Переводы в процессе (Архив)</a></li>
+																<li><a href="./viewforum.php?f=41">Деловые предложения</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=19">Куплю-Продам</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=21">Предложения по сотрудничеству</a></li>
+																<li><a href="./viewforum.php?f=63">EN forum</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=42">Обмен Hand History</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=43">Обмен Hand History (Открытый раздел)</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=7">Курилка</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=8">Около покерного стола</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=51">Наш чат</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=6">Обсуждение материалов сайта poker-bot.ru</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=60">Различные статьи на покерные темы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=10">Техасский Холдем</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=11">Покерные турниры</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=12">Омаха, Стад и другие виды покера</a></li>
+										</ul>
+		</div>
+	</div>
+
+
+	<div class="stat-block online-list">
+		<h3>Кто сейчас на конференции</h3>
+		<p>Сейчас этот форум просматривают: нет зарегистрированных пользователей и 4 гостя</p>
+	</div>
+
+			</div>
+
+
+	<div class="navbar" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-footer" class="linklist bulletin" role="menubar">
+		<li class="small-icon icon-home breadcrumbs">
+									<span class="crumb"><a href="./index.php" data-navbar-reference="index">Список форумов</a></span>
+					</li>
+		
+				<li class="rightside">Часовой пояс: <abbr title="UTC+3">UTC+03:00</abbr></li>
+							<li class="small-icon icon-delete-cookies rightside"><a href="./ucp.php?mode=delete_cookies" data-ajax="true" data-refresh="true" role="menuitem">Удалить cookies конференции</a></li>
+									<li class="small-icon icon-team rightside" data-last-responsive="true"><a href="./memberlist.php?mode=team" role="menuitem">Наша команда</a></li>					</ul>
+
+	</div>
+</div>
+</div>
+
+<div id="page-footer" class="page-width" role="contentinfo">
+	
+	<div class="copyright">
+				Создано на основе <a href="https://www.phpbb.com/">phpBB</a>&reg; Forum Software &copy; phpBB Limited
+		<a href="http://www.colorizeit.com/styles/phpbb-31-styles/366.digi.html">Color scheme created with Colorize It</a>. 
+		<br />Style by <a href="http://www.artodia.com/">Arty</a>
+		<br /><a href='http://www.phpbbguru.net/'>Русская поддержка phpBB</a>							</div>
+
+	<div id="darkenwrapper" data-ajax-error-title="Ошибка AJAX" data-ajax-error-text="При обработке запроса произошла ошибка." data-ajax-error-text-abort="Запрос прерван пользователем." data-ajax-error-text-timeout="Время запроса истекло; повторите попытку." data-ajax-error-text-parsererror="При выполнении запроса возникла непредвиденная ошибка, и сервер вернул неверный ответ.">
+		<div id="darken">&nbsp;</div>
+	</div>
+
+	<div id="phpbb_alert" class="phpbb_alert" data-l-err="Ошибка" data-l-timeout-processing-req="Время выполнения запроса истекло.">
+		<a href="#" class="alert_close"></a>
+		<h3 class="alert_title">&nbsp;</h3><p class="alert_text"></p>
+	</div>
+	<div id="phpbb_confirm" class="phpbb_alert">
+		<a href="#" class="alert_close"></a>
+		<div class="alert_text"></div>
+	</div>
+</div>
+
+
+<div>
+	<a id="bottom" class="anchor" accesskey="z"></a>
+	</div>
+
+<script type="text/javascript" src="./assets/javascript/jquery.min.js?assets_version=12"></script>
+<script type="text/javascript" src="./assets/javascript/core.js?assets_version=12"></script>
+
+
+<script type="text/javascript" src="./styles/digi_darkblue/template/forum_fn.js?assets_version=12"></script>
+
+<script type="text/javascript" src="./styles/digi_darkblue/template/ajax.js?assets_version=12"></script>
+
+
+
+
+<div class="metrika" style="display: none;">
+<!-- Yandex.Metrika informer -->
+<a href="https://metrika.yandex.ru/stat/?id=30221455&amp;from=informer"
+target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/30221455/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+style="width:88px; height:31px; border:0;" alt="яндекс.ћетрика" title="яндекс.ћетрика: данные за сегодн€ (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:30221455,lang:'ru'});return false}catch(e){}"/></a>
+<!-- /Yandex.Metrika informer -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30221455 = new Ya.Metrika({id:30221455,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30221455" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</div>
+
+
+</body>
+</html>
