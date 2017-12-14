@@ -11,23 +11,23 @@ import Model exposing (..)
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
   SwitchToRed ->
-      ({ s | deck = False }, Cmd.none)
+      ( { s | deck = False }, Cmd.none )
   SwitchToBlue ->
-      ({ s | deck = True }, Cmd.none)
+      ( { s | deck = True  }, Cmd.none )
   Start ->                                                  -- готовим ряд для формирования колоды
         (s, Random.generate Initial (Random.list 2048 (Random.int 2 53)))
   Initial ys ->                     
      let zs = mfun0 ys
      in case (List.take 1 zs) of                                        -- кто первым сдает ?
-          [(s1,r1)] -> case (List.take 1 (List.drop 1 zs)) of
-             [(s2,r2)] -> ( { s |
+          [(s1, r1)] -> case (List.take 1 (List.drop 1 zs)) of
+             [(s2, r2)] -> ( { s |
                               pdeal    = r2 > r1
-                            , ppocket  = [(s2,r2)] , kpocket = [(s1,r1)]
-                            , pstatus  = Id        , kstatus = Id
-                            , gstage   = Dc        , order = False
-                            }, Cmd.none)
-             _ -> (s, Cmd.none)
-          _ -> (s, Cmd.none)
+                            , ppocket  = [(s2, r2)] , kpocket = [(s1, r1)]
+                            , pstatus  = Id         , kstatus = Id
+                            , gstage   = Dc         , order = False
+                            }, Cmd.none )
+             _ -> (s, Cmd.none )
+          _ -> (s, Cmd.none )
   Deal ->
     (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))  -- ряд для формирования колоды
   Hand ys ->                                                         -- начало каждой раздачи

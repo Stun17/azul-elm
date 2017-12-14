@@ -11,8 +11,8 @@ import Html exposing (program)
 import Time exposing (Time, second)
 
 import Mydeck exposing (..)
-import Update exposing (..)
-import View exposing (..)
+import Update exposing (update)
+import View exposing (view)
 import Model exposing (..)
 
 --------------------------

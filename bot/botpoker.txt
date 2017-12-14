@@ -1,0 +1,133 @@
+The  algorithm  description  for  the  preflop  phase  is  as follows:
+
+  Input:   combination  of  the  starting  cards  and  the  opponent’s action
+  Output:  poker bot action.
+
+Algorithm:
+ - calculation of the group for starting cards
+ - collecting information about the opponent’s action
+ - selection of a proper action
+
+Algorithm for playing preflop divides all the possible starting hands into 9 different groups
+Each group has its own actions, depending on the opponent’s actions:
+
+Group1 AA KK
+------------------------------------------------------------
+Opponent                                Poker bot
+------------------------------------------------------------
+1st position, check/call                Raise 3-5x BB
+Raise                                   Re-raise 3-4x of bet
+Re-raise                                All-in
+All-in                                  Call
+------------------------------------------------------------
+
+Group2 QQ JJ AK AKs
+------------------------------------------------------------
+Opponent                                Poker bot
+------------------------------------------------------------
+1st position, check/call                Raise 3-5x BB
+Raise                                   Re-raise 3-4x of bet
+Re-raise                                QQ|JJ: call
+                                        AK|AKs: All-in
+All-in                                  Call
+------------------------------------------------------------
+
+Group3 TT AQs AQ AJs KQs
+Opponent
+Poker bot
+1st position, check or call
+Raise 3-5x BB
+Raise
+Call
+Re-raise
+Call
+All-in
+Fodl
+
+Group4 99 88 77 ATs AT KJs AJ
+Opponent
+Poker bot
+1st position, check or call
+Raise 3-5x BB
+Raise
+Raise
+<
+= 40 call else fold
+Re-raise
+Raise
+<
+= 40 call else fold
+All-in
+Fodl
+
+Group5 KQ QJs KTs JTs
+Opponent
+Poker bot
+1st position, check or call
+Raise 3-5x BB
+Raise
+Raise
+<
+= 30 call else fold
+Re-raise
+Raise
+<
+= 30 call else fold
+All-in
+Fodl
+
+Group6 KJ QTs A9s A8s QJ
+Opponent
+Poker bot
+1st position, check or call
+Raise 3-5x BB
+Raise
+Raise
+<
+= 20 call else fold
+Re-raise
+Raise
+<
+= 20 call else fold
+All-in
+Fodl
+
+Group7 Axs (x<8)    KT JT K9s Q9s T9s J9s
+Opponent
+Poker bot
+1st position, check or call
+Raise 3-5x BB
+Raise
+Raise
+<
+= 20 call else fold
+Re-raise
+Fold
+All-in
+Fodl
+
+Group8 Ax (x<T)     SC xys (x,y<T; x=y+1)
+Opponent
+Poker bot
+1st position, check or call
+Check
+Raise
+Raise
+<
+= 5 call else fold
+Re-raise
+Fold
+All-in
+Fodl
+
+Group9   All other hands 
+Opponent
+Poker bot
+1st position, check or call
+Check
+Raise
+Fold
+Re-raise
+Fold
+All-in
+Fodl
