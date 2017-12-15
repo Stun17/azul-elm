@@ -48,6 +48,7 @@ type alias Struc =
     , gstage   : GStage    -- сосотояние розыгрыша: префлоп флоп торн ривер старт жребий вскрытие
     , hand     : Int       -- количество отыгранных раздач
     , bet      : Int       -- текущая ставка
+    , round    : Int       -- rounds on current street             
     , timer    : Int
     , block    : Bool      -- to block drop-up "bet xN" after the first usage
     , deck     : Bool

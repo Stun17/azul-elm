@@ -212,6 +212,8 @@ buttns m =
                   ] [ text " Start " ]
 
          , span [style dstyle] [text "|"]
+         , span [style dstyle] []             
+         , input [ type_ "checkbox" {- , onClick -} ] [] , text " time: "
          , span [style dstyle] [text (toString m.timer)]
 
          , span [style dstyle] [text "|"]
@@ -219,11 +221,11 @@ buttns m =
          , input [ type_ "radio"
                  , value "red"
                  , name "color"
-                 , onClick SwitchToRed] [] , text "Red"
+                 , onClick SwitchToRed] [] , text " Red "
          , input [ type_ "radio"
                  , value "blue"
                  , name "color"
-                 , onClick SwitchToBlue] [] , text "Blue"
+                 , onClick SwitchToBlue] [] , text " Blue "
          , br [] []
          ]
 

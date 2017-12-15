@@ -10,7 +10,7 @@ import List.Extra exposing (unique)
 import Html exposing (program)
 import Time exposing (Time, second)
 
-import Mydeck exposing (..)
+import MyHashes exposing (..)
 import Update exposing (update)
 import View exposing (view)
 import Model exposing (..)
@@ -35,7 +35,7 @@ init : (Struc, Cmd a)
 init = ({ ppocket = [(0,0), (0,0)], pstack = 200, pstatus = Id
         , kpocket = [(0,0), (0,0)], kstack = 200, kstatus = Id
         , pot = 0, board = [(0,0), (0,0), (0,0), (0,0), (0,0)]
-        , hand = 0, order = False, bet = 1, gstage = St
+        , hand = 0, order = False, bet = 1, gstage = St, round = 1
         , pdeal = False, timer = 0, block = False, deck = True
         } , Cmd.none)
 

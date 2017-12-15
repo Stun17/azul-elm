@@ -5,7 +5,7 @@ import Random
 import List.Extra exposing (unique)
 import Html exposing (..)
 import Time exposing (Time, second)
-import Mydeck exposing (..)
+import MyHashes exposing (..)
 import Model exposing (..)
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
@@ -15,7 +15,7 @@ update b s = case b of
   SwitchToBlue ->
       ( { s | deck = True  }, Cmd.none )
   Start ->                                                  -- готовим ряд для формирования колоды
-        (s, Random.generate Initial (Random.list 2048 (Random.int 2 53)))
+        (s, Random.generate Initial (Random.list 255 (Random.int 2 53)))
   Initial ys ->                     
      let zs = mfun0 ys
      in case (List.take 1 zs) of                                        -- кто первым сдает ?
@@ -29,7 +29,7 @@ update b s = case b of
              _ -> (s, Cmd.none )
           _ -> (s, Cmd.none )
   Deal ->
-    (s , Random.generate Hand (Random.list 2048 (Random.int 2 53)))  -- ряд для формирования колоды
+    (s , Random.generate Hand (Random.list 255 (Random.int 2 53)))  -- ряд для формирования колоды
   Hand ys ->                                                         -- начало каждой раздачи
      let zs = mfun0 ys                                               -- формируем колоду
      in ( { s |
@@ -47,7 +47,7 @@ update b s = case b of
           , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1   -- анте
           , hand    = s.hand + 1                                       -- счетчик раздач
 
-          , order   = s.pdeal
+          , order   = s.pdeal , round = 1
           , gstage  = Pr
           } , Cmd.none )
   Fold ->
@@ -56,7 +56,7 @@ update b s = case b of
        , pot     = 0
        , pstatus = Fo
        , kstatus = Wi
-       , order   = False
+       , order   = False , round = 1
        -- , gstage  = Dd
        -- , pdeal   = not s.pdeal
        }, Cmd.none )
@@ -64,7 +64,7 @@ update b s = case b of
     ( { s |
         pstatus = Ch
       , kstatus = Th
-      , order   = False
+      , order   = False , round = 1
       }, Cmd.none )
   Call ->
     ( { s |
@@ -73,7 +73,7 @@ update b s = case b of
       , bet     = if (s.pdeal && s.gstage == Pr) then 2 else s.bet
       , pstatus = Ca
       , kstatus = Th
-      , order   = False
+      , order   = False , round = s.round + 1
       } , Cmd.none )
   Bet x ->
      let z = Result.withDefault s.bet (String.toInt x)
@@ -83,7 +83,7 @@ update b s = case b of
           , bet     = z
           , pstatus = Be
           , kstatus = Th
-          , order   = False
+          , order   = False , round = s.round + 1
           } , Cmd.none )
   ChangeBet x ->
      let y = Result.withDefault s.bet (String.toInt x)
@@ -97,7 +97,7 @@ update b s = case b of
            , pstack  = s.pstack - s.kstack
            , pstatus = Al
            , kstatus = Th
-           , order   = False
+           , order   = False , round = s.round + 1
            } , Cmd.none )
      else ({ s |
              bet     = s.pstack
@@ -105,7 +105,7 @@ update b s = case b of
            , pstack  = 0
            , pstatus = Al
            , kstatus = Th
-           , order   = False
+           , order   = False , round = s.round + 1
            } , Cmd.none )
   Tick x ->
     ( { s |

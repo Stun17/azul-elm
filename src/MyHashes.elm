@@ -1,4 +1,4 @@
-module Mydeck exposing (..)
+module MyHashes exposing (..)
 
 import Dict
 
