@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Определение постфлоп спектра - poker-bot.ru | Покер бот форум, покер старс онлайн, скачать покер, покер AI.</title>
+
+
+
+
+
+	<link rel="canonical" href="http://www.poker-bot.ru/viewtopic.php?t=972">
+
+	<link href="./styles/digi_darkblue/theme/fonts/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="./styles/digi_darkblue/theme/fonts/glyphicons-pro-1.9/css/glyphicons.css" rel="stylesheet">
+
+<link href="./styles/digi_darkblue/theme/stylesheet.css?assets_version=12" rel="stylesheet">
+
+
+
+<!--[if lte IE 9]>
+	<link href="./styles/digi_darkblue/theme/tweaks.css?assets_version=12" rel="stylesheet">
+<![endif]-->
+
+
+
+
+
+</head>
+<body id="phpbb" class="nojs notouch section-viewtopic ltr " data-online-text="В сети">
+
+
+	<a id="top" class="anchor" accesskey="t"></a>
+	<div id="page-header" class="page-width">
+		<div class="headerbar" role="banner">
+			<div class="inner">
+
+			<div id="site-description">
+				<a id="logo" class="logo" href="./index.php" title="Список форумов"><img src="./styles/digi_darkblue/theme/images/logo.png" data-src-hd="./styles/digi_darkblue/theme/images/logo_hd.png" /></a>
+				<p class="sitename">poker-bot.ru | Покер бот форум, покер старс онлайн, скачать покер, покер AI.</p>
+				<p>Онлайн покер форум о ботах, где вы можете скачать покер софт и литературу.</p>
+				<p class="skiplink"><a href="#start_here">Пропустить</a></p>
+			</div>
+			<div id="site-description">
+			
+			</div>
+															
+			</div>
+		</div>
+
+
+				<div class="navbar tabbed not-static" role="navigation">
+	<div class="inner page-width">
+		<div class="nav-tabs" data-current-page="viewtopic">
+			<ul class="leftside">
+												<li id="quick-links" class="tab responsive-menu dropdown-container">
+					<a href="#" class="nav-link dropdown-trigger">Ссылки</a>
+					<div class="dropdown hidden">
+						<div class="pointer"><div class="pointer-inner"></div></div>
+						<ul class="dropdown-contents" role="menu">
+							
+															<li class="separator"></li>
+																																<li class="small-icon icon-search-unanswered"><a href="./search.php?search_id=unanswered" role="menuitem">Сообщения без ответов</a></li>
+								<li class="small-icon icon-search-active"><a href="./search.php?search_id=active_topics" role="menuitem">Активные темы</a></li>
+								<li class="separator"></li>
+								<li class="small-icon icon-search"><a href="./search.php" role="menuitem">Поиск</a></li>
+							
+							<li class="separator"></li>
+
+													</ul>
+					</div>
+				</li>
+				<li class="tab forums selected" data-responsive-class="small-icon icon-forums">
+					<a class="nav-link" href="./index.php">Форумы</a>
+				</li>
+									<li class="tab members dropdown-container" data-select-match="member" data-responsive-class="small-icon icon-members">
+						<a class="nav-link dropdown-trigger" href="./memberlist.php">Пользователи</a>
+						<div class="dropdown hidden">
+							<div class="pointer"><div class="pointer-inner"></div></div>
+							<ul class="dropdown-contents" role="menu">
+																<li class="small-icon icon-team"><a href="./memberlist.php?mode=team" role="menuitem">Наша команда</a></li>							</ul>
+						</div>
+					</li>
+											</ul>
+			<ul class="rightside">
+								<li class="tab faq" data-select-match="faq" data-responsive-class="small-icon icon-faq">
+					<a class="nav-link" href="./faq.php" rel="help" title="Часто задаваемые вопросы" role="menuitem">FAQ</a>
+				</li>
+																									<li class="tab login"  data-skip-responsive="true" data-select-match="login"><a class="nav-link" href="./ucp.php?mode=login" title="Вход" accesskey="x" role="menuitem">Вход</a></li>
+											<li class="tab register" data-skip-responsive="true" data-select-match="register"><a class="nav-link" href="./ucp.php?mode=register" role="menuitem">Регистрация</a></li>
+																	</ul>
+		</div>
+	</div>
+</div>
+
+<div class="navbar secondary with-search">
+	<ul role="menubar">
+											<li class="small-icon icon-search responsive-hide"><a href="./search.php">Поиск</a></li>
+														<li class="small-icon icon-login"><a href="./ucp.php?mode=login" title="Вход">Вход</a></li>
+									<li class="small-icon icon-register"><a href="./ucp.php?mode=register">Регистрация</a></li>
+									
+					<li class="search-box not-responsive">			<div id="search-box" class="search-box search-header" role="search">
+				<form action="./search.php" method="get" id="search">
+				<fieldset>
+					<input name="keywords" id="keywords" type="search" maxlength="128" title="Ключевые слова" class="inputbox search tiny" size="20" value="" placeholder="Поиск…" />
+					<button class="button icon-button search-icon" type="submit" title="Поиск">Поиск</button>
+					<a href="./search.php" class="button icon-button search-adv-icon" title="Расширенный поиск">Расширенный поиск</a>
+					
+				</fieldset>
+				</form>
+			</div>
+			</li>
+			</ul>
+</div>
+
+	</div>
+
+<div id="wrap" class="page-width">
+
+	
+	<a id="start_here" class="anchor"></a>
+	<div id="page-body" role="main">
+		<div class="navbar nav-breadcrumbs">
+	<ul id="nav-breadcrumbs" class="linklist navlinks" role="menubar">
+						<li class="small-icon icon-home breadcrumbs">
+									<span class="crumb"><a href="./index.php" accesskey="h" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-navbar-reference="index">Список форумов</a></span>
+											<span class="crumb"><a href="./viewforum.php?f=1" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="1">Покер-боты</a></span>
+															<span class="crumb"><a href="./viewforum.php?f=20" itemtype="http://data-vocabulary.org/Breadcrumb" itemscope="" data-forum-id="20">AI бота</a></span>
+												</li>
+		
+					<li class="rightside responsive-search" style="display: none;"><a href="./search.php" title="Параметры расширенного поиска" role="menuitem">Поиск</a></li>
+				<li class="rightside dropdown-container icon-only">
+			<a href="#" class="dropdown-trigger time" title="Текущее время: 15 дек 2017, 11:49"><i class="fa fa-clock-o"></i></a>
+			<div class="dropdown hidden">
+				<div class="pointer"><div class="pointer-inner"></div></div>
+				<ul class="dropdown-contents">
+					<li>Текущее время: 15 дек 2017, 11:49</li>
+					<li>Часовой пояс: <abbr title="UTC+3">UTC+03:00</abbr></li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>
+
+		
+		
+<h2 class="topic-title"><a href="./viewtopic.php?f=20&amp;t=972">Определение постфлоп спектра</a></h2>
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body -->
+<div style="display: none !important;">Математика, алгоритмы и т.д.<br /></div>
+<p>
+	<strong>Модератор:</strong> <a href="./memberlist.php?mode=viewprofile&amp;u=414" class="username">SoullessSteel</a>
+</p>
+
+
+<div class="action-bar top">
+
+	<div class="buttons">
+		
+			<a href="./posting.php?mode=reply&amp;f=20&amp;t=972" class="button icon-button reply-icon" title="Ответить">
+			Ответить		</a>
+	
+			</div>
+
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Управление темой" class="button icon-button tools-icon dropdown-trigger dropdown-select"></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="small-icon icon-print"><a href="./viewtopic.php?f=20&amp;t=972&amp;view=print" title="Версия для печати" accesskey="p">Версия для печати</a></li>							</ul>
+		</div>
+	</div>
+
+			<div class="search-box" role="search">
+			<form method="get" id="topic-search" action="./search.php">
+			<fieldset>
+				<input class="inputbox search tiny"  type="search" name="keywords" id="search_keywords" size="20" placeholder="Поиск в теме…" />
+				<button class="button icon-button search-icon" type="submit" title="Поиск">Поиск</button>
+				<a href="./search.php" class="button icon-button search-adv-icon" title="Расширенный поиск">Расширенный поиск</a>
+				<input type="hidden" name="t" value="972" />
+<input type="hidden" name="sf" value="msgonly" />
+
+			</fieldset>
+			</form>
+		</div>
+	
+			<div class="pagination">
+			29 сообщений
+							<ul>
+		<li class="active"><span>1</span></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=972&amp;start=10" role="button">2</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=972&amp;start=20" role="button">3</a></li>
+			<li class="next"><a href="./viewtopic.php?f=20&amp;t=972&amp;start=10" rel="next" role="button">След.</a></li>
+	</ul>
+					</div>
+		</div>
+
+
+			<div id="p6758" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6758">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=1188&amp;sr=posts">22</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 25 сен 2011, 18:01</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6758">
+
+			<h3 class="first"><a href="#p6758">Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6758" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6758#p6758"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a></strong> &raquo; </span>02 янв 2012, 15:58 </p>
+			
+			
+			
+			<div class="content">Объясню свой вопрос на примере. Мы делаем ставку на флопе, наш оппонент в позиции может играть фолд, колл или рейз. Интересует, каким образом он разыгрывает руки разной силы. Если у оппа рука-монстр, она дойдет до шоудауна (ШД), т.е. опп никогда с такой рукой не сфолдит. По ШД (отобрав ситуации, в которых у оппа была рука-монстр с флопа) мы сможем понять, как часто опп рейзит или коллит такие руки.<br /><br />Ситуация усложняется, когда руки не настолько сильны, чтобы всегда идти на ШД. Например, с мусорными руками опп может иногда флоатить на флопе или играть рейз с блефом. Но чаще всего такие руки опп выкинет, поэтому понять как опп разыгрывает такие руки по ШД не получится. Опп может 90% мусорных рук фолдить, 3% колл, 7% рейз. Т.е. 90% рук вообще никогда не доходят до ШД, а руки с которыми опп коллирует или рейзит доходят до вскрытия с разной частотой, из-за чего соотношение может измениться в ту или иную сторону.<br /><br />Например, вполне реально анализируя ШД получить распределение: 50% мусорных рук - колл; и 50% - рейз. А это совсем не соответствует тому, как опп играет на самом деле.<br /><br />Кто-нибудь пробовал разобраться в этом вопросе?<br />Может есть что-нибудь, что можно почитать на эту тему?</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6759" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6759">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6759">
+
+			<h3 ><a href="#p6759">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6759" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6759#p6759"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>02 янв 2012, 18:56 </p>
+			
+			
+			
+			<div class="content">Я пробовал<br />Ответ надо искать в общей частоте фолдов, колов и рейзов в конкретной ситуации<br /><br />Если показатель фолда у оппа не нулевой то в первую очередь он фолдит с мусорными руками<br />Если показатель фолда слишком большой то в его спектре фолда не только мусор но и какие то смалл и мидл пары<br /><br />Количество мусора смалл и мидл пар итд в спектре определяться путем анализа силы спектра оппа<br />После чего строятся пропорции для каждой группы рук и по анализу щоудауна определяться, что конкретно входит в спектр фолда оппа<br /><br />Надо к примеру учитывать и корректировать такой момент что если мусорные руки он все таки показывает на ШД, а спектр фолда не очень широк и в принципе покрывается за счет мусорных рук, то надо понимать что в спектре его фолда есть не только мусорные руки.<br /><br />А вопрос конечно интересный, общая схема думаю примерна понятна, а над деталями когда будешь реализовывать все в когде как мин неск месяцев придется поработать.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6760" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6760">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=1188&amp;sr=posts">22</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 25 сен 2011, 18:01</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6760">
+
+			<h3 ><a href="#p6760">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6760" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6760#p6760"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a></strong> &raquo; </span>02 янв 2012, 20:04 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>caramba писал(а):</cite>Ответ надо искать в общей частоте фолдов, колов и рейзов в конкретной ситуации</div></blockquote>Ну это очевидно, что раз уж мы не можем определить то что нужно по ШД, придется смотреть на статы. Но как раз и интересно, как именно можно использовать конкретные значения стат.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>Если показатель фолда у оппа не нулевой то в первую очередь он фолдит с мусорными руками</div></blockquote>Мусорные руки - это довольно условное понятие. Я использовал его в стартовом посте чтобы понятнее объяснить суть моего вопроса. И, разумеется, вопрос заключается не только в том, как опп разыгрывает именно мусорные руки. Интересно, как определить весь спектр целиком. Я не согласен, что любой опп прежде всего фолдит мусор. Какой-нибудь фиш может вообще слабо представлять относительную силу рук. Может выбрасывать слабые готовые руки (3-и пары и мелкие карманки), дро руки, и коллировать оверкарты.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>Если показатель фолда слишком большой то в его спектре фолда не только мусор но и какие то смалл и мидл пары<br />Количество мусора смалл и мидл пар итд в спектре определяться путем анализа силы спектра оппа<br />После чего строятся пропорции для каждой группы рук и по анализу щоудауна определяться, что конкретно входит в спектр фолда оппа</div></blockquote>Подобные общие размышления на эту тему использует любой мид-стейкс игрок во время своей игры, имхо. Меня же интересует более точный и математически обоснованный алгоритм.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>Надо к примеру учитывать и корректировать такой момент что если мусорные руки он все таки показывает на ШД, а спектр фолда не очень широк и в принципе покрывается за счет мусорных рук, то надо понимать что в спектре его фолда есть не только мусорные руки.</div></blockquote>Да, да. Именно в этом и заключается сложность. Что опп может показывать на ШД совершенно разные по силе руки при высоком фолде (&gt;40%, например). Очевидно, что он фолдит и мусор, и дро, и даже готовые руки. Но вычислить сколько именно рук разной силы он фолдит - в этом и заключается задача.<br /><br />Например, меня интересуют 2 группы рук:<br />- слабые готовые руки<br />- дро средней силы (7-8 аутов)<br /><br />7 оппонентов с фолдами:  5%, 10%, 20%, 30%, 40%, 50%, 60%.<br />Все эти общие слова - я все понимаю <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" />.  Но теперь мне интересен конкретный алгоритм, как можно было бы задать спектры каждому из этих игроков?</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6761" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6761">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6761">
+
+			<h3 ><a href="#p6761">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6761" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6761#p6761"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>02 янв 2012, 20:18 </p>
+			
+			
+			
+			<div class="content">ну для начала нужно составить полный список групп рук которые ты выделяешь на постфлопе<br />и можно порассуждать</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6762" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6762">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=1188&amp;sr=posts">22</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 25 сен 2011, 18:01</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6762">
+
+			<h3 ><a href="#p6762">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6762" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6762#p6762"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a></strong> &raquo; </span>02 янв 2012, 20:33 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>caramba писал(а):</cite>нужно составить полный список групп рук которые ты выделяешь на постфлопе</div></blockquote><br />В контексте данной темы это не имеет значение. Из стартового сообщения можно понять, что за 100% я принял не все руки оппа, а одну группу рук.<br /><br />Теоретически спектр можно было бы задать так (все цифры вымышленные):<br />- 5% - руки монстры<br />- 15% - готовые руки средней силы<br />- 10% - слабые готовые руки<br />- 30% - дро руки<br />- 40% - мусор<br /><br />В этой теме я определяю спектр другим образом (как в CREV): из группы &quot;слабые готовые руки&quot; (вся группа принимается за 100%)<br />- 10% опп фолдит<br />- 80% опп коллирует<br />- 10% опп рейзит<br /><br />Чтобы задать весь спектр, нужно будет подобным образом описать каждую группу рук.<br />Я же предложил остановиться на 2-х группах:<br />- слабые готовые руки<br />- дро средней силы (7-8 аутов)<br />Можно в качестве примера рассматривать даже какую-то одну группу.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6763" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6763">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6763">
+
+			<h3 ><a href="#p6763">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6763" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6763#p6763"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>02 янв 2012, 21:00 </p>
+			
+			
+			
+			<div class="content">ну если сила спектр задан как<br /><br /><blockquote class="uncited"><div>- 5% - руки монстры<br />- 15% - готовые руки средней силы<br />- 10% - слабые готовые руки<br />- 30% - дро руки<br />- 40% - мусор</div></blockquote><br /><br />то дело сделано<br />остается только определить пропорции для статы фолда и посмотреть какие руки она покрывает<br />начиная от мусора и дальше по рейтингу<br /><br />хотя я бы поменял местами в рейтинге слабые готовые руки и дро<br />Плюс если подключать анализ шоудауна то может получиться то о чем я говорил в посте выше<br /><br />для данного спектра особо нет смыла анализировать статы с фолдом меньше 40% так как в спектре 40% мусора при фолде в спектре он почти всегда и будет<br /><br />А если скажем фолд 60% то уже идет захват следующих по рейтингу групп<br />пропорции должен подсказать шоудаун, если в спектре где то 30% дро рук, а опп на вскрытии показывает мало дро с флопа то значит эти руки часто в спектре его фолда и если у слабых готовых рук есть преимущество по частоте показа на ШД, то значит в спектре фолда их вес намного ниже чем рук дро.<br />Но если ШД не анализируется то можно сделать все просто по рейтингу.</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6764" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6764">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=1188&amp;sr=posts">22</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 25 сен 2011, 18:01</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6764">
+
+			<h3 ><a href="#p6764">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6764" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6764#p6764"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a></strong> &raquo; </span>02 янв 2012, 21:21 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>caramba писал(а):</cite>ну если сила спектр задан как<br />...<br />то дело сделано</div></blockquote>Я задал произвольный спектр. Но у нас он не задан. Вся эта тема посвящена тому, как бы этот спектр задать.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>для данного спектра особо нет смыла анализировать статы с фолдом меньше 40% так как в спектре 40% мусора при фолде в спектре он почти всегда и будет</div></blockquote>Игра оппов с фолдом 10% и 30% принципиально отличается. Анализировать их игру нужно будет в любом случае.<br /><br /><blockquote><div><cite>caramba писал(а):</cite>пропорции должен подсказать шоудаун, если в спектре где то 30% дро рук, а опп на вскрытии показывает мало дро с флопа то значит эти руки часто в спектре его фолда и если у слабых готовых рук есть преимущество по частоте показа на ШД, то значит в спектре фолда их вес намного ниже чем рук дро.<br />Но если ШД не анализируется то можно сделать все просто по рейтингу.</div></blockquote>Все эти общие слова никак не приближают меня к пониманию, как же задать спектр <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" />.<br /><br />Простой вопрос:<br />какую часть (сколько процентов) слабых готовых рук сфолдит опп, если его фолд на кбет на флопе в позиции = 40% ?<br /><br />Еще раз уточню, что спектр (пусть это будет фолд на кбет в позиции) задается таким образом (цифры произвольные):<br />- 0% рук монстров<br />- 0% готовых рук средней силы<br />- 10% слабых готовых рук<br />- 20% дро рук<br />- 90% мусора</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6765" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6765">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6765">
+
+			<h3 ><a href="#p6765">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6765" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6765#p6765"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>02 янв 2012, 21:39 </p>
+			
+			
+			
+			<div class="content"><blockquote class="uncited"><div>Игра оппов с фолдом 10% и 30% принципиально отличается. Анализировать их игру нужно будет в любом случае.</div></blockquote><br />Ну мы не про игру говорим, а про спектр фолда<br />и если у оппа в спектре 40% мусорных рук то оппы с этими статами одинаково будут фолдить один и тот же тип рук мусор<br />Другое дело что относительно других спектров колла и рейза у опов с 10% и 30% фолдом будут различия<br />и мусорные руки у оппа с 10% фолда будут часто залезать в спектр колла или рейза<br /><br /><blockquote class="uncited"><div>Все эти общие слова никак не приближают меня к пониманию, как же задать спектр </div></blockquote><br />а чего ты ждешь ? готовых алгоритмов и ссылку где это все можно скачать ?<br />вряд ли такое есть, я лично готов просто поговорить, делать то придется тебе<br /><br /><blockquote class="uncited"><div>какую часть (сколько процентов) слабых готовых рук сфолдит опп, если его фолд на кбет на флопе в позиции = 40% ?</div></blockquote><br />не очень понятно смысл вопроса<br />если в спектре 90% мусора то он и сфолдит только мусорные руки<br />если все делать без анализа ШД конечно, но учитывая что мусора 90% при фолде там всегда будет мусор</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6766" class="post has-profile bg2">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6766">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=1188&amp;sr=posts">22</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 25 сен 2011, 18:01</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6766">
+
+			<h3 ><a href="#p6766">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6766" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6766#p6766"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=1188" class="username">Cage</a></strong> &raquo; </span>02 янв 2012, 22:12 </p>
+			
+			
+			
+			<div class="content"><blockquote><div><cite>caramba писал(а):</cite>и если у оппа в спектре 40% мусорных рук то оппы с этими статами одинаково будут фолдить один и тот же тип рук мусор</div></blockquote><br />Эта мысль мне понятна. Может в каком-то частном случае так и будет. Но в общем случае это не так, имхо. Даже опп с 10% фолда вряд ли фолдит 100% мусорных рук. Хотя в теории он должен был бы фолдить и весь мусор и все дро руки. На практике в спектрах колла и рейза у него будет весь набор разных рук (мусорных рук и дро там будет мало, но они будут).<br /><br /><blockquote><div><cite>caramba писал(а):</cite><blockquote class="uncited"><div>Все эти общие слова никак не приближают меня к пониманию, как же задать спектр </div></blockquote><br />а чего ты ждешь ? готовых алгоритмов и ссылку где это все можно скачать ?<br />вряд ли такое есть, я лично готов просто поговорить, делать то придется тебе</div></blockquote>Ты говоришь о ссылке на реализацию алгоритма в виде готовой программы/кода. Мне такое не нужно.<br />Я хотел бы увидеть либо алгоритм (словесное описание или блок-схема) или разбор примера. А какие-то абстрактные мысли мне не очень помогают, т.к. мыслей на эту тему у меня самого предостаточно, и я их использую в своей повседневной работе <img class="smilies" src="./images/smilies/icon_e_smile.gif" alt=":)" title="Улыбается" />.<br /><br /><blockquote><div><cite>caramba писал(а):</cite><blockquote class="uncited"><div>какую часть (сколько процентов) слабых готовых рук сфолдит опп, если его фолд на кбет на флопе в позиции = 40% ?</div></blockquote><br />не очень понятно смысл вопроса<br />если в спектре 90% мусора то он и сфолдит только мусорные руки<br />если все делать без анализа ШД конечно, но учитывая что мусора 90% при фолде там всегда будет мусор</div></blockquote>Откуда взялась цифра 90% ? Если ты взял ее из описания других спектров (когда цифры выдумывались мною наобум), то это, разумеется, не будет иметь никакого отношения к действительности.<br /><br />Вопрос я поясню...<br />У оппонента в спектре есть слабые готовые руки (все эти руки условно обозначим за 100%). Если опп никогда не фолдит слабые готовые руки, то можно смело утверждать, что опп фолдит 0% слабых готовых рук. Если опп всегда фолдит слабые готовые руки, то можно утверждать, что опп фолдит 100% слабых готовых рук. Искомый процент, очевидно, лежит в диапазоне между 0% и 100%. Тема посвящена тому, каким образом такой процент можно определить.<br /><br />P.S.<br />Меня не покидает ощущение, что мы по-разному представляем себе, каким образом задается спектр оппа. Приведу пример задания спектра вымышленного оппа (таких оппов не бывает), который фолдит 100% рук. Спектр фолда такого оппа выглядит следующим образом:<br />- 100% рук монстров<br />- 100% готовых рук средней силы<br />- 100% слабых готовых рук<br />- 100% дро рук<br />- 100% мусора</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+				<div id="p6767" class="post has-profile bg1">
+		<div class="inner">
+
+		<dl class="postprofile" id="profile6767">
+			<dt class="no-profile-rank no-avatar">
+				<div class="avatar-container">
+																			</div>
+								<a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a>							</dt>
+
+			
+		<dd class="profile-posts"><strong>Сообщения:</strong> <a href="./search.php?author_id=67&amp;sr=posts">969</a></dd>		<dd class="profile-joined"><strong>Зарегистрирован:</strong> 05 авг 2010, 21:25</dd>		
+		
+						
+						
+		</dl>
+
+		<div class="postbody">
+
+						<div id="post_content6767">
+
+			<h3 ><a href="#p6767">Re: Определение постфлоп спектра</a></h3>
+
+											<ul class="post-buttons">
+																																									<li>
+							<a href="./posting.php?mode=quote&amp;f=20&amp;p=6767" title="Ответить с цитатой" class="button icon-button quote-icon"><span>Цитата</span></a>
+						</li>
+														</ul>
+							
+						<p class="author"><a href="./viewtopic.php?p=6767#p6767"><span class="imageset icon_post_target" title="Сообщение">Сообщение</span></a><span class="responsive-hide"> <strong><a href="./memberlist.php?mode=viewprofile&amp;u=67" class="username">caramba</a></strong> &raquo; </span>02 янв 2012, 22:36 </p>
+			
+			
+			
+			<div class="content"><blockquote class="uncited"><div>Откуда взялась цифра 90% ?</div></blockquote><br />из твоего поста выше мусор 90%<br />про действительность не надо речь просто о цифрах<br /><br /><blockquote class="uncited"><div>У оппонента в спектре есть слабые готовые руки (все эти руки условно обозначим за 100%). Если опп никогда не фолдит слабые готовые руки, то можно смело утверждать, что опп фолдит 0% слабых готовых рук. Если опп всегда фолдит слабые готовые руки, то можно утверждать, что опп фолдит 100% слабых готовых рук. Искомый процент, очевидно, лежит в диапазоне между 0% и 100%. Тема посвящена тому, каким образом такой процент можно определить.</div></blockquote><br /><br />ну так и нужно всего лишь определить силу спектра оппа<br />о чем ты и пишешь мусор столько то процентов, монстры столько и по ним уже определять что именно в спектре фолда<br />И еще раз про реальность спектра, я думаю что правильно делать простое предположение если у нас мало ШД рук то опп прежде всего фолдут мусор и потом дальше по рейтингу<br />Если по ШД есть какие то нормальные данные то это можно пересмотреть</div>
+
+			
+									
+									
+						</div>
+
+		</div>
+
+		</div>
+		<div class="back2top"><a href="#top" class="top" title="Вернуться к началу">Вернуться к началу</a></div>
+	</div>
+
+	
+
+	<form id="viewtopic" method="post" action="./viewtopic.php?f=20&amp;t=972">
+	<fieldset class="display-options" style="margin-top: 0; ">
+				<label>Показать сообщения за: <select name="st" id="st"><option value="0" selected="selected">Все сообщения</option><option value="1">1 день</option><option value="7">7 дней</option><option value="14">2 недели</option><option value="30">1 месяц</option><option value="90">3 месяца</option><option value="180">6 месяцев</option><option value="365">1 год</option></select></label>
+		<label>Поле сортировки <select name="sk" id="sk"><option value="a">Автор</option><option value="t" selected="selected">Время размещения</option><option value="s">Заголовок сообщения</option></select></label> <label><select name="sd" id="sd"><option value="a" selected="selected">по возрастанию</option><option value="d">по убыванию</option></select></label>
+		<input type="submit" name="sort" value="Перейти" class="button2" />
+			</fieldset>
+	</form>
+	<hr />
+
+<div class="action-bar bottom">
+	<div class="buttons">
+		
+			<a href="./posting.php?mode=reply&amp;f=20&amp;t=972" class="button icon-button reply-icon" title="Ответить">
+			Ответить		</a>
+	
+			</div>
+
+		<div class="dropdown-container dropdown-button-control topic-tools">
+		<span title="Управление темой" class="button icon-button tools-icon dropdown-trigger dropdown-select"></span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																								<li class="small-icon icon-print"><a href="./viewtopic.php?f=20&amp;t=972&amp;view=print" title="Версия для печати" accesskey="p">Версия для печати</a></li>							</ul>
+		</div>
+	</div>
+
+	
+			<div class="pagination">
+			29 сообщений
+							<ul>
+		<li class="active"><span>1</span></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=972&amp;start=10" role="button">2</a></li>
+			<li><a href="./viewtopic.php?f=20&amp;t=972&amp;start=20" role="button">3</a></li>
+			<li class="next"><a href="./viewtopic.php?f=20&amp;t=972&amp;start=10" rel="next" role="button">След.</a></li>
+	</ul>
+					</div>
+		<div class="clear"></div>
+</div>
+
+
+	<p class="jumpbox-return"><a href="./viewforum.php?f=20" class="left-box arrow-left" accesskey="r">Вернуться в «AI бота»</a></p>
+
+
+	<div class="dropdown-container dropdown-container-right dropdown-up dropdown-left dropdown-button-control" id="jumpbox">
+		<span title="Перейти" class="dropdown-trigger button dropdown-select">
+			Перейти		</span>
+		<div class="dropdown hidden">
+			<div class="pointer"><div class="pointer-inner"></div></div>
+			<ul class="dropdown-contents">
+																			<li><a href="./viewforum.php?f=68">Для активации аккаунта пишите на thepandamedia@gmail.com</a></li>
+																<li><a href="./viewforum.php?f=1">Покер-боты</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=3">Общая информация о покерных ботах</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=23">Вопросы новичков</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=13">Покерный бот OpenHoldem</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=14">Обсуждение Table map для Open Holdem</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=27">Исходники ОН(Обмен и примеры dll, ohf файлов)</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=28">Прочие покерные Боты</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=2">WinHoldEm</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=24">Shanky Technologies</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=34">Online Poker Inspector</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=50">Свои оболочки</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=29">Autoit/AutoHotKey</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=20">AI бота</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=33">Базы данных</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=53">Программирование</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=22">Сторонние ресурсы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=15">Работа с покерными клиентами</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=18">Дополнительные утилиты</a></li>
+																<li><a href="./viewforum.php?f=30">Переводы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=32">Переводы статей, мануалов и другой литературы</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=26">Переводы статей, мануалов и другой литературы (Архив)</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=38">Переводы в процессе (Архив)</a></li>
+																<li><a href="./viewforum.php?f=41">Деловые предложения</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=19">Куплю-Продам</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=21">Предложения по сотрудничеству</a></li>
+																<li><a href="./viewforum.php?f=63">EN forum</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=42">Обмен Hand History</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=43">Обмен Hand History (Открытый раздел)</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=7">Курилка</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=8">Около покерного стола</a></li>
+																<li>&nbsp; &nbsp;&nbsp; &nbsp;<a href="./viewforum.php?f=51">Наш чат</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=6">Обсуждение материалов сайта poker-bot.ru</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=60">Различные статьи на покерные темы</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=10">Техасский Холдем</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=11">Покерные турниры</a></li>
+																<li>&nbsp; &nbsp;<a href="./viewforum.php?f=12">Омаха, Стад и другие виды покера</a></li>
+										</ul>
+		</div>
+	</div>
+
+
+	<div class="stat-block online-list">
+		<h3>Кто сейчас на конференции</h3>
+		<p>Сейчас этот форум просматривают: нет зарегистрированных пользователей и 4 гостя</p>
+	</div>
+
+			</div>
+
+
+	<div class="navbar" role="navigation">
+	<div class="inner">
+
+	<ul id="nav-footer" class="linklist bulletin" role="menubar">
+		<li class="small-icon icon-home breadcrumbs">
+									<span class="crumb"><a href="./index.php" data-navbar-reference="index">Список форумов</a></span>
+					</li>
+		
+				<li class="rightside">Часовой пояс: <abbr title="UTC+3">UTC+03:00</abbr></li>
+							<li class="small-icon icon-delete-cookies rightside"><a href="./ucp.php?mode=delete_cookies" data-ajax="true" data-refresh="true" role="menuitem">Удалить cookies конференции</a></li>
+									<li class="small-icon icon-team rightside" data-last-responsive="true"><a href="./memberlist.php?mode=team" role="menuitem">Наша команда</a></li>					</ul>
+
+	</div>
+</div>
+</div>
+
+<div id="page-footer" class="page-width" role="contentinfo">
+	
+	<div class="copyright">
+				Создано на основе <a href="https://www.phpbb.com/">phpBB</a>&reg; Forum Software &copy; phpBB Limited
+		<a href="http://www.colorizeit.com/styles/phpbb-31-styles/366.digi.html">Color scheme created with Colorize It</a>. 
+		<br />Style by <a href="http://www.artodia.com/">Arty</a>
+		<br /><a href='http://www.phpbbguru.net/'>Русская поддержка phpBB</a>							</div>
+
+	<div id="darkenwrapper" data-ajax-error-title="Ошибка AJAX" data-ajax-error-text="При обработке запроса произошла ошибка." data-ajax-error-text-abort="Запрос прерван пользователем." data-ajax-error-text-timeout="Время запроса истекло; повторите попытку." data-ajax-error-text-parsererror="При выполнении запроса возникла непредвиденная ошибка, и сервер вернул неверный ответ.">
+		<div id="darken">&nbsp;</div>
+	</div>
+
+	<div id="phpbb_alert" class="phpbb_alert" data-l-err="Ошибка" data-l-timeout-processing-req="Время выполнения запроса истекло.">
+		<a href="#" class="alert_close"></a>
+		<h3 class="alert_title">&nbsp;</h3><p class="alert_text"></p>
+	</div>
+	<div id="phpbb_confirm" class="phpbb_alert">
+		<a href="#" class="alert_close"></a>
+		<div class="alert_text"></div>
+	</div>
+</div>
+
+
+<div>
+	<a id="bottom" class="anchor" accesskey="z"></a>
+	</div>
+
+<script type="text/javascript" src="./assets/javascript/jquery.min.js?assets_version=12"></script>
+<script type="text/javascript" src="./assets/javascript/core.js?assets_version=12"></script>
+
+
+<script type="text/javascript" src="./styles/digi_darkblue/template/forum_fn.js?assets_version=12"></script>
+
+<script type="text/javascript" src="./styles/digi_darkblue/template/ajax.js?assets_version=12"></script>
+
+
+
+
+<div class="metrika" style="display: none;">
+<!-- Yandex.Metrika informer -->
+<a href="https://metrika.yandex.ru/stat/?id=30221455&amp;from=informer"
+target="_blank" rel="nofollow"><img src="//bs.yandex.ru/informer/30221455/3_1_FFFFFFFF_EFEFEFFF_0_pageviews"
+style="width:88px; height:31px; border:0;" alt="яндекс.ћетрика" title="яндекс.ћетрика: данные за сегодн€ (просмотры, визиты и уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:30221455,lang:'ru'});return false}catch(e){}"/></a>
+<!-- /Yandex.Metrika informer -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter30221455 = new Ya.Metrika({id:30221455,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/30221455" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</div>
+
+
+</body>
+</html>
