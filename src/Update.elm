@@ -7,6 +7,7 @@ import Html exposing (..)
 import Time exposing (Time, second)
 import MyHashes exposing (..)
 import Model exposing (..)
+import Bot exposing (bfun0)
 
 update : Msg -> Struc -> (Struc , Cmd Msg)
 update b s = case b of
@@ -43,7 +44,7 @@ update b s = case b of
           , pdeal   = if s.hand > 0 then not s.pdeal else s.pdeal
 
           , pot     = 3 , bet = 1                                      -- анте
-          , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2   -- анте
+          , pstack  = if s.pdeal then s.pstack - 1 else s.pstack - 2   -- анте  -- NB smth wrong here!
           , kstack  = if s.pdeal then s.pstack - 2 else s.kstack - 1   -- анте
           , hand    = s.hand + 1                                       -- счетчик раздач
 
@@ -74,6 +75,7 @@ update b s = case b of
       , pstatus = Ca
       , kstatus = Th
       , order   = False , round = s.round + 1
+--      , bet     = Bot.bfun0 s                  
       } , Cmd.none )
   Bet x ->
      let z = Result.withDefault s.bet (String.toInt x)
@@ -90,16 +92,7 @@ update b s = case b of
          z =  if y > s.pstack then s.pstack else y 
      in  ( { s | bet = z, block = True }, Cmd.none )
   AllIn ->
-    if s.pstack > s.kstack
-    then ( { s |
-             bet     = s.kstack
-           , pot     = s.pot + s.kstack
-           , pstack  = s.pstack - s.kstack
-           , pstatus = Al
-           , kstatus = Th
-           , order   = False , round = s.round + 1
-           } , Cmd.none )
-     else ({ s |
+    ( { s |
              bet     = s.pstack
            , pot     = s.pot + s.pstack
            , pstack  = 0
